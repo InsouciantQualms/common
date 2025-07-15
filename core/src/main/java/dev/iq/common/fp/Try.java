@@ -1,5 +1,5 @@
 /*
- * Insouciant Qualms © 2024 by Sascha Goldsmith is licensed under CC BY 4.0.
+ * Insouciant Qualms © 2025 by Sascha Goldsmith is licensed under CC BY 4.0.
  * To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0.
  * To reach the creator, visit https://www.linkedin.com/in/saschagoldsmith.
  */
@@ -15,6 +15,7 @@ import java.util.function.Function;
 /**
  * Semi-functional (as in functional programming, the class is fully working) implementation that allows
  * callers to safely handle code that may throw an exception without using try-catch blocks themselves.
+ * This class is immutable and thread-safe as it contains only static methods.
  */
 public final class Try {
 
@@ -25,11 +26,7 @@ public final class Try {
 
     /**
      * Execute the specified function and return either any errors that occurred (left) or
-     * the result of successfuly processing (right).
-     *
-     * @param fx  Target to execute (try-block)
-     * @param <T> Parameterized type of success value
-     * @return Either       Result of processing (exception is left, success is right)
+     * the result of successfully processing (right).
      */
     public static <T> Either<Exception, T> withEither(final Fn0<? extends T> fx) {
 
@@ -41,9 +38,7 @@ public final class Try {
     }
 
     /**
-     * Execute the specified runnable, rethrowing any excetions encountered.
-     *
-     * @param fx Target to execute (try-block)
+     * Execute the specified runnable, rethrowing any exceptions encountered.
      */
     public static void withVoid(final Proc0 fx) {
 
@@ -55,9 +50,6 @@ public final class Try {
 
     /**
      * Execute the specified runnable, using the exception handler specified.
-     *
-     * @param fx Target to execute (try-block)
-     * @param ex Exception handler (catch-block)
      */
     public static void withVoid(final Proc0 fx, final Consumer<Exception> ex) {
 
@@ -65,11 +57,7 @@ public final class Try {
     }
 
     /**
-     * Execute the specified runnable, using the exception handler specified and a finalzier to run in all cases.
-     *
-     * @param fx        Target to execute (try-block)
-     * @param ex        Exception handler (catch-block)
-     * @param finalizer Executes regardless of success or error (finally-block)
+     * Execute the specified runnable, using the exception handler specified and a finalizer to run in all cases.
      */
     public static void withVoid(final Proc0 fx, final Consumer<Exception> ex, final Runnable finalizer) {
 
@@ -84,13 +72,6 @@ public final class Try {
 
     /**
      * Execute the specified supplier, rethrowing any errors that have occurred.
-     * <br/>
-     * If an error occurs, the handler must not itself throw an exception and must return a value other than null.
-     * If the call was instead successful, a normal result will be returned.
-     *
-     * @param fx  Target to execute (try-block)
-     * @param <R> Type to return
-     * @return T            Result of successful execution or from the error handler
      */
     public static <R> R withReturn(final Fn0<R> fx) {
 
@@ -102,14 +83,6 @@ public final class Try {
 
     /**
      * Execute the specified supplier, using the exception handler specified.
-     * <br/>
-     * If an error occurs, the handler must not itself throw an exception and must return a value other than null.
-     * If the call was instead successful, a normal result will be returned.
-     *
-     * @param fx  Target to execute (try-block)
-     * @param ex  Exception handler (catch-block)
-     * @param <R> Type to return
-     * @return T            Result of successful execution or from the error handler
      */
     public static <R> R withReturn(final Fn0<? extends R> fx, final Function<Exception, R> ex) {
 
@@ -117,16 +90,7 @@ public final class Try {
     }
 
     /**
-     * Execute the specified supplier, using the exception handler specified and a finalzier to run in all cases.
-     * <br/>
-     * If an error occurs, the handler must not itself throw an exception and must return a value other than null.
-     * If the call was instead successful, a normal result will be returned.
-     *
-     * @param fx        Target to execute (try-block)
-     * @param ex        Exception handler (catch-block)
-     * @param finalizer Executes regardless of success or error (finally-block)
-     * @param <R>       Type to return
-     * @return T            Result of successful execution or from the error handler
+     * Execute the specified supplier, using the exception handler specified and a finalizer to run in all cases.
      */
     public static <R> R withReturn(final Fn0<? extends R> fx, final Function<Exception, R> ex, final Runnable finalizer) {
 

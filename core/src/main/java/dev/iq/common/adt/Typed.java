@@ -1,3 +1,9 @@
+/*
+ * Insouciant Qualms © 2025 by Sascha Goldsmith is licensed under CC BY 4.0.
+ * To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0.
+ * To reach the creator, visit https://www.linkedin.com/in/saschagoldsmith.
+ */
+
 package dev.iq.common.adt;
 
 import java.lang.reflect.ParameterizedType;
@@ -6,6 +12,7 @@ import java.util.Objects;
 
 /**
  * Type references to preserve (reify) generic parameters at runtime.
+ * This class is immutable and thread-safe as it contains only static methods.
  */
 public final class Typed {
 
@@ -57,7 +64,8 @@ public final class Typed {
     }
 
     /**
-     * Abstract class for two type parameters.
+     * Abstract class for one type parameter.
+     * This class is immutable and thread-safe.
      */
     @SuppressWarnings("AbstractClassWithoutAbstractMethods")
     public abstract static class Typed1<A> {
@@ -65,6 +73,9 @@ public final class Typed {
         private final A first;
         private final Type typeA;
 
+        /**
+         * Creates a new typed instance with the specified value.
+         */
         protected Typed1(final A first) {
 
             this.first = first;
@@ -72,10 +83,16 @@ public final class Typed {
             typeA = types[0];
         }
 
+        /**
+         * Returns the first value.
+         */
         public final A getFirst() {
             return first;
         }
 
+        /**
+         * Returns the type of the first value.
+         */
         public final Type getTypeA() {
             return typeA;
         }
@@ -83,6 +100,7 @@ public final class Typed {
 
     /**
      * Abstract class for two type parameters.
+     * This class is immutable and thread-safe.
      */
     @SuppressWarnings("AbstractClassWithoutAbstractMethods")
     public abstract static class Typed2<A, B> {
