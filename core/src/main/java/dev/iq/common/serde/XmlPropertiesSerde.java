@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 /**
  * Serialization methods for a java.util.Properties object.
  */
-public final class PropertiesSerde {
+public final class XmlPropertiesSerde {
 
     /**
      * Type contains only static members.
      */
-    private PropertiesSerde() {}
+    private XmlPropertiesSerde() {}
 
     /**
      * Parses the local filesystem URI into a map of string key/value pairs.  The XML file should
@@ -47,7 +47,7 @@ public final class PropertiesSerde {
     public static Map<String, String> deserialize(final InputStream in) {
 
         final var props = new Properties();
-        Io.withVoid(() -> props.load(in));
+        Io.withVoid(() -> props.loadFromXML(in));
         return props.entrySet().stream().collect(Collectors.toMap(e -> String.valueOf(e.getKey()), e -> String.valueOf(e.getValue())));
     }
 

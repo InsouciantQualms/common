@@ -133,6 +133,8 @@ public final class PipesTest {
         final var result = pipe.read(outputStream -> {
             try {
                 outputStream.write(testData.getBytes());
+                outputStream.flush();
+                outputStream.close(); // Important: close the output stream to signal end
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }

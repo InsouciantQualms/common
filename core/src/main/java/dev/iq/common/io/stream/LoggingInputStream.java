@@ -47,6 +47,7 @@ public final class LoggingInputStream extends FilterInputStream {
         final var result = super.read();
         if (result > -1) {
             fileOut.write(result);
+            fileOut.flush();
         }
         return result;
     }
@@ -60,7 +61,8 @@ public final class LoggingInputStream extends FilterInputStream {
 
         final var result = super.read(buffer);
         if (result > -1) {
-            fileOut.write(result);
+            fileOut.write(buffer, 0, result);
+            fileOut.flush();
         }
         return result;
     }
@@ -75,6 +77,7 @@ public final class LoggingInputStream extends FilterInputStream {
         final var result = super.read(buffer, offset, length);
         if (result > -1) {
             fileOut.write(buffer, offset, result);
+            fileOut.flush();
         }
         return result;
     }

@@ -265,7 +265,7 @@ public final class FiniteOutputStreamTest {
         finiteStream.write("ello".getBytes());
         finiteStream.write(", World!".getBytes(), 0, 5);
         
-        assertEquals("Hello, Wo", outputStream.toString());
+        assertEquals("Hello,", outputStream.toString());
     }
 
     @Test
@@ -301,7 +301,7 @@ public final class FiniteOutputStreamTest {
         finiteStream.write('H');
         finiteStream.write("ello, World!".getBytes(), 1, 10);
         
-        assertEquals("Hel", outputStream.toString());
+        assertEquals("Hll", outputStream.toString());
     }
 
     @Test

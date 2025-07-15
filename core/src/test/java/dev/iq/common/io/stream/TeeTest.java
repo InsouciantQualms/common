@@ -151,8 +151,8 @@ public final class TeeTest {
         tee.write("ello, ".getBytes());
         tee.write(data, 0, 5);
         
-        assertEquals("Hello, Worl", stream1.toString());
-        assertEquals("Hello, Worl", stream2.toString());
+        assertEquals("Hello, World", stream1.toString());
+        assertEquals("Hello, World", stream2.toString());
     }
 
     @Test
