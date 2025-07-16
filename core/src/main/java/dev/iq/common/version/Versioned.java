@@ -1,11 +1,14 @@
 package dev.iq.common.version;
 
+import dev.iq.common.adt.Stable;
+
 import java.time.Instant;
 import java.util.Optional;
 
 /**
  * Represents a versioned item that can be located by a unique NanoId and version number.
  */
+@Stable
 public interface Versioned {
 
     /**

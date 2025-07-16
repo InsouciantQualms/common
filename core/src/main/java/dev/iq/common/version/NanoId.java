@@ -7,12 +7,14 @@
 package dev.iq.common.version;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
+import dev.iq.common.adt.Stable;
 
 /**
  * Encapsulates a Nano ID used to uniquely identify an item, like a UUID,
  * but compliant for REST or microservice usage.
  * This record is immutable and thread-safe.
  */
+@Stable
 public record NanoId(String id) {
 
     /**

@@ -1,5 +1,8 @@
 package dev.iq.common.version;
 
+import dev.iq.common.adt.Stable;
+
+@Stable
 public record Locator(NanoId id, int version) {
 
     private static final int FIRST_VERSION = 1;
