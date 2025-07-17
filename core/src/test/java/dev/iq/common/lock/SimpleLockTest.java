@@ -9,7 +9,6 @@ package dev.iq.common.lock;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,9 +23,9 @@ public final class SimpleLockTest {
     public void testReentrantLockWithReturn() {
 
         final var lock = SimpleLock.reentrant();
-        
+
         final var result = lock.withReturn(() -> "test result");
-        
+
         assertEquals("test result", result);
     }
 
@@ -35,9 +34,9 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
-        
+
         lock.withVoid(counter::incrementAndGet);
-        
+
         assertEquals(1, counter.get());
     }
 
@@ -45,9 +44,9 @@ public final class SimpleLockTest {
     public void testNonReentrantLockWithReturn() {
 
         final var lock = SimpleLock.nonReentrant();
-        
+
         final var result = lock.withReturn(() -> "test result");
-        
+
         assertEquals("test result", result);
     }
 
@@ -56,9 +55,9 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.nonReentrant();
         final var counter = new AtomicInteger(0);
-        
+
         lock.withVoid(counter::incrementAndGet);
-        
+
         assertEquals(1, counter.get());
     }
 
@@ -69,13 +68,13 @@ public final class SimpleLockTest {
         final var counter = new AtomicInteger(0);
         final var latch = new CountDownLatch(2);
         final var executor = Executors.newFixedThreadPool(2);
-        
+
         final Runnable task = () -> {
             final var result = lock.withReturn(() -> {
                 final var current = counter.get();
                 try {
                     Thread.sleep(50); // Simulate work
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
                 counter.set(current + 1);
@@ -84,13 +83,13 @@ public final class SimpleLockTest {
             assertTrue(result > 0);
             latch.countDown();
         };
-        
+
         executor.submit(task);
         executor.submit(task);
-        
+
         latch.await();
         executor.shutdown();
-        
+
         assertEquals(2, counter.get());
     }
 
@@ -101,26 +100,26 @@ public final class SimpleLockTest {
         final var counter = new AtomicInteger(0);
         final var latch = new CountDownLatch(2);
         final var executor = Executors.newFixedThreadPool(2);
-        
+
         final Runnable task = () -> {
             lock.withVoid(() -> {
                 final var current = counter.get();
                 try {
                     Thread.sleep(50); // Simulate work
-                } catch (InterruptedException e) {
+                } catch (final InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
                 counter.set(current + 1);
             });
             latch.countDown();
         };
-        
+
         executor.submit(task);
         executor.submit(task);
-        
+
         latch.await();
         executor.shutdown();
-        
+
         assertEquals(2, counter.get());
     }
 
@@ -129,7 +128,7 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
-        
+
         final var result = lock.withReturn(() -> {
             counter.incrementAndGet();
             return lock.withReturn(() -> {
@@ -137,7 +136,7 @@ public final class SimpleLockTest {
                 return counter.get();
             });
         });
-        
+
         assertEquals(2, result);
         assertEquals(2, counter.get());
     }
@@ -146,8 +145,8 @@ public final class SimpleLockTest {
     public void testWithReturnHandlesException() {
 
         final var lock = SimpleLock.reentrant();
-        
-        assertThrows(RuntimeException.class, () -> 
+
+        assertThrows(RuntimeException.class, () ->
             lock.withReturn(() -> {
                 throw new RuntimeException("Test exception");
             })
@@ -158,8 +157,8 @@ public final class SimpleLockTest {
     public void testWithVoidHandlesException() {
 
         final var lock = SimpleLock.reentrant();
-        
-        assertThrows(RuntimeException.class, () -> 
+
+        assertThrows(RuntimeException.class, () ->
             lock.withVoid(() -> {
                 throw new RuntimeException("Test exception");
             })
@@ -170,13 +169,13 @@ public final class SimpleLockTest {
     public void testLockIsReleasedAfterException() {
 
         final var lock = SimpleLock.reentrant();
-        
-        assertThrows(RuntimeException.class, () -> 
+
+        assertThrows(RuntimeException.class, () ->
             lock.withReturn(() -> {
                 throw new RuntimeException("Test exception");
             })
         );
-        
+
         // Lock should be released and available
         final var result = lock.withReturn(() -> "success");
         assertEquals("success", result);
@@ -186,9 +185,9 @@ public final class SimpleLockTest {
     public void testWithReturnNullValue() {
 
         final var lock = SimpleLock.reentrant();
-        
+
         final var result = lock.withReturn(() -> null);
-        
+
         assertNull(result);
     }
 
@@ -196,9 +195,9 @@ public final class SimpleLockTest {
     public void testComplexReturnTypes() {
 
         final var lock = SimpleLock.reentrant();
-        
+
         final var result = lock.withReturn(() -> new TestObject("test", 42));
-        
+
         assertNotNull(result);
         assertEquals("test", result.name);
         assertEquals(42, result.value);
@@ -212,19 +211,19 @@ public final class SimpleLockTest {
         final var numThreads = 10;
         final var latch = new CountDownLatch(numThreads);
         final var executor = Executors.newFixedThreadPool(numThreads);
-        
-        for (int i = 0; i < numThreads; i++) {
+
+        for (var i = 0; i < numThreads; i++) {
             executor.submit(() -> {
-                for (int j = 0; j < 100; j++) {
+                for (var j = 0; j < 100; j++) {
                     lock.withVoid(counter::incrementAndGet);
                 }
                 latch.countDown();
             });
         }
-        
+
         latch.await();
         executor.shutdown();
-        
+
         assertEquals(numThreads * 100, counter.get());
     }
 
@@ -233,13 +232,13 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
-        
+
         final var result = lock.withReturn(() -> {
             counter.incrementAndGet();
-            lock.withVoid(() -> counter.incrementAndGet());
+            lock.withVoid(counter::incrementAndGet);
             return counter.get();
         });
-        
+
         assertEquals(2, result);
         assertEquals(2, counter.get());
     }
@@ -249,16 +248,16 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.nonReentrant();
         final var counter = new AtomicInteger(0);
-        
+
         final var result = lock.withReturn(() -> {
             counter.incrementAndGet();
             return counter.get();
         });
-        
+
         assertEquals(1, result);
         assertEquals(1, counter.get());
-        
-        lock.withVoid(() -> counter.incrementAndGet());
+
+        lock.withVoid(counter::incrementAndGet);
         assertEquals(2, counter.get());
     }
 
@@ -268,7 +267,7 @@ public final class SimpleLockTest {
         final var lock1 = SimpleLock.reentrant();
         final var lock2 = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
-        
+
         final var result1 = lock1.withReturn(() -> {
             counter.incrementAndGet();
             return lock2.withReturn(() -> {
@@ -276,7 +275,7 @@ public final class SimpleLockTest {
                 return counter.get();
             });
         });
-        
+
         assertEquals(2, result1);
         assertEquals(2, counter.get());
     }

@@ -47,7 +47,7 @@ public final class IoConstantsTest {
 
         assertNotNull(IoConstants.EMPTY_BYTE_ARRAY);
         assertEquals(0, IoConstants.EMPTY_BYTE_ARRAY.length);
-        assertTrue(IoConstants.EMPTY_BYTE_ARRAY instanceof byte[]);
+        assertInstanceOf(byte[].class, IoConstants.EMPTY_BYTE_ARRAY);
     }
 
     @Test
@@ -55,7 +55,7 @@ public final class IoConstantsTest {
 
         final var array1 = IoConstants.EMPTY_BYTE_ARRAY;
         final var array2 = IoConstants.EMPTY_BYTE_ARRAY;
-        
+
         assertSame(array1, array2);
     }
 
@@ -67,7 +67,7 @@ public final class IoConstantsTest {
         final var intMask = IoConstants.INT_MASK;
         final var zeroByte = IoConstants.ZERO_BYTE;
         final var emptyArray = IoConstants.EMPTY_BYTE_ARRAY;
-        
+
         assertEquals(1024, defaultBuffer);
         assertEquals(67108864, defaultLobBuffer);
         assertEquals(255, intMask);
@@ -87,7 +87,7 @@ public final class IoConstantsTest {
 
         final var testByte = (byte) 0xFF;
         final var masked = testByte & IoConstants.INT_MASK;
-        
+
         assertEquals(255, masked);
     }
 
@@ -95,10 +95,10 @@ public final class IoConstantsTest {
     public void testZeroByteUsage() {
 
         final var testArray = new byte[5];
-        for (int i = 0; i < testArray.length; i++) {
+        for (var i = 0; i < testArray.length; i++) {
             testArray[i] = IoConstants.ZERO_BYTE;
         }
-        
+
         for (final var b : testArray) {
             assertEquals(0, b);
         }
@@ -108,7 +108,7 @@ public final class IoConstantsTest {
     public void testEmptyByteArrayUsage() {
 
         final var result = IoConstants.EMPTY_BYTE_ARRAY;
-        
+
         assertNotNull(result);
         assertEquals(0, result.length);
         assertArrayEquals(new byte[0], result);
@@ -156,12 +156,12 @@ public final class IoConstantsTest {
     public void testConstantImmutability() {
 
         final var originalLength = IoConstants.EMPTY_BYTE_ARRAY.length;
-        
+
         assertEquals(0, originalLength);
         assertEquals(0, IoConstants.EMPTY_BYTE_ARRAY.length);
     }
 
-    private boolean isPowerOfTwo(final int n) {
-        return n > 0 && (n & (n - 1)) == 0;
+    private static boolean isPowerOfTwo(final int n) {
+        return (n > 0) && ((n & (n - 1)) == 0);
     }
 }

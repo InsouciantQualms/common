@@ -9,6 +9,8 @@ package dev.iq.common.io.stream;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,18 +20,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public final class NullOutputStreamTest {
 
     @Test
-    public void testWriteSingleByte() throws IOException {
+    public void testWriteSingleByte() {
 
         final var nullStream = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> nullStream.write('H'));
     }
 
     @Test
-    public void testWriteMultipleSingleBytes() throws IOException {
+    public void testWriteMultipleSingleBytes() {
 
         final var nullStream = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> {
             nullStream.write('H');
             nullStream.write('e');
@@ -40,83 +42,83 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteBuffer() throws IOException {
+    public void testWriteBuffer() {
 
         final var nullStream = new NullOutputStream();
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         assertDoesNotThrow(() -> nullStream.write(data));
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLength() throws IOException {
+    public void testWriteBufferWithOffsetAndLength() {
 
         final var nullStream = new NullOutputStream();
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         assertDoesNotThrow(() -> nullStream.write(data, 2, 5));
     }
 
     @Test
-    public void testWriteEmptyBuffer() throws IOException {
+    public void testWriteEmptyBuffer() {
 
         final var nullStream = new NullOutputStream();
         final var data = new byte[0];
-        
+
         assertDoesNotThrow(() -> nullStream.write(data));
     }
 
     @Test
-    public void testWriteBufferWithZeroLength() throws IOException {
+    public void testWriteBufferWithZeroLength() {
 
         final var nullStream = new NullOutputStream();
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         assertDoesNotThrow(() -> nullStream.write(data, 0, 0));
     }
 
     @Test
-    public void testWriteLargeBuffer() throws IOException {
+    public void testWriteLargeBuffer() {
 
         final var nullStream = new NullOutputStream();
         final var data = new byte[10000];
-        java.util.Arrays.fill(data, (byte) 'A');
-        
+        Arrays.fill(data, (byte) 'A');
+
         assertDoesNotThrow(() -> nullStream.write(data));
     }
 
     @Test
-    public void testWriteBinaryData() throws IOException {
+    public void testWriteBinaryData() {
 
         final var nullStream = new NullOutputStream();
         final var data = new byte[]{0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
-        
+
         assertDoesNotThrow(() -> nullStream.write(data));
     }
 
     @Test
-    public void testFlushDoesNotThrow() throws IOException {
+    public void testFlushDoesNotThrow() {
 
         final var nullStream = new NullOutputStream();
-        
-        assertDoesNotThrow(() -> nullStream.flush());
+
+        assertDoesNotThrow(nullStream::flush);
     }
 
     @Test
-    public void testCloseDoesNotThrow() throws IOException {
+    public void testCloseDoesNotThrow() {
 
         final var nullStream = new NullOutputStream();
-        
-        assertDoesNotThrow(() -> nullStream.close());
+
+        assertDoesNotThrow(nullStream::close);
     }
 
     @Test
     public void testWriteAfterClose() throws IOException {
 
         final var nullStream = new NullOutputStream();
-        
+
         nullStream.close();
-        
+
         // Should still be able to write after close
         assertDoesNotThrow(() -> nullStream.write('H'));
     }
@@ -125,39 +127,39 @@ public final class NullOutputStreamTest {
     public void testWriteBufferAfterClose() throws IOException {
 
         final var nullStream = new NullOutputStream();
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         nullStream.close();
-        
+
         // Should still be able to write buffer after close
         assertDoesNotThrow(() -> nullStream.write(data));
     }
 
     @Test
-    public void testWriteNegativeValue() throws IOException {
+    public void testWriteNegativeValue() {
 
         final var nullStream = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> nullStream.write(-1));
         assertDoesNotThrow(() -> nullStream.write(-128));
     }
 
     @Test
-    public void testWriteLargeValue() throws IOException {
+    public void testWriteLargeValue() {
 
         final var nullStream = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> nullStream.write(256));
         assertDoesNotThrow(() -> nullStream.write(Integer.MAX_VALUE));
     }
 
     @Test
-    public void testWriteAllByteValues() throws IOException {
+    public void testWriteAllByteValues() {
 
         final var nullStream = new NullOutputStream();
-        
+
         // Test all possible byte values
-        for (int i = 0; i < 256; i++) {
+        for (var i = 0; i < 256; i++) {
             final var value = i;
             assertDoesNotThrow(() -> nullStream.write(value));
         }
@@ -167,7 +169,7 @@ public final class NullOutputStreamTest {
     public void testWriteNullBuffer() {
 
         final var nullStream = new NullOutputStream();
-        
+
         // Should handle null buffer gracefully or throw appropriate exception
         assertThrows(Exception.class, () -> nullStream.write(null));
         assertThrows(Exception.class, () -> nullStream.write(null, 0, 5));
@@ -178,7 +180,7 @@ public final class NullOutputStreamTest {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[10];
-        
+
         // Should handle invalid offset/length appropriately
         assertThrows(Exception.class, () -> nullStream.write(buffer, -1, 5));
         assertThrows(Exception.class, () -> nullStream.write(buffer, 0, -1));
@@ -187,12 +189,12 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteWithValidOffsetAndLength() throws IOException {
+    public void testWriteWithValidOffsetAndLength() {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[10];
-        java.util.Arrays.fill(buffer, (byte) 'A');
-        
+        Arrays.fill(buffer, (byte) 'A');
+
         // Valid offset and length combinations
         assertDoesNotThrow(() -> nullStream.write(buffer, 0, 10));
         assertDoesNotThrow(() -> nullStream.write(buffer, 5, 5));
@@ -200,11 +202,11 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testMixedWriteOperations() throws IOException {
+    public void testMixedWriteOperations() {
 
         final var nullStream = new NullOutputStream();
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         assertDoesNotThrow(() -> {
             nullStream.write('H');
             nullStream.write(data);
@@ -214,27 +216,27 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testPerformanceWithLargeData() throws IOException {
+    public void testPerformanceWithLargeData() {
 
         final var nullStream = new NullOutputStream();
         final var data = new byte[1000000]; // 1MB
-        java.util.Arrays.fill(data, (byte) 'A');
-        
+        Arrays.fill(data, (byte) 'A');
+
         final var startTime = System.currentTimeMillis();
-        
+
         assertDoesNotThrow(() -> nullStream.write(data));
-        
+
         final var endTime = System.currentTimeMillis();
-        
+
         // Should complete quickly since it's a no-op
-        assertTrue(endTime - startTime < 1000, "Write operation should be fast");
+        assertTrue((endTime - startTime) < 1000, "Write operation should be fast");
     }
 
     @Test
-    public void testMultipleFlushOperations() throws IOException {
+    public void testMultipleFlushOperations() {
 
         final var nullStream = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> {
             nullStream.flush();
             nullStream.flush();
@@ -243,10 +245,10 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testMultipleCloseOperations() throws IOException {
+    public void testMultipleCloseOperations() {
 
         final var nullStream = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> {
             nullStream.close();
             nullStream.close();
@@ -255,34 +257,34 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testMultipleInstancesIndependent() throws IOException {
+    public void testMultipleInstancesIndependent() {
 
         final var nullStream1 = new NullOutputStream();
         final var nullStream2 = new NullOutputStream();
-        
+
         assertDoesNotThrow(() -> {
             nullStream1.write('A');
             nullStream2.write('B');
-            
+
             nullStream1.flush();
             nullStream2.flush();
-            
+
             nullStream1.close();
             nullStream2.close();
         });
     }
 
     @Test
-    public void testStreamBehaviorMatchesDocumentation() throws IOException {
+    public void testStreamBehaviorMatchesDocumentation() {
 
         final var nullStream = new NullOutputStream();
-        
+
         // According to the documentation, it "performs no action but simply consumes any write requests"
         // This means all write operations should succeed without throwing exceptions
         assertDoesNotThrow(() -> {
             nullStream.write(65); // 'A'
-            nullStream.write("Hello".getBytes());
-            nullStream.write("World".getBytes(), 0, 5);
+            nullStream.write("Hello".getBytes(StandardCharsets.UTF_8));
+            nullStream.write("World".getBytes(StandardCharsets.UTF_8), 0, 5);
             nullStream.flush();
             nullStream.close();
         });
@@ -292,36 +294,36 @@ public final class NullOutputStreamTest {
     public void testWriteOperationsHaveNoSideEffects() throws IOException {
 
         final var nullStream = new NullOutputStream();
-        
+
         // These operations should have no observable side effects
         nullStream.write('A');
-        nullStream.write("Hello".getBytes());
+        nullStream.write("Hello".getBytes(StandardCharsets.UTF_8));
         nullStream.flush();
-        
+
         // No way to verify the data was "consumed" since it's a null stream
         // The test passes if no exceptions are thrown
         assertTrue(true);
     }
 
     @Test
-    public void testWriteWithEdgeCaseOffsets() throws IOException {
+    public void testWriteWithEdgeCaseOffsets() {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[10];
-        
+
         // Edge case: write from the last position
         assertDoesNotThrow(() -> nullStream.write(buffer, 9, 1));
-        
+
         // Edge case: write from the first position
         assertDoesNotThrow(() -> nullStream.write(buffer, 0, 1));
     }
 
     @Test
-    public void testWriteBufferBoundaryConditions() throws IOException {
+    public void testWriteBufferBoundaryConditions() {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[1];
-        
+
         // Single byte buffer
         assertDoesNotThrow(() -> nullStream.write(buffer));
         assertDoesNotThrow(() -> nullStream.write(buffer, 0, 1));
@@ -333,12 +335,12 @@ public final class NullOutputStreamTest {
         final var nullStream = new NullOutputStream();
         final var threads = new Thread[10];
         final var exceptions = new Exception[10];
-        
-        for (int i = 0; i < threads.length; i++) {
+
+        for (var i = 0; i < threads.length; i++) {
             final var index = i;
             threads[i] = new Thread(() -> {
                 try {
-                    for (int j = 0; j < 1000; j++) {
+                    for (var j = 0; j < 1000; j++) {
                         nullStream.write(j);
                     }
                 } catch (final Exception e) {
@@ -346,15 +348,15 @@ public final class NullOutputStreamTest {
                 }
             });
         }
-        
+
         for (final var thread : threads) {
             thread.start();
         }
-        
+
         for (final var thread : threads) {
             thread.join();
         }
-        
+
         // No exceptions should occur
         for (final var exception : exceptions) {
             assertNull(exception);

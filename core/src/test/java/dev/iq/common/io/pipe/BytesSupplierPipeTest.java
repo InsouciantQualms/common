@@ -6,14 +6,13 @@
 
 package dev.iq.common.io.pipe;
 
+import dev.iq.common.fp.Fn0;
 import org.junit.jupiter.api.Test;
 
-import dev.iq.common.fp.Fn0;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,11 +25,11 @@ public final class BytesSupplierPipeTest {
     public void testReadFromSupplierInputStream() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(testData);
-        
+
         final var result = pipe.read(inputStreamSupplier);
-        
+
         assertArrayEquals(testData, result);
     }
 
@@ -39,9 +38,9 @@ public final class BytesSupplierPipeTest {
 
         final var pipe = new BytesSupplierPipe();
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(new byte[0]);
-        
+
         final var result = pipe.read(inputStreamSupplier);
-        
+
         assertEquals(0, result.length);
     }
 
@@ -49,12 +48,12 @@ public final class BytesSupplierPipeTest {
     public void testWriteToSupplierOutputStream() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         pipe.write(testData, outputStreamSupplier);
-        
+
         assertArrayEquals(testData, outputStream.toByteArray());
     }
 
@@ -65,9 +64,9 @@ public final class BytesSupplierPipeTest {
         final var testData = new byte[0];
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         pipe.write(testData, outputStreamSupplier);
-        
+
         assertEquals(0, outputStream.toByteArray().length);
     }
 
@@ -75,13 +74,13 @@ public final class BytesSupplierPipeTest {
     public void testGoWithSuppliers() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         final var bytesProcessed = pipe.go(inputStreamSupplier, outputStreamSupplier);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -90,13 +89,13 @@ public final class BytesSupplierPipeTest {
     public void testGoWithSuppliersAndCustomBufferSize() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         final var bytesProcessed = pipe.go(inputStreamSupplier, outputStreamSupplier, 4);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -106,15 +105,15 @@ public final class BytesSupplierPipeTest {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = new byte[10000];
-        for (int i = 0; i < testData.length; i++) {
+        for (var i = 0; i < testData.length; i++) {
             testData[i] = (byte) (i % 256);
         }
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         final var bytesProcessed = pipe.go(inputStreamSupplier, outputStreamSupplier, 512);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -126,9 +125,9 @@ public final class BytesSupplierPipeTest {
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(new byte[0]);
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         final var bytesProcessed = pipe.go(inputStreamSupplier, outputStreamSupplier);
-        
+
         assertEquals(0, bytesProcessed);
         assertEquals(0, outputStream.toByteArray().length);
     }
@@ -137,14 +136,14 @@ public final class BytesSupplierPipeTest {
     public void testStreamClosedBySupplier() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new TestInputStream(testData);
         final var outputStream = new TestOutputStream();
         final Fn0<TestInputStream> inputStreamSupplier = () -> inputStream;
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         pipe.go(inputStreamSupplier, outputStreamSupplier);
-        
+
         assertTrue(inputStream.wasClosed());
         assertTrue(outputStream.wasClosed());
     }
@@ -153,18 +152,18 @@ public final class BytesSupplierPipeTest {
     public void testLazyEvaluationOfInputSupplier() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var callCounter = new int[1];
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> {
             callCounter[0]++;
             return new ByteArrayInputStream(testData);
         };
-        
+
         // Supplier should not be called until read is invoked
         assertEquals(0, callCounter[0]);
-        
+
         final var result = pipe.read(inputStreamSupplier);
-        
+
         assertEquals(1, callCounter[0]);
         assertArrayEquals(testData, result);
     }
@@ -173,19 +172,19 @@ public final class BytesSupplierPipeTest {
     public void testLazyEvaluationOfOutputSupplier() {
 
         final var pipe = new BytesSupplierPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var callCounter = new int[1];
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> {
             callCounter[0]++;
             return outputStream;
         };
-        
+
         // Supplier should not be called until write is invoked
         assertEquals(0, callCounter[0]);
-        
+
         pipe.write(testData, outputStreamSupplier);
-        
+
         assertEquals(1, callCounter[0]);
         assertArrayEquals(testData, outputStream.toByteArray());
     }

@@ -11,7 +11,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -73,7 +72,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeToOutputStream() throws IOException {
+    public void testSerializeToOutputStream() {
 
         final var testMap = Map.of("key", "value");
         final var outputStream = new ByteArrayOutputStream();
@@ -91,7 +90,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testDeserializeFromInputStream() throws IOException {
+    public void testDeserializeFromInputStream() {
 
         final var testMap = Map.of("streamKey", "streamValue");
         final var outputStream = new ByteArrayOutputStream();
@@ -160,7 +159,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testXmlFormatOutput() throws IOException {
+    public void testXmlFormatOutput() {
 
         final var testMap = Map.of("test", "value");
         final var outputStream = new ByteArrayOutputStream();
@@ -176,7 +175,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testRoundTripWithStream() throws IOException {
+    public void testRoundTripWithStream() {
 
         final var originalMap = Map.of(
             "database.url", "jdbc:postgresql://localhost:5432/mydb",

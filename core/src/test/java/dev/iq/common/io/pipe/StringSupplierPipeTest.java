@@ -6,16 +6,15 @@
 
 package dev.iq.common.io.pipe;
 
+import dev.iq.common.fp.Fn0;
 import org.junit.jupiter.api.Test;
 
-import dev.iq.common.fp.Fn0;
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for StringSupplierPipe covering lazy evaluation of reader and writer suppliers.
@@ -28,9 +27,9 @@ public final class StringSupplierPipeTest {
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
-        
+
         final var result = pipe.read(readerSupplier);
-        
+
         assertEquals(testData, result);
     }
 
@@ -39,9 +38,9 @@ public final class StringSupplierPipeTest {
 
         final var pipe = new StringSupplierPipe();
         final Fn0<StringReader> readerSupplier = () -> new StringReader("");
-        
+
         final var result = pipe.read(readerSupplier);
-        
+
         assertEquals("", result);
     }
 
@@ -52,9 +51,9 @@ public final class StringSupplierPipeTest {
         final var testData = "Hello, World!";
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         pipe.write(testData, writerSupplier);
-        
+
         assertEquals(testData, writer.toString());
     }
 
@@ -65,9 +64,9 @@ public final class StringSupplierPipeTest {
         final var testData = "";
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         pipe.write(testData, writerSupplier);
-        
+
         assertEquals("", writer.toString());
     }
 
@@ -79,9 +78,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -94,9 +93,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier, 4);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -109,9 +108,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier, 512);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -123,9 +122,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader("");
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier);
-        
+
         assertEquals(0, charsProcessed);
         assertEquals("", writer.toString());
     }
@@ -139,9 +138,9 @@ public final class StringSupplierPipeTest {
         final var writer = new TestWriter();
         final Fn0<TestReader> readerSupplier = () -> reader;
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         pipe.go(readerSupplier, writerSupplier);
-        
+
         assertTrue(reader.wasClosed());
         assertTrue(writer.wasClosed());
     }
@@ -156,12 +155,12 @@ public final class StringSupplierPipeTest {
             callCounter[0]++;
             return new StringReader(testData);
         };
-        
+
         // Supplier should not be called until read is invoked
         assertEquals(0, callCounter[0]);
-        
+
         final var result = pipe.read(readerSupplier);
-        
+
         assertEquals(1, callCounter[0]);
         assertEquals(testData, result);
     }
@@ -177,12 +176,12 @@ public final class StringSupplierPipeTest {
             callCounter[0]++;
             return writer;
         };
-        
+
         // Supplier should not be called until write is invoked
         assertEquals(0, callCounter[0]);
-        
+
         pipe.write(testData, writerSupplier);
-        
+
         assertEquals(1, callCounter[0]);
         assertEquals(testData, writer.toString());
     }
@@ -195,9 +194,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -210,9 +209,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -223,15 +222,15 @@ public final class StringSupplierPipeTest {
         final var pipe = new StringSupplierPipe();
         final var testData = "Round trip test data";
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
-        
+
         final var readResult = pipe.read(readerSupplier);
-        
+
         assertEquals(testData, readResult);
-        
+
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
         pipe.write(readResult, writerSupplier);
-        
+
         assertEquals(testData, writer.toString());
     }
 
@@ -243,9 +242,9 @@ public final class StringSupplierPipeTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }

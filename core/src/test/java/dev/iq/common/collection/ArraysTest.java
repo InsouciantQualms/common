@@ -8,6 +8,8 @@ package dev.iq.common.collection;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -20,11 +22,11 @@ public final class ArraysTest {
 
         final var stringClass = String.class;
         final var arrayClass = Arrays.toArray(stringClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(String[].class, arrayClass);
+        assertSame(String[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(String.class, arrayClass.getComponentType());
+        assertSame(String.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -32,11 +34,11 @@ public final class ArraysTest {
 
         final var integerClass = Integer.class;
         final var arrayClass = Arrays.toArray(integerClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(Integer[].class, arrayClass);
+        assertSame(Integer[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(Integer.class, arrayClass.getComponentType());
+        assertSame(Integer.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -44,11 +46,11 @@ public final class ArraysTest {
 
         final var intClass = int.class;
         final var arrayClass = Arrays.toArray(intClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(int[].class, arrayClass);
+        assertSame(Integer[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(int.class, arrayClass.getComponentType());
+        assertSame(int.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -56,11 +58,11 @@ public final class ArraysTest {
 
         final var booleanClass = boolean.class;
         final var arrayClass = Arrays.toArray(booleanClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(boolean[].class, arrayClass);
+        assertSame(Boolean[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(boolean.class, arrayClass.getComponentType());
+        assertSame(boolean.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -68,11 +70,11 @@ public final class ArraysTest {
 
         final var doubleClass = double.class;
         final var arrayClass = Arrays.toArray(doubleClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(double[].class, arrayClass);
+        assertSame(Double[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(double.class, arrayClass.getComponentType());
+        assertSame(double.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -80,11 +82,11 @@ public final class ArraysTest {
 
         final var customClass = TestClass.class;
         final var arrayClass = Arrays.toArray(customClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(TestClass[].class, arrayClass);
+        assertSame(TestClass[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(TestClass.class, arrayClass.getComponentType());
+        assertSame(TestClass.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -92,11 +94,11 @@ public final class ArraysTest {
 
         final var objectClass = Object.class;
         final var arrayClass = Arrays.toArray(objectClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(Object[].class, arrayClass);
+        assertSame(Object[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(Object.class, arrayClass.getComponentType());
+        assertSame(Object.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -104,23 +106,23 @@ public final class ArraysTest {
 
         final var runnableClass = Runnable.class;
         final var arrayClass = Arrays.toArray(runnableClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(Runnable[].class, arrayClass);
+        assertSame(Runnable[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(Runnable.class, arrayClass.getComponentType());
+        assertSame(Runnable.class, arrayClass.getComponentType());
     }
 
     @Test
     public void testToArrayWithGenericClass() {
 
-        final var listClass = java.util.List.class;
+        final var listClass = List.class;
         final var arrayClass = Arrays.toArray(listClass);
-        
+
         assertNotNull(arrayClass);
-        assertEquals(java.util.List[].class, arrayClass);
+        assertSame(List[].class, arrayClass);
         assertTrue(arrayClass.isArray());
-        assertEquals(java.util.List.class, arrayClass.getComponentType());
+        assertSame(List.class, arrayClass.getComponentType());
     }
 
     @Test
@@ -129,8 +131,8 @@ public final class ArraysTest {
         final var stringClass = String.class;
         final var arrayClass1 = Arrays.toArray(stringClass);
         final var arrayClass2 = Arrays.toArray(stringClass);
-        
-        assertEquals(arrayClass1, arrayClass2);
+
+        assertSame(arrayClass1, arrayClass2);
         assertSame(arrayClass1, arrayClass2);
     }
 
@@ -142,26 +144,17 @@ public final class ArraysTest {
         final var charClass = Arrays.toArray(char.class);
         final var longClass = Arrays.toArray(long.class);
         final var floatClass = Arrays.toArray(float.class);
-        
-        assertEquals(byte[].class, byteClass);
-        assertEquals(short[].class, shortClass);
-        assertEquals(char[].class, charClass);
-        assertEquals(long[].class, longClass);
-        assertEquals(float[].class, floatClass);
+
+        assertSame(Byte[].class, byteClass);
+        assertSame(Short[].class, shortClass);
+        assertSame(Character[].class, charClass);
+        assertSame(Long[].class, longClass);
+        assertSame(Float[].class, floatClass);
     }
 
     /**
      * Simple test class for custom class testing.
      */
-    private static final class TestClass {
-        private final String value;
-
-        TestClass(final String value) {
-            this.value = value;
-        }
-
-        String getValue() {
-            return value;
-        }
+    private record TestClass(String value) {
     }
 }

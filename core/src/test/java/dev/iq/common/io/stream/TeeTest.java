@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,9 +27,9 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.write('H');
-        
+
         assertEquals("H", stream1.toString());
         assertEquals("H", stream2.toString());
     }
@@ -38,11 +40,11 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.write('H');
         tee.write('e');
         tee.write('l');
-        
+
         assertEquals("Hel", stream1.toString());
         assertEquals("Hel", stream2.toString());
     }
@@ -53,10 +55,10 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         tee.write(data);
-        
+
         assertEquals("Hello, World!", stream1.toString());
         assertEquals("Hello, World!", stream2.toString());
     }
@@ -67,10 +69,10 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         tee.write(data, 2, 5);
-        
+
         assertEquals("llo, ", stream1.toString());
         assertEquals("llo, ", stream2.toString());
     }
@@ -80,9 +82,9 @@ public final class TeeTest {
 
         final var stream1 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1);
-        
+
         tee.write('H');
-        
+
         assertEquals("H", stream1.toString());
     }
 
@@ -93,23 +95,23 @@ public final class TeeTest {
         final var stream2 = new ByteArrayOutputStream();
         final var stream3 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2, stream3);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         tee.write(data);
-        
+
         assertEquals("Hello", stream1.toString());
         assertEquals("Hello", stream2.toString());
         assertEquals("Hello", stream3.toString());
     }
 
     @Test
-    public void testWriteToNoStreams() throws IOException {
+    public void testWriteToNoStreams() {
 
         final var tee = new Tee();
-        
+
         // Should not throw an exception
         assertDoesNotThrow(() -> tee.write('H'));
-        assertDoesNotThrow(() -> tee.write("Hello".getBytes()));
+        assertDoesNotThrow(() -> tee.write("Hello".getBytes(StandardCharsets.UTF_8)));
     }
 
     @Test
@@ -118,10 +120,10 @@ public final class TeeTest {
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.write('H');
         tee.flush();
-        
+
         assertTrue(stream1.wasFlushed());
         assertTrue(stream2.wasFlushed());
     }
@@ -132,9 +134,9 @@ public final class TeeTest {
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.close();
-        
+
         assertTrue(stream1.wasClosed());
         assertTrue(stream2.wasClosed());
     }
@@ -145,12 +147,12 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        final var data = "World!".getBytes();
-        
+        final var data = "World!".getBytes(StandardCharsets.UTF_8);
+
         tee.write('H');
-        tee.write("ello, ".getBytes());
+        tee.write("ello, ".getBytes(StandardCharsets.UTF_8));
         tee.write(data, 0, 5);
-        
+
         assertEquals("Hello, World", stream1.toString());
         assertEquals("Hello, World", stream2.toString());
     }
@@ -162,9 +164,9 @@ public final class TeeTest {
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
         final var data = new byte[0];
-        
+
         tee.write(data);
-        
+
         assertEquals("", stream1.toString());
         assertEquals("", stream2.toString());
     }
@@ -175,10 +177,10 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         tee.write(data, 2, 0);
-        
+
         assertEquals("", stream1.toString());
         assertEquals("", stream2.toString());
     }
@@ -190,10 +192,10 @@ public final class TeeTest {
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
         final var data = new byte[10000];
-        java.util.Arrays.fill(data, (byte) 'A');
-        
+        Arrays.fill(data, (byte) 'A');
+
         tee.write(data);
-        
+
         assertArrayEquals(data, stream1.toByteArray());
         assertArrayEquals(data, stream2.toByteArray());
     }
@@ -205,23 +207,23 @@ public final class TeeTest {
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
         final var data = new byte[]{0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
-        
+
         tee.write(data);
-        
+
         assertArrayEquals(data, stream1.toByteArray());
         assertArrayEquals(data, stream2.toByteArray());
     }
 
     @Test
-    public void testExceptionInOneStreamDoesNotAffectOthers() throws IOException {
+    public void testExceptionInOneStreamDoesNotAffectOthers() {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new FailingOutputStream();
         final var stream3 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2, stream3);
-        
+
         assertThrows(IOException.class, () -> tee.write('H'));
-        
+
         // First stream should still have received the data
         assertEquals("H", stream1.toString());
         // Third stream should not have received the data due to the exception
@@ -234,9 +236,9 @@ public final class TeeTest {
         final var stream1 = new FailingOutputStream();
         final var stream2 = new FailingOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
-        final var exception = assertThrows(IOException.class, () -> tee.close());
-        
+
+        final var exception = assertThrows(IOException.class, tee::close);
+
         assertEquals("Error closing one or more streams", exception.getMessage());
         assertEquals(2, exception.getSuppressed().length);
     }
@@ -247,23 +249,23 @@ public final class TeeTest {
         final var stream1 = new TestOutputStream();
         final var stream2 = new FailingOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
-        final var exception = assertThrows(IOException.class, () -> tee.close());
-        
+
+        final var exception = assertThrows(IOException.class, tee::close);
+
         assertEquals("Error closing one or more streams", exception.getMessage());
         assertEquals(1, exception.getSuppressed().length);
         assertTrue(stream1.wasClosed());
     }
 
     @Test
-    public void testCloseWithNoExceptions() throws IOException {
+    public void testCloseWithNoExceptions() {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
-        assertDoesNotThrow(() -> tee.close());
-        
+
+        assertDoesNotThrow(tee::close);
+
         assertTrue(stream1.wasClosed());
         assertTrue(stream2.wasClosed());
     }
@@ -274,9 +276,9 @@ public final class TeeTest {
         final var stream1 = new TestOutputStream();
         final var stream2 = new FailingOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
-        assertThrows(IOException.class, () -> tee.flush());
-        
+
+        assertThrows(IOException.class, tee::flush);
+
         assertTrue(stream1.wasFlushed());
     }
 
@@ -286,9 +288,9 @@ public final class TeeTest {
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.close();
-        
+
         // Writing after close should still work (depends on underlying stream behavior)
         assertDoesNotThrow(() -> tee.write('H'));
     }
@@ -299,10 +301,10 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new NullOutputStream();
         final var tee = new Tee(stream1, stream2);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         tee.write(data);
-        
+
         assertEquals("Hello", stream1.toString());
         // NullOutputStream consumes everything, so no verification needed
     }
@@ -313,10 +315,10 @@ public final class TeeTest {
         final var stream1 = new OrderTrackingOutputStream();
         final var stream2 = new OrderTrackingOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.write('A');
         tee.write('B');
-        
+
         assertEquals("AB", stream1.getData());
         assertEquals("AB", stream2.getData());
     }
@@ -327,9 +329,9 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.write(-1);
-        
+
         assertEquals(1, stream1.toByteArray().length);
         assertEquals(1, stream2.toByteArray().length);
         assertEquals((byte) 0xFF, stream1.toByteArray()[0]);
@@ -342,9 +344,9 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        
+
         tee.write(256); // Should be truncated to 0
-        
+
         assertEquals(1, stream1.toByteArray().length);
         assertEquals(1, stream2.toByteArray().length);
         assertEquals((byte) 0x00, stream1.toByteArray()[0]);
@@ -397,7 +399,7 @@ public final class TeeTest {
         private final StringBuilder data = new StringBuilder();
 
         @Override
-        public void write(final int b) throws IOException {
+        public void write(final int b) {
             data.append((char) b);
         }
 

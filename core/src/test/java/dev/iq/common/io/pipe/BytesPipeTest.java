@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,11 +24,11 @@ public final class BytesPipeTest {
     public void testReadFromInputStream() {
 
         final var pipe = new BytesPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(testData);
-        
+
         final var result = pipe.read(inputStream);
-        
+
         assertArrayEquals(testData, result);
     }
 
@@ -38,9 +37,9 @@ public final class BytesPipeTest {
 
         final var pipe = new BytesPipe();
         final var inputStream = new ByteArrayInputStream(new byte[0]);
-        
+
         final var result = pipe.read(inputStream);
-        
+
         assertEquals(0, result.length);
     }
 
@@ -48,11 +47,11 @@ public final class BytesPipeTest {
     public void testWriteToOutputStream() {
 
         final var pipe = new BytesPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         pipe.write(testData, outputStream);
-        
+
         assertArrayEquals(testData, outputStream.toByteArray());
     }
 
@@ -62,9 +61,9 @@ public final class BytesPipeTest {
         final var pipe = new BytesPipe();
         final var testData = new byte[0];
         final var outputStream = new ByteArrayOutputStream();
-        
+
         pipe.write(testData, outputStream);
-        
+
         assertEquals(0, outputStream.toByteArray().length);
     }
 
@@ -72,12 +71,12 @@ public final class BytesPipeTest {
     public void testGoWithDefaultBufferSize() {
 
         final var pipe = new BytesPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         final var bytesProcessed = pipe.go(inputStream, outputStream);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -86,12 +85,12 @@ public final class BytesPipeTest {
     public void testGoWithCustomBufferSize() {
 
         final var pipe = new BytesPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         final var bytesProcessed = pipe.go(inputStream, outputStream, 4);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -101,14 +100,14 @@ public final class BytesPipeTest {
 
         final var pipe = new BytesPipe();
         final var testData = new byte[10000];
-        for (int i = 0; i < testData.length; i++) {
+        for (var i = 0; i < testData.length; i++) {
             testData[i] = (byte) (i % 256);
         }
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         final var bytesProcessed = pipe.go(inputStream, outputStream, 512);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -119,9 +118,9 @@ public final class BytesPipeTest {
         final var pipe = new BytesPipe();
         final var inputStream = new ByteArrayInputStream(new byte[0]);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         final var bytesProcessed = pipe.go(inputStream, outputStream);
-        
+
         assertEquals(0, bytesProcessed);
         assertEquals(0, outputStream.toByteArray().length);
     }
@@ -130,12 +129,12 @@ public final class BytesPipeTest {
     public void testGoWithSmallBufferSize() {
 
         final var pipe = new BytesPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         final var bytesProcessed = pipe.go(inputStream, outputStream, 1);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -144,12 +143,12 @@ public final class BytesPipeTest {
     public void testStreamNotClosed() {
 
         final var pipe = new BytesPipe();
-        final var testData = "Hello, World!".getBytes();
+        final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new TestInputStream(testData);
         final var outputStream = new TestOutputStream();
-        
+
         pipe.go(inputStream, outputStream);
-        
+
         assertFalse(inputStream.wasClosed());
         assertFalse(outputStream.wasClosed());
     }

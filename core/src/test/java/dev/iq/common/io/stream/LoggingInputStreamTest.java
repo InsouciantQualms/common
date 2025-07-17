@@ -11,8 +11,10 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,15 +30,15 @@ public final class LoggingInputStreamTest {
     public void testReadSingleByteLogging() throws IOException {
 
         final var logFile = tempDir.resolve("single_byte.log");
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var result = loggingStream.read();
-            
+
             assertEquals('H', result);
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         assertEquals(1, loggedData.length);
@@ -47,43 +49,43 @@ public final class LoggingInputStreamTest {
     public void testReadMultipleSingleBytesLogging() throws IOException {
 
         final var logFile = tempDir.resolve("multiple_bytes.log");
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
             assertEquals('e', loggingStream.read());
             assertEquals('l', loggingStream.read());
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         assertEquals(3, loggedData.length);
-        assertArrayEquals("Hel".getBytes(), loggedData);
+        assertArrayEquals("Hel".getBytes(StandardCharsets.UTF_8), loggedData);
     }
 
     @Test
     public void testReadBufferLogging() throws IOException {
 
         final var logFile = tempDir.resolve("buffer.log");
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[10];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var bytesRead = loggingStream.read(buffer);
-            
+
             assertEquals(10, bytesRead);
-            assertArrayEquals("Hello, Wor".getBytes(), buffer);
+            assertArrayEquals("Hello, Wor".getBytes(StandardCharsets.UTF_8), buffer);
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 10);
         // Check that the logged data starts with the expected content
-        final var expectedData = "Hello, Wor".getBytes();
-        for (int i = 0; i < expectedData.length; i++) {
+        final var expectedData = "Hello, Wor".getBytes(StandardCharsets.UTF_8);
+        for (var i = 0; i < expectedData.length; i++) {
             assertEquals(expectedData[i], loggedData[i]);
         }
     }
@@ -92,24 +94,24 @@ public final class LoggingInputStreamTest {
     public void testReadBufferWithOffsetAndLengthLogging() throws IOException {
 
         final var logFile = tempDir.resolve("buffer_offset.log");
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[10];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var bytesRead = loggingStream.read(buffer, 2, 5);
-            
+
             assertEquals(5, bytesRead);
-            assertArrayEquals("Hello".getBytes(), java.util.Arrays.copyOfRange(buffer, 2, 7));
+            assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 7));
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 5);
         // Check that the logged data starts with the expected content
-        final var expectedData = "Hello".getBytes();
-        for (int i = 0; i < expectedData.length; i++) {
+        final var expectedData = "Hello".getBytes(StandardCharsets.UTF_8);
+        for (var i = 0; i < expectedData.length; i++) {
             assertEquals(expectedData[i], loggedData[i]);
         }
     }
@@ -118,22 +120,22 @@ public final class LoggingInputStreamTest {
     public void testReadEOFDoesNotLog() throws IOException {
 
         final var logFile = tempDir.resolve("eof.log");
-        final var data = "Hi".getBytes();
+        final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
             assertEquals('i', loggingStream.read());
             assertEquals(-1, loggingStream.read()); // EOF
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 2);
         // Check that the logged data starts with the expected content
-        final var expectedData = "Hi".getBytes();
-        for (int i = 0; i < expectedData.length; i++) {
+        final var expectedData = "Hi".getBytes(StandardCharsets.UTF_8);
+        for (var i = 0; i < expectedData.length; i++) {
             assertEquals(expectedData[i], loggedData[i]);
         }
     }
@@ -142,22 +144,22 @@ public final class LoggingInputStreamTest {
     public void testReadBufferEOFDoesNotLog() throws IOException {
 
         final var logFile = tempDir.resolve("buffer_eof.log");
-        final var data = "Hi".getBytes();
+        final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[10];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals(2, loggingStream.read(buffer));
             assertEquals(-1, loggingStream.read(buffer)); // EOF
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 2);
         // Check that the logged data starts with the expected content
-        final var expectedData = "Hi".getBytes();
-        for (int i = 0; i < expectedData.length; i++) {
+        final var expectedData = "Hi".getBytes(StandardCharsets.UTF_8);
+        for (var i = 0; i < expectedData.length; i++) {
             assertEquals(expectedData[i], loggedData[i]);
         }
     }
@@ -167,11 +169,11 @@ public final class LoggingInputStreamTest {
 
         final var logFile = tempDir.resolve("empty.log");
         final var inputStream = new ByteArrayInputStream(new byte[0]);
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals(-1, loggingStream.read());
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         assertEquals(0, loggedData.length);
@@ -183,11 +185,11 @@ public final class LoggingInputStreamTest {
         final var logFile = tempDir.resolve("empty_buffer.log");
         final var inputStream = new ByteArrayInputStream(new byte[0]);
         final var buffer = new byte[10];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals(-1, loggingStream.read(buffer));
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         assertEquals(0, loggedData.length);
@@ -197,23 +199,23 @@ public final class LoggingInputStreamTest {
     public void testMixedReadOperationsLogging() throws IOException {
 
         final var logFile = tempDir.resolve("mixed.log");
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[5];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
             assertEquals(4, loggingStream.read(buffer, 0, 4));
             assertEquals(',', loggingStream.read());
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 6);
         // Check that the logged data starts with the expected content
-        final var expectedData = "Hello,".getBytes();
-        for (int i = 0; i < expectedData.length; i++) {
+        final var expectedData = "Hello,".getBytes(StandardCharsets.UTF_8);
+        for (var i = 0; i < expectedData.length; i++) {
             assertEquals(expectedData[i], loggedData[i]);
         }
     }
@@ -223,25 +225,25 @@ public final class LoggingInputStreamTest {
 
         final var logFile = tempDir.resolve("large.log");
         final var data = new byte[10000];
-        java.util.Arrays.fill(data, (byte) 'A');
+        Arrays.fill(data, (byte) 'A');
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[1000];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
-            int totalRead = 0;
+            var totalRead = 0;
             int bytesRead;
             while ((bytesRead = loggingStream.read(buffer)) != -1) {
                 totalRead += bytesRead;
             }
             assertEquals(10000, totalRead);
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 10000);
         // First 10000 bytes should be 'A'
-        for (int i = 0; i < 10000; i++) {
+        for (var i = 0; i < 10000; i++) {
             assertEquals((byte) 'A', loggedData[i]);
         }
     }
@@ -250,15 +252,15 @@ public final class LoggingInputStreamTest {
     public void testLogFileCreation() throws IOException {
 
         final var logFile = tempDir.resolve("creation.log");
-        final var data = "Test".getBytes();
+        final var data = "Test".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        
+
         assertFalse(Files.exists(logFile));
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             loggingStream.read();
         }
-        
+
         assertTrue(Files.exists(logFile));
     }
 
@@ -266,14 +268,14 @@ public final class LoggingInputStreamTest {
     public void testLogFileFlushOnClose() throws IOException {
 
         final var logFile = tempDir.resolve("flush.log");
-        final var data = "Test".getBytes();
+        final var data = "Test".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             loggingStream.read();
             // Data should be flushed when stream is closed
         }
-        
+
         assertTrue(Files.exists(logFile));
         final var loggedData = Files.readAllBytes(logFile);
         assertEquals(1, loggedData.length);
@@ -284,48 +286,47 @@ public final class LoggingInputStreamTest {
     public void testInvalidLogFilePathThrowsException() {
 
         final var invalidPath = "/invalid/path/that/does/not/exist/log.txt";
-        final var data = "Test".getBytes();
+        final var data = "Test".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        
-        assertThrows(IOException.class, () -> {
-            new LoggingInputStream(invalidPath, inputStream);
-        });
+
+        assertThrows(IOException.class, () -> new LoggingInputStream(invalidPath, inputStream)
+        );
     }
 
     @Test
     public void testReadAfterClose() throws IOException {
 
         final var logFile = tempDir.resolve("closed.log");
-        final var data = "Test".getBytes();
+        final var data = "Test".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream);
-        
+
         loggingStream.read();
         loggingStream.close();
-        
+
         // Reading after close should throw an exception
-        assertThrows(IOException.class, () -> loggingStream.read());
+        assertThrows(IOException.class, loggingStream::read);
     }
 
     @Test
     public void testLogFileContainsExactDataRead() throws IOException {
 
         final var logFile = tempDir.resolve("exact.log");
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[5];
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var bytesRead = loggingStream.read(buffer);
             assertEquals(5, bytesRead);
         }
-        
+
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 5);
         // Check that the logged data starts with the expected content
-        final var expectedData = "Hello".getBytes();
-        for (int i = 0; i < expectedData.length; i++) {
+        final var expectedData = "Hello".getBytes(StandardCharsets.UTF_8);
+        for (var i = 0; i < expectedData.length; i++) {
             assertEquals(expectedData[i], loggedData[i]);
         }
     }
@@ -336,17 +337,17 @@ public final class LoggingInputStreamTest {
         final var logFile = tempDir.resolve("binary.log");
         final var data = new byte[]{0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
         final var inputStream = new ByteArrayInputStream(data);
-        
+
         try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var buffer = new byte[10];
             loggingStream.read(buffer);
         }
-        
+
         final var loggedData = Files.readAllBytes(logFile);
         // The logged data should contain at least the expected data
         assertTrue(loggedData.length >= 6);
         // Check that the logged data starts with the expected content
-        for (int i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             assertEquals(data[i], loggedData[i]);
         }
     }
@@ -355,19 +356,19 @@ public final class LoggingInputStreamTest {
     public void testMultipleStreamsToSameLogFile() throws IOException {
 
         final var logFile = tempDir.resolve("multiple.log");
-        final var data1 = "Hello".getBytes();
-        final var data2 = "World".getBytes();
+        final var data1 = "Hello".getBytes(StandardCharsets.UTF_8);
+        final var data2 = "World".getBytes(StandardCharsets.UTF_8);
         final var inputStream1 = new ByteArrayInputStream(data1);
         final var inputStream2 = new ByteArrayInputStream(data2);
-        
+
         try (final var loggingStream1 = new LoggingInputStream(logFile.toString(), inputStream1)) {
             loggingStream1.read();
         }
-        
+
         try (final var loggingStream2 = new LoggingInputStream(logFile.toString(), inputStream2)) {
             loggingStream2.read();
         }
-        
+
         final var loggedData = Files.readAllBytes(logFile);
         assertEquals(1, loggedData.length);
         assertEquals('W', loggedData[0]); // Second stream overwrites the first

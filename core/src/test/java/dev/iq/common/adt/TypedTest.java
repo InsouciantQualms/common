@@ -8,6 +8,9 @@ package dev.iq.common.adt;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -19,7 +22,7 @@ public final class TypedTest {
     public void testTyped1Creation() {
 
         final var typed = Typed.of("test", String.class);
-        
+
         assertNotNull(typed);
         assertEquals("test", typed.getFirst());
         assertNotNull(typed.getTypeA());
@@ -29,7 +32,7 @@ public final class TypedTest {
     public void testTyped1WithNull() {
 
         final var typed = Typed.of(null, String.class);
-        
+
         assertNotNull(typed);
         assertNull(typed.getFirst());
         assertNotNull(typed.getTypeA());
@@ -39,7 +42,7 @@ public final class TypedTest {
     public void testTyped1WithInteger() {
 
         final var typed = Typed.of(42, Integer.class);
-        
+
         assertNotNull(typed);
         assertEquals(42, typed.getFirst());
         assertNotNull(typed.getTypeA());
@@ -48,16 +51,15 @@ public final class TypedTest {
     @Test
     public void testTyped1WithNullClassThrows() {
 
-        assertThrows(NullPointerException.class, () -> {
-            Typed.of("test", null);
-        });
+        assertThrows(NullPointerException.class, () -> Typed.of("test", null)
+        );
     }
 
     @Test
     public void testTyped2Creation() {
 
         final var typed = Typed.of("hello", 123, String.class, Integer.class);
-        
+
         assertNotNull(typed);
         assertEquals("hello", typed.getFirst());
         assertEquals(123, typed.getSecond());
@@ -69,7 +71,7 @@ public final class TypedTest {
     public void testTyped2WithNulls() {
 
         final var typed = Typed.of(null, null, String.class, Integer.class);
-        
+
         assertNotNull(typed);
         assertNull(typed.getFirst());
         assertNull(typed.getSecond());
@@ -80,20 +82,18 @@ public final class TypedTest {
     @Test
     public void testTyped2WithNullClassThrows() {
 
-        assertThrows(NullPointerException.class, () -> {
-            Typed.of("hello", 123, null, Integer.class);
-        });
-        
-        assertThrows(NullPointerException.class, () -> {
-            Typed.of("hello", 123, String.class, null);
-        });
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, null, Integer.class)
+        );
+
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, String.class, null)
+        );
     }
 
     @Test
     public void testTyped3Creation() {
 
         final var typed = Typed.of("hello", 123, true, String.class, Integer.class, Boolean.class);
-        
+
         assertNotNull(typed);
         assertEquals("hello", typed.getFirst());
         assertEquals(123, typed.getSecond());
@@ -107,7 +107,7 @@ public final class TypedTest {
     public void testTyped3WithNulls() {
 
         final var typed = Typed.of(null, null, null, String.class, Integer.class, Boolean.class);
-        
+
         assertNotNull(typed);
         assertNull(typed.getFirst());
         assertNull(typed.getSecond());
@@ -120,24 +120,21 @@ public final class TypedTest {
     @Test
     public void testTyped3WithNullClassThrows() {
 
-        assertThrows(NullPointerException.class, () -> {
-            Typed.of("hello", 123, true, null, Integer.class, Boolean.class);
-        });
-        
-        assertThrows(NullPointerException.class, () -> {
-            Typed.of("hello", 123, true, String.class, null, Boolean.class);
-        });
-        
-        assertThrows(NullPointerException.class, () -> {
-            Typed.of("hello", 123, true, String.class, Integer.class, null);
-        });
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, null, Integer.class, Boolean.class)
+        );
+
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, String.class, null, Boolean.class)
+        );
+
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, String.class, Integer.class, null)
+        );
     }
 
     @Test
     public void testTyped1GetMethods() {
 
         final var typed = Typed.of("test", String.class);
-        
+
         assertEquals("test", typed.getFirst());
         assertNotNull(typed.getTypeA());
     }
@@ -146,7 +143,7 @@ public final class TypedTest {
     public void testTyped2GetMethods() {
 
         final var typed = Typed.of("hello", 123, String.class, Integer.class);
-        
+
         assertEquals("hello", typed.getFirst());
         assertEquals(123, typed.getSecond());
         assertNotNull(typed.getTypeA());
@@ -157,7 +154,7 @@ public final class TypedTest {
     public void testTyped3GetMethods() {
 
         final var typed = Typed.of("hello", 123, true, String.class, Integer.class, Boolean.class);
-        
+
         assertEquals("hello", typed.getFirst());
         assertEquals(123, typed.getSecond());
         assertEquals(true, typed.getThird());
@@ -172,7 +169,7 @@ public final class TypedTest {
         final var typed1 = Typed.of(42.0, Double.class);
         final var typed2 = Typed.of("test", true, String.class, Boolean.class);
         final var typed3 = Typed.of(1, 2.0, "three", Integer.class, Double.class, String.class);
-        
+
         assertEquals(42.0, typed1.getFirst());
         assertEquals("test", typed2.getFirst());
         assertEquals(true, typed2.getSecond());
@@ -184,10 +181,10 @@ public final class TypedTest {
     @Test
     public void testTypedWithComplexTypes() {
 
-        final var list = java.util.List.of("a", "b");
-        final var set = java.util.Set.of(1, 2);
-        final var typed = Typed.of(list, set, java.util.List.class, java.util.Set.class);
-        
+        final var list = List.of("a", "b");
+        final var set = Set.of(1, 2);
+        final var typed = Typed.of(list, set, List.class, Set.class);
+
         assertNotNull(typed);
         assertEquals(list, typed.getFirst());
         assertEquals(set, typed.getSecond());
@@ -201,11 +198,11 @@ public final class TypedTest {
         final var typed1 = Typed.of("single", String.class);
         final var typed2 = Typed.of("first", "second", String.class, String.class);
         final var typed3 = Typed.of("first", "second", "third", String.class, String.class, String.class);
-        
+
         assertNotNull(typed1);
         assertNotNull(typed2);
         assertNotNull(typed3);
-        
+
         assertEquals("single", typed1.getFirst());
         assertEquals("first", typed2.getFirst());
         assertEquals("second", typed2.getSecond());
@@ -220,7 +217,7 @@ public final class TypedTest {
         final var typed1 = Typed.of("test", String.class);
         final var typed2 = Typed.of("hello", 123, String.class, Integer.class);
         final var typed3 = Typed.of("hello", 123, true, String.class, Integer.class, Boolean.class);
-        
+
         assertNotNull(typed1.getTypeA());
         assertNotNull(typed2.getTypeA());
         assertNotNull(typed2.getTypeB());

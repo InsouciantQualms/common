@@ -9,6 +9,7 @@ package dev.iq.common.io.stream;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,20 +19,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public final class NullInputStreamTest {
 
     @Test
-    public void testReadSingleByteReturnsZero() throws IOException {
+    public void testReadSingleByteReturnsZero() {
 
         final var nullStream = new NullInputStream();
-        
+
         final var result = nullStream.read();
-        
+
         assertEquals(0, result);
     }
 
     @Test
-    public void testReadMultipleSingleBytesReturnsZero() throws IOException {
+    public void testReadMultipleSingleBytesReturnsZero() {
 
         final var nullStream = new NullInputStream();
-        
+
         assertEquals(0, nullStream.read());
         assertEquals(0, nullStream.read());
         assertEquals(0, nullStream.read());
@@ -42,9 +43,9 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        
+
         final var result = nullStream.read(buffer);
-        
+
         assertEquals(10, result);
         // Buffer should be filled with zeros
         final var expectedBuffer = new byte[10];
@@ -56,9 +57,9 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        
+
         final var result = nullStream.read(buffer, 2, 5);
-        
+
         assertEquals(5, result);
         // Only bytes 2-6 should be written to (with zeros)
         final var expectedBuffer = new byte[10];
@@ -70,10 +71,10 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        java.util.Arrays.fill(buffer, (byte) 'X');
-        
+        Arrays.fill(buffer, (byte) 'X');
+
         nullStream.read(buffer);
-        
+
         // Buffer should be filled with zeros
         final var expectedBuffer = new byte[10];
         assertArrayEquals(expectedBuffer, buffer);
@@ -84,14 +85,14 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        java.util.Arrays.fill(buffer, (byte) 'X');
-        
+        Arrays.fill(buffer, (byte) 'X');
+
         nullStream.read(buffer, 2, 5);
-        
+
         // Only bytes 2-6 should be modified (set to 0)
         final var expectedBuffer = new byte[10];
-        java.util.Arrays.fill(expectedBuffer, (byte) 'X');
-        java.util.Arrays.fill(expectedBuffer, 2, 7, (byte) 0);
+        Arrays.fill(expectedBuffer, (byte) 'X');
+        Arrays.fill(expectedBuffer, 2, 7, (byte) 0);
         assertArrayEquals(expectedBuffer, buffer);
     }
 
@@ -100,9 +101,9 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[0];
-        
+
         final var result = nullStream.read(buffer);
-        
+
         assertEquals(0, result);
     }
 
@@ -111,9 +112,9 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        
+
         final var result = nullStream.read(buffer, 0, 0);
-        
+
         assertEquals(0, result);
     }
 
@@ -122,9 +123,9 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10000];
-        
+
         final var result = nullStream.read(buffer);
-        
+
         assertEquals(10000, result);
         // Buffer should be filled with zeros
         final var expectedBuffer = new byte[10000];
@@ -135,9 +136,9 @@ public final class NullInputStreamTest {
     public void testAvailableReturnsZero() throws IOException {
 
         final var nullStream = new NullInputStream();
-        
+
         final var result = nullStream.available();
-        
+
         assertEquals(0, result);
     }
 
@@ -145,9 +146,9 @@ public final class NullInputStreamTest {
     public void testMarkSupported() {
 
         final var nullStream = new NullInputStream();
-        
+
         final var result = nullStream.markSupported();
-        
+
         assertFalse(result);
     }
 
@@ -155,7 +156,7 @@ public final class NullInputStreamTest {
     public void testMarkDoesNotThrow() {
 
         final var nullStream = new NullInputStream();
-        
+
         assertDoesNotThrow(() -> nullStream.mark(100));
     }
 
@@ -163,17 +164,17 @@ public final class NullInputStreamTest {
     public void testResetThrowsException() {
 
         final var nullStream = new NullInputStream();
-        
-        assertThrows(IOException.class, () -> nullStream.reset());
+
+        assertThrows(IOException.class, nullStream::reset);
     }
 
     @Test
     public void testSkipReturnsRequestedAmount() throws IOException {
 
         final var nullStream = new NullInputStream();
-        
+
         final var result = nullStream.skip(100);
-        
+
         assertEquals(100, result);
     }
 
@@ -181,19 +182,19 @@ public final class NullInputStreamTest {
     public void testCloseDoesNotThrow() {
 
         final var nullStream = new NullInputStream();
-        
-        assertDoesNotThrow(() -> nullStream.close());
+
+        assertDoesNotThrow(nullStream::close);
     }
 
     @Test
     public void testReadAfterCloseStillReturnsZero() throws IOException {
 
         final var nullStream = new NullInputStream();
-        
+
         nullStream.close();
-        
+
         final var result = nullStream.read();
-        
+
         assertEquals(0, result);
     }
 
@@ -201,7 +202,7 @@ public final class NullInputStreamTest {
     public void testConsistentBehaviorAcrossOperations() throws IOException {
 
         final var nullStream = new NullInputStream();
-        
+
         // Single byte read should return 0
         assertEquals(0, nullStream.read());
         // Buffer reads should return buffer size
@@ -214,12 +215,12 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testNeverReturnsEOF() throws IOException {
+    public void testNeverReturnsEOF() {
 
         final var nullStream = new NullInputStream();
-        
+
         // Should never return -1 (EOF)
-        for (int i = 0; i < 1000; i++) {
+        for (var i = 0; i < 1000; i++) {
             assertEquals(0, nullStream.read());
         }
     }
@@ -229,9 +230,9 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[1];
-        
+
         // Should be able to read indefinitely
-        for (int i = 0; i < 1000; i++) {
+        for (var i = 0; i < 1000; i++) {
             assertEquals(1, nullStream.read(buffer));
         }
     }
@@ -240,7 +241,7 @@ public final class NullInputStreamTest {
     public void testNullBufferHandling() {
 
         final var nullStream = new NullInputStream();
-        
+
         // Should handle null buffer gracefully or throw appropriate exception
         assertThrows(Exception.class, () -> nullStream.read(null));
         assertThrows(Exception.class, () -> nullStream.read(null, 0, 5));
@@ -251,7 +252,7 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        
+
         // Should handle invalid offset/length appropriately
         assertThrows(Exception.class, () -> nullStream.read(buffer, -1, 5));
         assertThrows(Exception.class, () -> nullStream.read(buffer, 0, -1));
@@ -264,7 +265,7 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
-        
+
         // Valid offset and length combinations
         assertEquals(10, nullStream.read(buffer, 0, 10));
         assertEquals(5, nullStream.read(buffer, 5, 5));
@@ -272,14 +273,14 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testMultipleInstancesIndependent() throws IOException {
+    public void testMultipleInstancesIndependent() {
 
         final var nullStream1 = new NullInputStream();
         final var nullStream2 = new NullInputStream();
-        
+
         assertEquals(0, nullStream1.read());
         assertEquals(0, nullStream2.read());
-        
+
         // Both should behave the same
         assertEquals(nullStream1.read(), nullStream2.read());
     }
@@ -288,7 +289,7 @@ public final class NullInputStreamTest {
     public void testStreamBehaviorMatchesDocumentation() throws IOException {
 
         final var nullStream = new NullInputStream();
-        
+
         // According to the documentation, it "reads nothing and always indicates more data is present"
         // Single byte read returns 0 (byte value, not EOF)
         assertEquals(0, nullStream.read());

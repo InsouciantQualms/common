@@ -32,8 +32,7 @@ final class HttpJsonClientIntegrationTest {
      * Tests that status codes are properly validated.
      */
     @Test
-    public void testSimpleGet()
-        throws Exception {
+    public void testSimpleGet() {
 
         final var statusCode = HttpJsonClient.getNoReply(URI.create(TEST_STATUS_CODE + "status/200"), HEADERS);
         Assertions.assertEquals(200, statusCode);
@@ -49,8 +48,7 @@ final class HttpJsonClientIntegrationTest {
      * Tests issuing a GET and receiving JSON.
      */
     @Test
-    public void testSimpleJsonGet()
-        throws Exception {
+    public void testSimpleJsonGet() {
 
         final var response = HttpJsonClient.getWithReply(URI.create(TEST_JSON_SITE + "posts/1"), HEADERS, PostResponse.class);
 
@@ -65,8 +63,7 @@ final class HttpJsonClientIntegrationTest {
      * Tests posting and not processing a reply
      */
     @Test
-    public void testSimpleJsonPostNoResponse()
-        throws Exception {
+    public void testSimpleJsonPostNoResponse() {
 
         final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
         final var statusCode = HttpJsonClient.postJsonNoReply(URI.create(TEST_JSON_SITE + "posts"), HEADERS, request);
@@ -78,8 +75,7 @@ final class HttpJsonClientIntegrationTest {
      * Tests issuing a POST and receiving JSON.
      */
     @Test
-    public void testSimpleJsonPostAndResponse()
-        throws Exception {
+    public void testSimpleJsonPostAndResponse() {
 
         final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
         final var response =

@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,152 +24,152 @@ public final class FiniteInputStreamTest {
     @Test
     public void testReadSingleByteWithinLimit() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 10);
-        
+
         final var result = finiteStream.read();
-        
+
         assertEquals('H', result);
     }
 
     @Test
     public void testReadSingleByteAtLimit() throws IOException {
 
-        final var data = "H".getBytes();
+        final var data = "H".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 1);
-        
+
         final var result = finiteStream.read();
-        
+
         assertEquals('H', result);
     }
 
     @Test
     public void testReadSingleByteExceedsLimit() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 1);
-        
+
         finiteStream.read(); // Read one byte
-        
-        assertThrows(EOFException.class, () -> finiteStream.read());
+
+        assertThrows(EOFException.class, finiteStream::read);
     }
 
     @Test
     public void testReadSingleByteZeroLimit() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 0);
-        
-        assertThrows(EOFException.class, () -> finiteStream.read());
+
+        assertThrows(EOFException.class, finiteStream::read);
     }
 
     @Test
     public void testReadBufferWithinLimit() throws IOException {
 
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 20);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer);
-        
+
         assertEquals(10, bytesRead);
-        assertArrayEquals("Hello, Wor".getBytes(), buffer);
+        assertArrayEquals("Hello, Wor".getBytes(StandardCharsets.UTF_8), buffer);
     }
 
     @Test
     public void testReadBufferAtLimit() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 5);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer);
-        
+
         assertEquals(5, bytesRead);
-        assertArrayEquals("Hello".getBytes(), java.util.Arrays.copyOf(buffer, 5));
+        assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 5));
     }
 
     @Test
     public void testReadBufferExceedsLimit() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 2);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer);
-        
+
         assertEquals(2, bytesRead);
-        assertArrayEquals("He".getBytes(), java.util.Arrays.copyOf(buffer, 2));
+        assertArrayEquals("He".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 2));
     }
 
     @Test
     public void testReadBufferZeroLimit() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 0);
         final var buffer = new byte[10];
-        
+
         assertThrows(EOFException.class, () -> finiteStream.read(buffer));
     }
 
     @Test
     public void testReadBufferWithOffsetAndLengthWithinLimit() throws IOException {
 
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 20);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer, 2, 5);
-        
+
         assertEquals(5, bytesRead);
-        assertArrayEquals("Hello".getBytes(), java.util.Arrays.copyOfRange(buffer, 2, 7));
+        assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 7));
     }
 
     @Test
     public void testReadBufferWithOffsetAndLengthAtLimit() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 3);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer, 2, 5);
-        
+
         assertEquals(3, bytesRead);
-        assertArrayEquals("Hel".getBytes(), java.util.Arrays.copyOfRange(buffer, 2, 5));
+        assertArrayEquals("Hel".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 5));
     }
 
     @Test
     public void testReadBufferWithOffsetAndLengthExceedsLimit() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 2);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer, 2, 5);
-        
+
         assertEquals(2, bytesRead);
-        assertArrayEquals("He".getBytes(), java.util.Arrays.copyOfRange(buffer, 2, 4));
+        assertArrayEquals("He".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 4));
     }
 
     @Test
     public void testReadBufferWithOffsetAndLengthZeroLimit() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 0);
         final var buffer = new byte[10];
-        
+
         assertThrows(EOFException.class, () -> finiteStream.read(buffer, 2, 5));
     }
 
@@ -175,14 +177,14 @@ public final class FiniteInputStreamTest {
     public void testDefaultConstructorUsesLobBufferLength() throws IOException {
 
         final var data = new byte[1000];
-        java.util.Arrays.fill(data, (byte) 'A');
+        Arrays.fill(data, (byte) 'A');
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream);
-        
+
         // Should be able to read the first 1000 bytes without issues
         final var buffer = new byte[1000];
         final var bytesRead = finiteStream.read(buffer);
-        
+
         assertEquals(1000, bytesRead);
         assertArrayEquals(data, buffer);
     }
@@ -190,37 +192,37 @@ public final class FiniteInputStreamTest {
     @Test
     public void testMultipleReadsWithinLimit() throws IOException {
 
-        final var data = "Hello, World!".getBytes();
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 10);
-        
+
         final var first = finiteStream.read();
         final var second = finiteStream.read();
-        
+
         assertEquals('H', first);
         assertEquals('e', second);
     }
 
     @Test
-    public void testMultipleReadsExceedLimit() throws IOException {
+    public void testMultipleReadsExceedLimit() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 2);
-        
+
         assertEquals('H', finiteStream.read());
         assertEquals('e', finiteStream.read());
-        
-        assertThrows(EOFException.class, () -> finiteStream.read());
+
+        assertThrows(EOFException.class, finiteStream::read);
     }
 
     @Test
     public void testReadEOFFromUnderlyingStream() throws IOException {
 
-        final var data = "Hi".getBytes();
+        final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 10);
-        
+
         assertEquals('H', finiteStream.read());
         assertEquals('i', finiteStream.read());
         assertEquals(-1, finiteStream.read()); // EOF from underlying stream
@@ -229,16 +231,16 @@ public final class FiniteInputStreamTest {
     @Test
     public void testReadBufferEOFFromUnderlyingStream() throws IOException {
 
-        final var data = "Hi".getBytes();
+        final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 10);
         final var buffer = new byte[10];
-        
+
         final var bytesRead = finiteStream.read(buffer);
-        
+
         assertEquals(2, bytesRead);
-        assertArrayEquals("Hi".getBytes(), java.util.Arrays.copyOf(buffer, 2));
-        
+        assertArrayEquals("Hi".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 2));
+
         final var nextRead = finiteStream.read(buffer);
         assertEquals(-1, nextRead);
     }
@@ -246,22 +248,22 @@ public final class FiniteInputStreamTest {
     @Test
     public void testExceptionMessageForSingleByte() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 0);
-        
-        final var exception = assertThrows(EOFException.class, () -> finiteStream.read());
+
+        final var exception = assertThrows(EOFException.class, finiteStream::read);
         assertEquals("Maximum number of bytes read", exception.getMessage());
     }
 
     @Test
     public void testExceptionMessageForBuffer() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 0);
         final var buffer = new byte[10];
-        
+
         final var exception = assertThrows(EOFException.class, () -> finiteStream.read(buffer));
         assertEquals("Maximum number of bytes read", exception.getMessage());
     }
@@ -269,11 +271,11 @@ public final class FiniteInputStreamTest {
     @Test
     public void testExceptionMessageForBufferWithOffset() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, 0);
         final var buffer = new byte[10];
-        
+
         final var exception = assertThrows(EOFException.class, () -> finiteStream.read(buffer, 0, 5));
         assertEquals("Maximum number of bytes read", exception.getMessage());
     }
@@ -281,24 +283,24 @@ public final class FiniteInputStreamTest {
     @Test
     public void testLargeLimitValue() throws IOException {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, Long.MAX_VALUE);
-        
+
         final var buffer = new byte[10];
         final var bytesRead = finiteStream.read(buffer);
-        
+
         assertEquals(5, bytesRead);
-        assertArrayEquals("Hello".getBytes(), java.util.Arrays.copyOf(buffer, 5));
+        assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 5));
     }
 
     @Test
     public void testNegativeLimitValue() {
 
-        final var data = "Hello".getBytes();
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var finiteStream = new FiniteInputStream(inputStream, -1);
-        
-        assertThrows(EOFException.class, () -> finiteStream.read());
+
+        assertThrows(EOFException.class, finiteStream::read);
     }
 }

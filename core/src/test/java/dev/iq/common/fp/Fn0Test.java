@@ -24,7 +24,7 @@ public final class Fn0Test {
 
         final var supplier = (Fn0<String>) () -> "success";
         final var result = Fn0.asTry(supplier);
-        
+
         assertNotNull(result);
         assertEquals("success", result);
     }
@@ -35,10 +35,9 @@ public final class Fn0Test {
         final var supplier = (Fn0<String>) () -> {
             throw new IOException("Test exception");
         };
-        
-        assertThrows(UnexpectedException.class, () -> {
-            Fn0.asTry(supplier);
-        });
+
+        assertThrows(UnexpectedException.class, () -> Fn0.asTry(supplier)
+        );
     }
 
     @Test
@@ -46,7 +45,7 @@ public final class Fn0Test {
 
         final var supplier = (Fn0<String>) () -> null;
         final var result = Fn0.asTry(supplier);
-        
+
         assertNull(result);
     }
 
@@ -55,7 +54,7 @@ public final class Fn0Test {
 
         final var supplier = (Fn0<Integer>) () -> 42;
         final var result = Fn0.asTry(supplier);
-        
+
         assertNotNull(result);
         assertEquals(42, result);
     }
@@ -65,7 +64,7 @@ public final class Fn0Test {
 
         final var supplier = (Fn0<String>) () -> "success";
         final var result = Fn0.asIo(supplier);
-        
+
         assertNotNull(result);
         assertEquals("success", result);
     }
@@ -76,10 +75,9 @@ public final class Fn0Test {
         final var supplier = (Fn0<String>) () -> {
             throw new IOException("Test exception");
         };
-        
-        assertThrows(IoException.class, () -> {
-            Fn0.asIo(supplier);
-        });
+
+        assertThrows(IoException.class, () -> Fn0.asIo(supplier)
+        );
     }
 
     @Test
@@ -87,7 +85,7 @@ public final class Fn0Test {
 
         final var supplier = (Fn0<String>) () -> null;
         final var result = Fn0.asIo(supplier);
-        
+
         assertNull(result);
     }
 
@@ -96,7 +94,7 @@ public final class Fn0Test {
 
         final var supplier = (Fn0<Integer>) () -> 42;
         final var result = Fn0.asIo(supplier);
-        
+
         assertNotNull(result);
         assertEquals(42, result);
     }
@@ -107,11 +105,10 @@ public final class Fn0Test {
         final var supplier = (Fn0<String>) () -> {
             throw new RuntimeException("Original exception");
         };
-        
-        final var thrown = assertThrows(UnexpectedException.class, () -> {
-            Fn0.asTry(supplier);
-        });
-        
+
+        final var thrown = assertThrows(UnexpectedException.class, () -> Fn0.asTry(supplier)
+        );
+
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
     }
@@ -122,11 +119,10 @@ public final class Fn0Test {
         final var supplier = (Fn0<String>) () -> {
             throw new RuntimeException("Original exception");
         };
-        
-        final var thrown = assertThrows(IoException.class, () -> {
-            Fn0.asIo(supplier);
-        });
-        
+
+        final var thrown = assertThrows(IoException.class, () -> Fn0.asIo(supplier)
+        );
+
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
     }
@@ -136,11 +132,11 @@ public final class Fn0Test {
 
         final var fn0 = new Fn0<String>() {
             @Override
-            public String get() throws Exception {
+            public String get() {
                 return "direct";
             }
         };
-        
+
         assertDoesNotThrow(() -> {
             final var result = fn0.get();
             assertEquals("direct", result);
@@ -156,10 +152,9 @@ public final class Fn0Test {
                 throw new Exception("Direct exception");
             }
         };
-        
-        assertThrows(Exception.class, () -> {
-            fn0.get();
-        });
+
+        assertThrows(Exception.class, fn0::get
+        );
     }
 
     @Test
@@ -168,15 +163,15 @@ public final class Fn0Test {
         final var ioSupplier = (Fn0<String>) () -> {
             throw new IOException("IO exception");
         };
-        
+
         final var runtimeSupplier = (Fn0<String>) () -> {
             throw new RuntimeException("Runtime exception");
         };
-        
+
         final var checkedException = (Fn0<String>) () -> {
             throw new Exception("Checked exception");
         };
-        
+
         assertThrows(UnexpectedException.class, () -> Fn0.asTry(ioSupplier));
         assertThrows(UnexpectedException.class, () -> Fn0.asTry(runtimeSupplier));
         assertThrows(UnexpectedException.class, () -> Fn0.asTry(checkedException));
@@ -188,15 +183,15 @@ public final class Fn0Test {
         final var ioSupplier = (Fn0<String>) () -> {
             throw new IOException("IO exception");
         };
-        
+
         final var runtimeSupplier = (Fn0<String>) () -> {
             throw new RuntimeException("Runtime exception");
         };
-        
+
         final var checkedException = (Fn0<String>) () -> {
             throw new Exception("Checked exception");
         };
-        
+
         assertThrows(IoException.class, () -> Fn0.asIo(ioSupplier));
         assertThrows(IoException.class, () -> Fn0.asIo(runtimeSupplier));
         assertThrows(IoException.class, () -> Fn0.asIo(checkedException));

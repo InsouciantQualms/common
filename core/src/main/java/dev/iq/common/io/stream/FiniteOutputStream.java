@@ -7,7 +7,6 @@
 package dev.iq.common.io.stream;
 
 import org.jetbrains.annotations.NotNull;
-
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -38,8 +37,7 @@ public final class FiniteOutputStream extends FilterOutputStream {
      * {@inheritDoc}
      */
     @Override
-    public void write(final int value)
-        throws IOException {
+    public void write(final int value) throws IOException {
 
         if (bytesRemaining <= 0) {
             throw new EOFException("Maximum number of bytes written");

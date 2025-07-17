@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +24,7 @@ public final class ThreadRegistryTest {
 
         final var instance1 = ThreadRegistry.INSTANCE;
         final var instance2 = ThreadRegistry.INSTANCE;
-        
+
         assertSame(instance1, instance2);
     }
 
@@ -32,9 +33,9 @@ public final class ThreadRegistryTest {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
-        
+
         assertNotNull(thread);
-        assertTrue(thread instanceof SimpleThread);
+        assertInstanceOf(SimpleThread.class, thread);
         assertFalse(thread.isAlive());
     }
 
@@ -43,7 +44,7 @@ public final class ThreadRegistryTest {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
-        
+
         assertNotNull(thread.getName());
         assertTrue(thread.getName().contains("ThreadRegistry"));
         assertTrue(thread.getName().contains("TestSimpleRunnable"));
@@ -54,7 +55,7 @@ public final class ThreadRegistryTest {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
-        
+
         assertNotNull(thread.getThreadGroup());
         assertTrue(thread.getThreadGroup().getName().contains("RootGroup"));
     }
@@ -64,10 +65,10 @@ public final class ThreadRegistryTest {
 
         final var runnable1 = new TestSimpleRunnable(() -> false);
         final var runnable2 = new TestSimpleRunnable(() -> false);
-        
+
         final var thread1 = ThreadRegistry.INSTANCE.register(runnable1);
         final var thread2 = ThreadRegistry.INSTANCE.register(runnable2);
-        
+
         assertNotNull(thread1);
         assertNotNull(thread2);
         assertNotSame(thread1, thread2);
@@ -82,11 +83,11 @@ public final class ThreadRegistryTest {
             executed.set(true);
             return false;
         });
-        
+
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
         thread.start();
         thread.join(1000);
-        
+
         assertTrue(executed.get());
         assertFalse(thread.isAlive());
     }
@@ -94,9 +95,7 @@ public final class ThreadRegistryTest {
     @Test
     public void testKill9WithNoActiveThreads() {
 
-        assertDoesNotThrow(() -> {
-            ThreadRegistry.INSTANCE.kill9();
-        });
+        assertDoesNotThrow(ThreadRegistry.INSTANCE::kill9);
     }
 
     @Test
@@ -113,17 +112,17 @@ public final class ThreadRegistryTest {
             }
             return true;
         });
-        
+
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
         thread.start();
-        
+
         Thread.sleep(100);
         ThreadRegistry.INSTANCE.kill9();
         thread.join(1000);
-        
+
         final var finalCount = counter.get();
         assertTrue(finalCount > 0);
-        
+
         Thread.sleep(100);
         assertEquals(finalCount, counter.get());
     }
@@ -133,7 +132,7 @@ public final class ThreadRegistryTest {
 
         final var counter1 = new AtomicInteger(0);
         final var counter2 = new AtomicInteger(0);
-        
+
         final var runnable1 = new TestSimpleRunnable(() -> {
             counter1.incrementAndGet();
             try {
@@ -144,7 +143,7 @@ public final class ThreadRegistryTest {
             }
             return true;
         });
-        
+
         final var runnable2 = new TestSimpleRunnable(() -> {
             counter2.incrementAndGet();
             try {
@@ -155,25 +154,25 @@ public final class ThreadRegistryTest {
             }
             return true;
         });
-        
+
         final var thread1 = ThreadRegistry.INSTANCE.register(runnable1);
         final var thread2 = ThreadRegistry.INSTANCE.register(runnable2);
-        
+
         thread1.start();
         thread2.start();
-        
+
         Thread.sleep(100);
         ThreadRegistry.INSTANCE.kill9();
-        
+
         thread1.join(1000);
         thread2.join(1000);
-        
+
         final var finalCount1 = counter1.get();
         final var finalCount2 = counter2.get();
-        
+
         assertTrue(finalCount1 > 0);
         assertTrue(finalCount2 > 0);
-        
+
         Thread.sleep(100);
         assertEquals(finalCount1, counter1.get());
         assertEquals(finalCount2, counter2.get());
@@ -182,9 +181,8 @@ public final class ThreadRegistryTest {
     @Test
     public void testRegisterNullRunnable() {
 
-        assertThrows(NullPointerException.class, () -> {
-            ThreadRegistry.INSTANCE.register(null);
-        });
+        assertThrows(NullPointerException.class, () -> ThreadRegistry.INSTANCE.register(null)
+        );
     }
 
     @Test
@@ -193,15 +191,15 @@ public final class ThreadRegistryTest {
         final var runnable1 = new TestSimpleRunnable(() -> false);
         final var runnable2 = new TestSimpleRunnable(() -> false);
         final var runnable3 = new TestSimpleRunnable(() -> false);
-        
+
         final var thread1 = ThreadRegistry.INSTANCE.register(runnable1);
         final var thread2 = ThreadRegistry.INSTANCE.register(runnable2);
         final var thread3 = ThreadRegistry.INSTANCE.register(runnable3);
-        
+
         final var group1 = thread1.getThreadGroup();
         final var group2 = thread2.getThreadGroup();
         final var group3 = thread3.getThreadGroup();
-        
+
         assertSame(group1, group2);
         assertSame(group2, group3);
         assertSame(group1, group3);
@@ -218,14 +216,14 @@ public final class ThreadRegistryTest {
             }
             return true;
         });
-        
+
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
         thread.start();
-        
+
         Thread.sleep(50);
         ThreadRegistry.INSTANCE.kill9();
         thread.join(1000);
-        
+
         assertTrue(gracefulShutdown.get());
     }
 
@@ -234,7 +232,7 @@ public final class ThreadRegistryTest {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
-        
+
         final var name = thread.getName();
         assertTrue(name.contains("ThreadRegistry"));
         assertTrue(name.contains(":"));
@@ -247,21 +245,21 @@ public final class ThreadRegistryTest {
         final var runnable1 = new TestSimpleRunnable(() -> true);
         final var thread1 = ThreadRegistry.INSTANCE.register(runnable1);
         thread1.start();
-        
+
         Thread.sleep(50);
         ThreadRegistry.INSTANCE.kill9();
         thread1.join(1000);
-        
+
         final var executed = new AtomicBoolean(false);
         final var runnable2 = new TestSimpleRunnable(() -> {
             executed.set(true);
             return false;
         });
-        
+
         final var thread2 = ThreadRegistry.INSTANCE.register(runnable2);
         thread2.start();
         thread2.join(1000);
-        
+
         assertTrue(executed.get());
     }
 
@@ -274,11 +272,11 @@ public final class ThreadRegistryTest {
             ThreadRegistry.INSTANCE.register(runnable);
             registrationComplete.set(true);
         });
-        
+
         registrationThread.start();
-        
+
         ThreadRegistry.INSTANCE.kill9();
-        
+
         registrationThread.join(1000);
         assertTrue(registrationComplete.get());
     }
@@ -294,9 +292,9 @@ public final class ThreadRegistryTest {
     }
 
     private static final class TestSimpleRunnable extends SimpleRunnable {
-        private final java.util.function.Supplier<Boolean> goSupplier;
+        private final Supplier<Boolean> goSupplier;
 
-        TestSimpleRunnable(final java.util.function.Supplier<Boolean> goSupplier) {
+        TestSimpleRunnable(final Supplier<Boolean> goSupplier) {
             this.goSupplier = goSupplier;
         }
 

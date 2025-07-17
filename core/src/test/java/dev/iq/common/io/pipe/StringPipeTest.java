@@ -9,12 +9,11 @@ package dev.iq.common.io.pipe;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Tests for StringPipe covering string operations with readers and writers.
@@ -27,9 +26,9 @@ public final class StringPipeTest {
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
         final var reader = new StringReader(testData);
-        
+
         final var result = pipe.read(reader);
-        
+
         assertEquals(testData, result);
     }
 
@@ -38,9 +37,9 @@ public final class StringPipeTest {
 
         final var pipe = new StringPipe();
         final var reader = new StringReader("");
-        
+
         final var result = pipe.read(reader);
-        
+
         assertEquals("", result);
     }
 
@@ -50,9 +49,9 @@ public final class StringPipeTest {
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
         final var writer = new StringWriter();
-        
+
         pipe.write(testData, writer);
-        
+
         assertEquals(testData, writer.toString());
     }
 
@@ -62,9 +61,9 @@ public final class StringPipeTest {
         final var pipe = new StringPipe();
         final var testData = "";
         final var writer = new StringWriter();
-        
+
         pipe.write(testData, writer);
-        
+
         assertEquals("", writer.toString());
     }
 
@@ -75,9 +74,9 @@ public final class StringPipeTest {
         final var testData = "Hello, World!";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -89,9 +88,9 @@ public final class StringPipeTest {
         final var testData = "Hello, World!";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer, 4);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -103,9 +102,9 @@ public final class StringPipeTest {
         final var testData = "A".repeat(10000);
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer, 512);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -116,9 +115,9 @@ public final class StringPipeTest {
         final var pipe = new StringPipe();
         final var reader = new StringReader("");
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer);
-        
+
         assertEquals(0, charsProcessed);
         assertEquals("", writer.toString());
     }
@@ -130,9 +129,9 @@ public final class StringPipeTest {
         final var testData = "Hello, World!";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer, 1);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -144,9 +143,9 @@ public final class StringPipeTest {
         final var testData = "Line 1\nLine 2\nLine 3";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -158,9 +157,9 @@ public final class StringPipeTest {
         final var testData = "Hello 世界 🌍";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -172,9 +171,9 @@ public final class StringPipeTest {
         final var testData = "Hello, World!";
         final var reader = new TestReader(testData);
         final var writer = new TestWriter();
-        
+
         pipe.go(reader, writer);
-        
+
         assertFalse(reader.wasClosed());
         assertFalse(writer.wasClosed());
     }
@@ -185,14 +184,14 @@ public final class StringPipeTest {
         final var pipe = new StringPipe();
         final var testData = "Round trip test data";
         final var reader = new StringReader(testData);
-        
+
         final var readResult = pipe.read(reader);
-        
+
         assertEquals(testData, readResult);
-        
+
         final var writer = new StringWriter();
         pipe.write(readResult, writer);
-        
+
         assertEquals(testData, writer.toString());
     }
 
@@ -203,9 +202,9 @@ public final class StringPipeTest {
         final var testData = "Special chars: !@#$%^&*()_+-=[]{}|;':\",./<>?";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }

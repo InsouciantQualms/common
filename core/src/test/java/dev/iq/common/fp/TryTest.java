@@ -20,11 +20,8 @@ public final class TryTest {
 
     /**
      * Helper method to always throw an exception.
-     *
-     * @throws IntrospectionException Test exception
      */
-    private static void throwException()
-        throws IntrospectionException {
+    private static void throwException() {
 
         throw new IntrospectionException("Testing");
     }

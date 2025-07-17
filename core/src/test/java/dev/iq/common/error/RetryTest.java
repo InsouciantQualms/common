@@ -21,10 +21,8 @@ final class RetryTest {
     public void testSimpleRetrySucceedsOnFirstAttempt() {
 
         final var attemptCount = new AtomicInteger(0);
-        final Proc0 successfulOperation = () -> {
-            attemptCount.incrementAndGet();
-            // Operation succeeds immediately
-        };
+        // Operation succeeds immediately
+        final Proc0 successfulOperation = attemptCount::incrementAndGet;
 
         Retry.simple(successfulOperation, 3, 100);
 
@@ -87,9 +85,7 @@ final class RetryTest {
     public void testSimpleRetryWithZeroAttempts() {
 
         final var attemptCount = new AtomicInteger(0);
-        final Proc0 operation = () -> {
-            attemptCount.incrementAndGet();
-        };
+        final Proc0 operation = attemptCount::incrementAndGet;
 
         final var exception = Assertions.assertThrows(
             Retry.RetryLimitExceededException.class,
@@ -166,7 +162,7 @@ final class RetryTest {
         Assertions.assertEquals(3, attemptCount.get());
         // Should have waited approximately 400ms (200ms between each of the 2 retries)
         // Allow for some timing variance
-        Assertions.assertTrue(totalTime >= 300, "Total time should be at least 300ms but was " + totalTime);
+        Assertions.assertTrue(totalTime >= 300, () -> "Total time should be at least 300ms but was " + totalTime);
     }
 
     @Test
@@ -206,7 +202,7 @@ final class RetryTest {
 
         Assertions.assertEquals(2, attemptCount.get());
         Assertions.assertTrue(exception.getMessage().contains("Failed after 2 attempts"));
-        
+
         // Clear interrupted flag
         Thread.interrupted();
     }

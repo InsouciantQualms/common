@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,9 +25,9 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 10);
-        
+
         finiteStream.write('H');
-        
+
         assertEquals("H", outputStream.toString());
     }
 
@@ -35,9 +36,9 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 1);
-        
+
         finiteStream.write('H');
-        
+
         assertEquals("H", outputStream.toString());
     }
 
@@ -46,9 +47,9 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 1);
-        
+
         finiteStream.write('H');
-        
+
         assertThrows(EOFException.class, () -> finiteStream.write('e'));
     }
 
@@ -57,7 +58,7 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
-        
+
         assertThrows(EOFException.class, () -> finiteStream.write('H'));
     }
 
@@ -66,10 +67,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 20);
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data);
-        
+
         assertEquals("Hello, World!", outputStream.toString());
     }
 
@@ -78,10 +79,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data);
-        
+
         assertEquals("Hello", outputStream.toString());
     }
 
@@ -90,10 +91,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data);
-        
+
         assertEquals("He", outputStream.toString());
     }
 
@@ -102,8 +103,8 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         assertThrows(EOFException.class, () -> finiteStream.write(data));
     }
 
@@ -112,10 +113,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 20);
-        final var data = "Hello, World!".getBytes();
-        
+        final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data, 2, 5);
-        
+
         assertEquals("llo, ", outputStream.toString());
     }
 
@@ -124,10 +125,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 3);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data, 1, 5);
-        
+
         assertEquals("ell", outputStream.toString());
     }
 
@@ -136,10 +137,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data, 1, 5);
-        
+
         assertEquals("el", outputStream.toString());
     }
 
@@ -148,8 +149,8 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         assertThrows(EOFException.class, () -> finiteStream.write(data, 1, 3));
     }
 
@@ -158,11 +159,11 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 10);
-        
+
         finiteStream.write('H');
         finiteStream.write('e');
         finiteStream.write('l');
-        
+
         assertEquals("Hel", outputStream.toString());
     }
 
@@ -171,10 +172,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
-        
+
         finiteStream.write('H');
         finiteStream.write('e');
-        
+
         assertThrows(EOFException.class, () -> finiteStream.write('l'));
     }
 
@@ -184,9 +185,9 @@ public final class FiniteOutputStreamTest {
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
         final var data = new byte[0];
-        
+
         finiteStream.write(data);
-        
+
         assertEquals("", outputStream.toString());
     }
 
@@ -195,10 +196,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data, 2, 0);
-        
+
         assertEquals("", outputStream.toString());
     }
 
@@ -207,7 +208,7 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
-        
+
         final var exception = assertThrows(EOFException.class, () -> finiteStream.write('H'));
         assertEquals("Maximum number of bytes written", exception.getMessage());
     }
@@ -217,8 +218,8 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         final var exception = assertThrows(EOFException.class, () -> finiteStream.write(data));
         assertEquals("Maximum number of bytes written", exception.getMessage());
     }
@@ -228,8 +229,8 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         final var exception = assertThrows(EOFException.class, () -> finiteStream.write(data, 0, 3));
         assertEquals("Maximum number of bytes written", exception.getMessage());
     }
@@ -239,10 +240,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, Long.MAX_VALUE);
-        final var data = "Hello".getBytes();
-        
+        final var data = "Hello".getBytes(StandardCharsets.UTF_8);
+
         finiteStream.write(data);
-        
+
         assertEquals("Hello", outputStream.toString());
     }
 
@@ -251,7 +252,7 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, -1);
-        
+
         assertThrows(EOFException.class, () -> finiteStream.write('H'));
     }
 
@@ -260,11 +261,11 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 10);
-        
+
         finiteStream.write('H');
-        finiteStream.write("ello".getBytes());
-        finiteStream.write(", World!".getBytes(), 0, 5);
-        
+        finiteStream.write("ello".getBytes(StandardCharsets.UTF_8));
+        finiteStream.write(", World!".getBytes(StandardCharsets.UTF_8), 0, 5);
+
         assertEquals("Hello,", outputStream.toString());
     }
 
@@ -273,10 +274,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
-        
+
         finiteStream.write('H');
-        finiteStream.write("ello".getBytes());
-        
+        finiteStream.write("ello".getBytes(StandardCharsets.UTF_8));
+
         assertThrows(EOFException.class, () -> finiteStream.write('!'));
     }
 
@@ -285,10 +286,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 3);
-        
+
         finiteStream.write('H');
-        finiteStream.write("ello, World!".getBytes());
-        
+        finiteStream.write("ello, World!".getBytes(StandardCharsets.UTF_8));
+
         assertEquals("Hel", outputStream.toString());
     }
 
@@ -297,10 +298,10 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 3);
-        
+
         finiteStream.write('H');
-        finiteStream.write("ello, World!".getBytes(), 1, 10);
-        
+        finiteStream.write("ello, World!".getBytes(StandardCharsets.UTF_8), 1, 10);
+
         assertEquals("Hll", outputStream.toString());
     }
 
@@ -309,13 +310,13 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
-        
-        finiteStream.write("Hello".getBytes());
+
+        finiteStream.write("Hello".getBytes(StandardCharsets.UTF_8));
         finiteStream.flush();
-        
+
         assertEquals("Hello", outputStream.toString());
-        
-        assertDoesNotThrow(() -> finiteStream.close());
+
+        assertDoesNotThrow(finiteStream::close);
     }
 
     @Test
@@ -323,11 +324,11 @@ public final class FiniteOutputStreamTest {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
-        
-        finiteStream.write("Hello".getBytes());
-        
+
+        finiteStream.write("Hello".getBytes(StandardCharsets.UTF_8));
+
         assertEquals("He", outputStream.toString());
-        
+
         // Further writes should fail
         assertThrows(EOFException.class, () -> finiteStream.write('l'));
     }

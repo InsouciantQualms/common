@@ -22,7 +22,7 @@ public final class ListenerTest {
     public void testListenerNotifyReturnValue() {
 
         final var listener = new TestListener();
-        
+
         assertTrue(listener.notify("test event"));
         assertFalse(listener.notify("unhandled event"));
     }
@@ -35,10 +35,10 @@ public final class ListenerTest {
             events.add(event);
             return true;
         };
-        
+
         listener.notify("first event");
         listener.notify("second event");
-        
+
         assertEquals(2, events.size());
         assertEquals("first event", events.get(0));
         assertEquals("second event", events.get(1));
@@ -49,10 +49,10 @@ public final class ListenerTest {
 
         final var intListener = new TypedListener<Integer>();
         final var stringListener = new TypedListener<String>();
-        
+
         assertTrue(intListener.notify(42));
         assertTrue(stringListener.notify("hello"));
-        
+
         assertEquals(42, intListener.lastEvent);
         assertEquals("hello", stringListener.lastEvent);
     }
@@ -65,15 +65,15 @@ public final class ListenerTest {
             events.add("listener1: " + event);
             return true;
         };
-        
+
         final Listener<String> listener2 = event -> {
             events.add("listener2: " + event);
             return true;
         };
-        
+
         listener1.notify("test");
         listener2.notify("test");
-        
+
         assertEquals(2, events.size());
         assertEquals("listener1: test", events.get(0));
         assertEquals("listener2: test", events.get(1));
@@ -83,7 +83,7 @@ public final class ListenerTest {
     public void testListenerHandlesNull() {
 
         final var nullListener = new TypedListener<String>();
-        
+
         assertTrue(nullListener.notify(null));
         assertNull(nullListener.lastEvent);
     }
@@ -93,13 +93,13 @@ public final class ListenerTest {
 
         final var handled = new boolean[1];
         final Listener<String> listener = event -> {
-            handled[0] = event != null && event.startsWith("test");
+            handled[0] = (event != null) && event.startsWith("test");
             return handled[0];
         };
-        
+
         assertTrue(listener.notify("test event"));
         assertTrue(handled[0]);
-        
+
         assertFalse(listener.notify("other event"));
         assertFalse(handled[0]);
     }
@@ -109,7 +109,7 @@ public final class ListenerTest {
 
         final var eventListener = new TypedListener<TestEvent>();
         final var event = new TestEvent("test", 42);
-        
+
         assertTrue(eventListener.notify(event));
         assertEquals(event, eventListener.lastEvent);
         assertEquals("test", eventListener.lastEvent.name);
@@ -121,11 +121,11 @@ public final class ListenerTest {
 
         final var results = new ArrayList<String>();
         final var listeners = List.of(
-            (Listener<String>) event -> {
+            event -> {
                 results.add("A: " + event);
                 return true;
             },
-            (Listener<String>) event -> {
+            event -> {
                 results.add("B: " + event);
                 return false;
             },
@@ -134,9 +134,9 @@ public final class ListenerTest {
                 return true;
             }
         );
-        
+
         listeners.forEach(listener -> listener.notify("event"));
-        
+
         assertEquals(3, results.size());
         assertEquals("A: event", results.get(0));
         assertEquals("B: event", results.get(1));
@@ -152,7 +152,7 @@ public final class ListenerTest {
             }
             return true;
         };
-        
+
         assertTrue(listener.notify("good"));
         assertThrows(RuntimeException.class, () -> listener.notify("error"));
     }
@@ -173,13 +173,13 @@ public final class ListenerTest {
      * Generic typed listener for testing.
      */
     private static final class TypedListener<T> implements Listener<T> {
-        
+
         private T lastEvent;
 
         @Override
         public boolean notify(final T event) {
 
-            this.lastEvent = event;
+            lastEvent = event;
             return true;
         }
     }

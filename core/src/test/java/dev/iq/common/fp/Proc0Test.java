@@ -26,7 +26,7 @@ public final class Proc0Test {
 
         final var executed = new AtomicBoolean(false);
         final var runnable = (Proc0) () -> executed.set(true);
-        
+
         assertDoesNotThrow(() -> Proc0.runAsTry(runnable));
         assertTrue(executed.get());
     }
@@ -37,10 +37,9 @@ public final class Proc0Test {
         final var runnable = (Proc0) () -> {
             throw new IOException("Test exception");
         };
-        
-        assertThrows(UnexpectedException.class, () -> {
-            Proc0.runAsTry(runnable);
-        });
+
+        assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(runnable)
+        );
     }
 
     @Test
@@ -52,7 +51,7 @@ public final class Proc0Test {
             counter.incrementAndGet();
             counter.incrementAndGet();
         };
-        
+
         assertDoesNotThrow(() -> Proc0.runAsTry(runnable));
         assertEquals(3, counter.get());
     }
@@ -62,7 +61,7 @@ public final class Proc0Test {
 
         final var executed = new AtomicBoolean(false);
         final var runnable = (Proc0) () -> executed.set(true);
-        
+
         assertDoesNotThrow(() -> Proc0.runAsIo(runnable));
         assertTrue(executed.get());
     }
@@ -73,10 +72,9 @@ public final class Proc0Test {
         final var runnable = (Proc0) () -> {
             throw new IOException("Test exception");
         };
-        
-        assertThrows(IoException.class, () -> {
-            Proc0.runAsIo(runnable);
-        });
+
+        assertThrows(IoException.class, () -> Proc0.runAsIo(runnable)
+        );
     }
 
     @Test
@@ -88,7 +86,7 @@ public final class Proc0Test {
             counter.incrementAndGet();
             counter.incrementAndGet();
         };
-        
+
         assertDoesNotThrow(() -> Proc0.runAsIo(runnable));
         assertEquals(3, counter.get());
     }
@@ -99,11 +97,10 @@ public final class Proc0Test {
         final var runnable = (Proc0) () -> {
             throw new RuntimeException("Original exception");
         };
-        
-        final var thrown = assertThrows(UnexpectedException.class, () -> {
-            Proc0.runAsTry(runnable);
-        });
-        
+
+        final var thrown = assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(runnable)
+        );
+
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
     }
@@ -114,11 +111,10 @@ public final class Proc0Test {
         final var runnable = (Proc0) () -> {
             throw new RuntimeException("Original exception");
         };
-        
-        final var thrown = assertThrows(IoException.class, () -> {
-            Proc0.runAsIo(runnable);
-        });
-        
+
+        final var thrown = assertThrows(IoException.class, () -> Proc0.runAsIo(runnable)
+        );
+
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
     }
@@ -129,14 +125,12 @@ public final class Proc0Test {
         final var executed = new AtomicBoolean(false);
         final var proc0 = new Proc0() {
             @Override
-            public void run() throws Exception {
+            public void run() {
                 executed.set(true);
             }
         };
-        
-        assertDoesNotThrow(() -> {
-            proc0.run();
-        });
+
+        assertDoesNotThrow(proc0::run);
         assertTrue(executed.get());
     }
 
@@ -149,10 +143,9 @@ public final class Proc0Test {
                 throw new Exception("Direct exception");
             }
         };
-        
-        assertThrows(Exception.class, () -> {
-            proc0.run();
-        });
+
+        assertThrows(Exception.class, proc0::run
+        );
     }
 
     @Test
@@ -161,15 +154,15 @@ public final class Proc0Test {
         final var ioRunnable = (Proc0) () -> {
             throw new IOException("IO exception");
         };
-        
+
         final var runtimeRunnable = (Proc0) () -> {
             throw new RuntimeException("Runtime exception");
         };
-        
+
         final var checkedRunnable = (Proc0) () -> {
             throw new Exception("Checked exception");
         };
-        
+
         assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(ioRunnable));
         assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(runtimeRunnable));
         assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(checkedRunnable));
@@ -181,15 +174,15 @@ public final class Proc0Test {
         final var ioRunnable = (Proc0) () -> {
             throw new IOException("IO exception");
         };
-        
+
         final var runtimeRunnable = (Proc0) () -> {
             throw new RuntimeException("Runtime exception");
         };
-        
+
         final var checkedRunnable = (Proc0) () -> {
             throw new Exception("Checked exception");
         };
-        
+
         assertThrows(IoException.class, () -> Proc0.runAsIo(ioRunnable));
         assertThrows(IoException.class, () -> Proc0.runAsIo(runtimeRunnable));
         assertThrows(IoException.class, () -> Proc0.runAsIo(checkedRunnable));
@@ -201,10 +194,10 @@ public final class Proc0Test {
         final var sb = new StringBuilder();
         final var runnable = (Proc0) () -> {
             sb.append("Hello");
-            sb.append(" ");
+            sb.append(' ');
             sb.append("World");
         };
-        
+
         assertDoesNotThrow(() -> Proc0.runAsTry(runnable));
         assertEquals("Hello World", sb.toString());
     }
@@ -215,10 +208,10 @@ public final class Proc0Test {
         final var sb = new StringBuilder();
         final var runnable = (Proc0) () -> {
             sb.append("Hello");
-            sb.append(" ");
+            sb.append(' ');
             sb.append("World");
         };
-        
+
         assertDoesNotThrow(() -> Proc0.runAsIo(runnable));
         assertEquals("Hello World", sb.toString());
     }
@@ -231,10 +224,9 @@ public final class Proc0Test {
             counter.incrementAndGet();
             throw new RuntimeException("Exception after increment");
         };
-        
-        assertThrows(UnexpectedException.class, () -> {
-            Proc0.runAsTry(runnable);
-        });
+
+        assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(runnable)
+        );
         assertEquals(1, counter.get());
     }
 
@@ -246,10 +238,9 @@ public final class Proc0Test {
             counter.incrementAndGet();
             throw new RuntimeException("Exception after increment");
         };
-        
-        assertThrows(IoException.class, () -> {
-            Proc0.runAsIo(runnable);
-        });
+
+        assertThrows(IoException.class, () -> Proc0.runAsIo(runnable)
+        );
         assertEquals(1, counter.get());
     }
 }

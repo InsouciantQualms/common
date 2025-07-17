@@ -13,8 +13,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.http.HttpClient.Version;
 import java.net.http.HttpRequest;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**

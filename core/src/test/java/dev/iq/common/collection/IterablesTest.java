@@ -24,12 +24,12 @@ public final class IterablesTest {
         mutableList.add("one");
         mutableList.add("two");
         mutableList.add("three");
-        
+
         final var immutableIterable = Iterables.immutable(mutableList);
-        
+
         assertNotNull(immutableIterable);
         assertIterableEquals(List.of("one", "two", "three"), immutableIterable);
-        
+
         // Verify original list can be modified without affecting immutable copy
         mutableList.add("four");
         assertIterableEquals(List.of("one", "two", "three"), immutableIterable);
@@ -42,9 +42,9 @@ public final class IterablesTest {
         mutableSet.add(1);
         mutableSet.add(2);
         mutableSet.add(3);
-        
+
         final var immutableIterable = Iterables.immutable(mutableSet);
-        
+
         assertNotNull(immutableIterable);
         assertEquals(3, getSize(immutableIterable));
         assertTrue(contains(immutableIterable, 1));
@@ -57,7 +57,7 @@ public final class IterablesTest {
 
         final var emptyList = new ArrayList<String>();
         final var immutableIterable = Iterables.immutable(emptyList);
-        
+
         assertNotNull(immutableIterable);
         assertFalse(immutableIterable.iterator().hasNext());
     }
@@ -66,7 +66,7 @@ public final class IterablesTest {
     public void testOfWithMultipleElements() {
 
         final var iterable = Iterables.of("first", "second", "third");
-        
+
         assertNotNull(iterable);
         assertIterableEquals(List.of("first", "second", "third"), iterable);
     }
@@ -75,7 +75,7 @@ public final class IterablesTest {
     public void testOfWithSingleElement() {
 
         final var iterable = Iterables.of("single");
-        
+
         assertNotNull(iterable);
         assertIterableEquals(List.of("single"), iterable);
     }
@@ -84,7 +84,7 @@ public final class IterablesTest {
     public void testOfWithNoElements() {
 
         final var iterable = Iterables.of();
-        
+
         assertNotNull(iterable);
         assertFalse(iterable.iterator().hasNext());
     }
@@ -93,16 +93,15 @@ public final class IterablesTest {
     public void testOfDoesNotSupportNullElements() {
 
         // Iterables.of() uses List.of() which doesn't allow null values
-        assertThrows(NullPointerException.class, () -> {
-            Iterables.of("first", null, "third");
-        });
+        assertThrows(NullPointerException.class, () -> Iterables.of("first", null, "third")
+        );
     }
 
     @Test
     public void testOfWithDifferentTypes() {
 
         final var iterable = Iterables.of(1, 2, 3);
-        
+
         assertNotNull(iterable);
         assertIterableEquals(List.of(1, 2, 3), iterable);
     }
@@ -112,10 +111,10 @@ public final class IterablesTest {
 
         final var original = List.of("zebra", "apple", "banana");
         final var sorted = Iterables.sort(original, String::compareTo);
-        
+
         assertNotNull(sorted);
         assertIterableEquals(List.of("apple", "banana", "zebra"), sorted);
-        
+
         // Verify original is unchanged
         assertIterableEquals(List.of("zebra", "apple", "banana"), original);
     }
@@ -124,8 +123,8 @@ public final class IterablesTest {
     public void testSortWithReverseComparator() {
 
         final var original = List.of(1, 3, 2, 5, 4);
-        final var sorted = Iterables.sort(original, (a, b) -> b.compareTo(a));
-        
+        final var sorted = Iterables.sort(original, Comparator.reverseOrder());
+
         assertNotNull(sorted);
         assertIterableEquals(List.of(5, 4, 3, 2, 1), sorted);
     }
@@ -135,7 +134,7 @@ public final class IterablesTest {
 
         final var empty = List.<String>of();
         final var sorted = Iterables.sort(empty, String::compareTo);
-        
+
         assertNotNull(sorted);
         assertFalse(sorted.iterator().hasNext());
     }
@@ -145,7 +144,7 @@ public final class IterablesTest {
 
         final var single = List.of("only");
         final var sorted = Iterables.sort(single, String::compareTo);
-        
+
         assertNotNull(sorted);
         assertIterableEquals(List.of("only"), sorted);
     }
@@ -157,10 +156,10 @@ public final class IterablesTest {
         vector.add("first");
         vector.add("second");
         vector.add("third");
-        
+
         final var enumeration = vector.elements();
         final var iterable = Iterables.from(enumeration);
-        
+
         assertNotNull(iterable);
         assertIterableEquals(List.of("first", "second", "third"), iterable);
     }
@@ -171,7 +170,7 @@ public final class IterablesTest {
         final var vector = new Vector<String>();
         final var enumeration = vector.elements();
         final var iterable = Iterables.from(enumeration);
-        
+
         assertNotNull(iterable);
         assertFalse(iterable.iterator().hasNext());
     }
@@ -182,7 +181,7 @@ public final class IterablesTest {
         final var list = List.of("alpha", "beta", "gamma");
         final var iterator = list.iterator();
         final var iterable = Iterables.from(iterator);
-        
+
         assertNotNull(iterable);
         assertIterableEquals(List.of("alpha", "beta", "gamma"), iterable);
     }
@@ -193,7 +192,7 @@ public final class IterablesTest {
         final var emptyList = List.<String>of();
         final var iterator = emptyList.iterator();
         final var iterable = Iterables.from(iterator);
-        
+
         assertNotNull(iterable);
         assertFalse(iterable.iterator().hasNext());
     }
@@ -207,7 +206,7 @@ public final class IterablesTest {
         list.add("third");
         final var iterator = list.iterator();
         final var iterable = Iterables.from(iterator);
-        
+
         assertNotNull(iterable);
         final var expected = new ArrayList<String>();
         expected.add("first");
@@ -221,15 +220,16 @@ public final class IterablesTest {
 
         final var mutableList = new ArrayList<String>();
         mutableList.add("test");
-        
+
         final var immutableIterable = Iterables.immutable(mutableList);
-        
+
         // Verify we can't cast it back to a mutable collection
         assertThrows(UnsupportedOperationException.class, () -> {
-            if (immutableIterable instanceof java.util.List<String> list) {
-                list.add("should fail");
+                if (immutableIterable instanceof final List<String> list) {
+                    list.add("should fail");
+                }
             }
-        });
+        );
     }
 
     @Test
@@ -239,15 +239,16 @@ public final class IterablesTest {
         original.add("c");
         original.add("a");
         original.add("b");
-        
+
         final var sorted = Iterables.sort(original, String::compareTo);
-        
+
         // Verify we can't modify the sorted result
         assertThrows(UnsupportedOperationException.class, () -> {
-            if (sorted instanceof java.util.List<String> list) {
-                list.add("should fail");
+                if (sorted instanceof final List<String> list) {
+                    list.add("should fail");
+                }
             }
-        });
+        );
     }
 
     /**
@@ -255,7 +256,7 @@ public final class IterablesTest {
      */
     private static <T> int getSize(final Iterable<T> iterable) {
         var count = 0;
-        for (final T ignored : iterable) {
+        for (final var ignored : iterable) {
             count++;
         }
         return count;
@@ -265,7 +266,7 @@ public final class IterablesTest {
      * Helper method to check if an iterable contains a specific element.
      */
     private static <T> boolean contains(final Iterable<T> iterable, final T element) {
-        for (final T item : iterable) {
+        for (final var item : iterable) {
             if (Objects.equals(item, element)) {
                 return true;
             }

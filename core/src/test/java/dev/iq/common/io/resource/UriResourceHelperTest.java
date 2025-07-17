@@ -24,7 +24,7 @@ public final class UriResourceHelperTest {
         // Try to find a class file that should exist
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path);
-        
+
         assertTrue(result.isPresent());
         assertInstanceOf(URI.class, result.get());
         assertNotNull(result.get().toString());
@@ -36,7 +36,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
         final var result = UriResourceHelper.resolveUriFromClasspath(path);
-        
+
         assertFalse(result.isPresent());
     }
 
@@ -45,7 +45,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path, UriResourceHelper.class);
-        
+
         assertTrue(result.isPresent());
         assertInstanceOf(URI.class, result.get());
         assertNotNull(result.get().toString());
@@ -57,7 +57,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
         final var result = UriResourceHelper.resolveUriFromClasspath(path, UriResourceHelper.class);
-        
+
         assertFalse(result.isPresent());
     }
 
@@ -66,7 +66,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path, UriResourceHelperTest.class);
-        
+
         assertTrue(result.isPresent());
         assertInstanceOf(URI.class, result.get());
         assertNotNull(result.get().toString());
@@ -78,7 +78,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.requireUriFromClasspath(path);
-        
+
         assertNotNull(result);
         assertInstanceOf(URI.class, result);
         assertNotNull(result.toString());
@@ -89,10 +89,9 @@ public final class UriResourceHelperTest {
     public void testRequireUriFromClasspathWithNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
-        
-        assertThrows(IllegalArgumentException.class, () -> {
-            UriResourceHelper.requireUriFromClasspath(path);
-        });
+
+        assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path)
+        );
     }
 
     @Test
@@ -100,7 +99,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class);
-        
+
         assertNotNull(result);
         assertInstanceOf(URI.class, result);
         assertNotNull(result.toString());
@@ -111,10 +110,9 @@ public final class UriResourceHelperTest {
     public void testRequireUriFromClasspathWithCallerAndNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
-        
-        assertThrows(IllegalArgumentException.class, () -> {
-            UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class);
-        });
+
+        assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class)
+        );
     }
 
     @Test
@@ -122,7 +120,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.requireUriFromClasspath(path, UriResourceHelperTest.class);
-        
+
         assertNotNull(result);
         assertInstanceOf(URI.class, result);
         assertNotNull(result.toString());
@@ -133,11 +131,10 @@ public final class UriResourceHelperTest {
     public void testExceptionMessageForMissingResource() {
 
         final var path = "/missing/resource.txt";
-        
-        final var exception = assertThrows(IllegalArgumentException.class, () -> {
-            UriResourceHelper.requireUriFromClasspath(path);
-        });
-        
+
+        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path)
+        );
+
         assertTrue(exception.getMessage().contains(path));
     }
 
@@ -145,11 +142,11 @@ public final class UriResourceHelperTest {
     public void testExceptionMessageForMissingResourceWithCaller() {
 
         final var path = "/missing/resource.txt";
-        
-        final var exception = assertThrows(IllegalArgumentException.class, () -> {
-            UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class);
-        });
-        
+
+        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path,
+            UriResourceHelper.class)
+        );
+
         assertTrue(exception.getMessage().contains(path));
     }
 
@@ -157,10 +154,10 @@ public final class UriResourceHelperTest {
     public void testConsistencyBetweenResolveAndRequire() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
-        
+
         final var resolvedUri = UriResourceHelper.resolveUriFromClasspath(path);
         final var requiredUri = UriResourceHelper.requireUriFromClasspath(path);
-        
+
         assertTrue(resolvedUri.isPresent());
         assertEquals(resolvedUri.get(), requiredUri);
     }
@@ -170,10 +167,10 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var caller = UriResourceHelper.class;
-        
+
         final var resolvedUri = UriResourceHelper.resolveUriFromClasspath(path, caller);
         final var requiredUri = UriResourceHelper.requireUriFromClasspath(path, caller);
-        
+
         assertTrue(resolvedUri.isPresent());
         assertEquals(resolvedUri.get(), requiredUri);
     }
@@ -182,13 +179,13 @@ public final class UriResourceHelperTest {
     public void testConsistencyBetweenCallerAndNonCallerMethods() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
-        
+
         final var uriWithoutCaller = UriResourceHelper.resolveUriFromClasspath(path);
         final var uriWithCaller = UriResourceHelper.resolveUriFromClasspath(path, CodeSourceHelper.class);
-        
+
         // Both should return the same result when using the same effective caller
         assertEquals(uriWithoutCaller.isPresent(), uriWithCaller.isPresent());
-        
+
         if (uriWithoutCaller.isPresent() && uriWithCaller.isPresent()) {
             assertEquals(uriWithoutCaller.get(), uriWithCaller.get());
         }
@@ -200,7 +197,7 @@ public final class UriResourceHelperTest {
         // Test with a relative path that should exist
         final var relativePath = "UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(relativePath, UriResourceHelper.class);
-        
+
         assertTrue(result.isPresent());
         assertInstanceOf(URI.class, result.get());
         assertNotNull(result.get().toString());
@@ -212,13 +209,13 @@ public final class UriResourceHelperTest {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path);
-        
+
         assertTrue(result.isPresent());
         final var uri = result.get();
-        
+
         assertNotNull(uri.getScheme());
         assertFalse(uri.getScheme().isEmpty());
-        
+
         // Common schemes for resources are file, jar, etc.
         assertTrue(uri.getScheme().equals("file") || uri.getScheme().equals("jar"));
     }
@@ -227,12 +224,12 @@ public final class UriResourceHelperTest {
     public void testMultipleCallsReturnSameResult() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
-        
+
         final var result1 = UriResourceHelper.resolveUriFromClasspath(path);
         final var result2 = UriResourceHelper.resolveUriFromClasspath(path);
-        
+
         assertEquals(result1.isPresent(), result2.isPresent());
-        
+
         if (result1.isPresent() && result2.isPresent()) {
             assertEquals(result1.get(), result2.get());
         }
@@ -243,18 +240,17 @@ public final class UriResourceHelperTest {
 
         final var emptyPath = "";
         final var result = UriResourceHelper.resolveUriFromClasspath(emptyPath);
-        
+
         // Empty path may resolve to root classpath directory
-        assertTrue(result.isPresent() || !result.isPresent());
+        assertTrue(result.isPresent());
     }
 
     @Test
     public void testNullPathHandling() {
 
         // This should handle null gracefully or throw an appropriate exception
-        assertThrows(Exception.class, () -> {
-            UriResourceHelper.resolveUriFromClasspath(null);
-        });
+        assertThrows(Exception.class, () -> UriResourceHelper.resolveUriFromClasspath(null)
+        );
     }
 
     @Test
@@ -263,9 +259,9 @@ public final class UriResourceHelperTest {
         final var value = "test value";
         final var optional = Optional.of(value);
         final var path = "/test/path";
-        
+
         final var result = UriResourceHelper.require(path, optional);
-        
+
         assertEquals(value, result);
     }
 
@@ -274,11 +270,10 @@ public final class UriResourceHelperTest {
 
         final var optional = Optional.<String>empty();
         final var path = "/test/path";
-        
-        final var exception = assertThrows(IllegalArgumentException.class, () -> {
-            UriResourceHelper.require(path, optional);
-        });
-        
+
+        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.require(path, optional)
+        );
+
         assertTrue(exception.getMessage().contains(path));
     }
 
@@ -286,7 +281,7 @@ public final class UriResourceHelperTest {
     public void testRequireHelperWithNullPath() {
 
         final var optional = Optional.of("test value");
-        
+
         // This should pass without throwing an exception since the optional has a value
         final var result = UriResourceHelper.require(null, optional);
         assertEquals("test value", result);
@@ -298,9 +293,9 @@ public final class UriResourceHelperTest {
         final var intValue = 42;
         final var intOptional = Optional.of(intValue);
         final var path = "/test/path";
-        
+
         final var result = UriResourceHelper.require(path, intOptional);
-        
+
         assertEquals(intValue, result);
     }
 
@@ -309,11 +304,10 @@ public final class UriResourceHelperTest {
 
         final var path = "/missing/resource.txt";
         final var optional = Optional.<String>empty();
-        
-        final var exception = assertThrows(IllegalArgumentException.class, () -> {
-            UriResourceHelper.require(path, optional);
-        });
-        
+
+        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.require(path, optional)
+        );
+
         assertEquals("Missing resource /missing/resource.txt", exception.getMessage());
     }
 }
