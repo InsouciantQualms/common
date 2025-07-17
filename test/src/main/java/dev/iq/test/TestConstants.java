@@ -14,6 +14,9 @@ public final class TestConstants {
     /** Constant combined with @Tag annotation to run in integrationTest phase rather than (unit) test phase. */
     public static final String INTEGRATION_TEST = "IntegrationTest";
 
+    /** Constant combined with @Tag annotation to run in containerTest phase rather than unit or integration phases. */
+    public static final String CONTAINER_TEST = "ContainerTest";
+
     /** Constant combined with @Tag annotation to never run (normally because user input is required). */
     public static final String HUMAN_INTERACTION_TEST = "HumanInteractionTest";
 
