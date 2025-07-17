@@ -4,17 +4,17 @@
  * To reach the creator, visit https://www.linkedin.com/in/saschagoldsmith.
  */
 
-package dev.iq.test;
+package dev.iq.test.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import org.junit.jupiter.api.Tag;
 
 /**
- * Convenience annotation to consistently declare an integration test running in JUnit.
+ * Conveinence annotation to consistently declare an integration test running in JUnit.
  * This will be run in the integrationTest task rather than the normal test task.
  * Integration tests must be invoked separately via gradlew integrationTest
  */
-@Tag(TestConstants.CONTAINER_TEST)
+@Tag(TestConstants.HUMAN_INTERACTION_TEST)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ContainerTest {}
+public @interface HumanInteractionTest {}

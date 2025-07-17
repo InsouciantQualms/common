@@ -4,7 +4,7 @@
  * To reach the creator, visit https://www.linkedin.com/in/saschagoldsmith.
  */
 
-package dev.iq.test;
+package dev.iq.test.annotation;
 
 /**
  * Constants for testing.

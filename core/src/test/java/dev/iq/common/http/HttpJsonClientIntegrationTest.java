@@ -6,12 +6,11 @@
 
 package dev.iq.common.http;
 
-import dev.iq.test.IntegrationTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
+import dev.iq.test.annotation.IntegrationTest;
 import java.net.URI;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the operation of the HTTP JSON client.
