@@ -1,6 +1,6 @@
 package dev.iq.common.version;
 
-import dev.iq.common.adt.Stable;
+import dev.iq.common.annotation.Stable;
 
 @Stable
 public record Locator(NanoId id, int version) {

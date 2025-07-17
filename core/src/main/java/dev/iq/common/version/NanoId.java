@@ -7,7 +7,7 @@
 package dev.iq.common.version;
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
-import dev.iq.common.adt.Stable;
+import dev.iq.common.annotation.Stable;
 
 /**
  * Encapsulates a Nano ID used to uniquely identify an item, like a UUID,

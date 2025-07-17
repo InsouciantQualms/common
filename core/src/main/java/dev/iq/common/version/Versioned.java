@@ -1,7 +1,6 @@
 package dev.iq.common.version;
 
-import dev.iq.common.adt.Stable;
-
+import dev.iq.common.annotation.Stable;
 import java.time.Instant;
 import java.util.Optional;
 
