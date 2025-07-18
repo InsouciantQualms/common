@@ -23,25 +23,10 @@ public final class Invariant {
      * @param value Boolean value to test
      * @param message Error message if false
      */
-    public static void requireTrue(final boolean value, final String message) {
+    public static void require(final boolean value, final String message) {
 
         if (!value) {
             throw new IllegalStateException(message);
-        }
-    }
-
-    /**
-     * Throws an AssertionError if the condition passed in is not true. Note that since
-     * AssertionError extends Error, use this method mainly for truly fatal errors or testing.
-     * Prefer requireTrue() for most cases.
-     *
-     * @param value Boolean value to test
-     * @param message Error message if false
-     */
-    public static void assertTrue(final boolean value, final String message) {
-
-        if (!value) {
-            throw new AssertionError(message);
         }
     }
 

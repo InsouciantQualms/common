@@ -10,6 +10,7 @@ import dev.iq.test.annotation.IntegrationTest;
 import java.net.URI;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 /** Tests the operation of the HTTP JSON client. */
@@ -29,14 +30,24 @@ final class HttpJsonClientIntegrationTest {
     @Test
     public void testSimpleGet() {
 
-        final var statusCode = HttpJsonClient.getNoReply(URI.create(TEST_STATUS_CODE + "status/200"), HEADERS);
-        Assertions.assertEquals(200, statusCode);
+        try {
+            final var statusCode = HttpJsonClient.getNoReply(URI.create(TEST_STATUS_CODE + "status/200"), HEADERS);
+            Assertions.assertEquals(200, statusCode);
+        } catch (final HttpException e) {
+            if (e.getStatusCode() == 503) {
+                Assumptions.assumeTrue(false, "Service unavailable (503) - skipping test");
+            }
+            throw e;
+        }
 
         try {
             HttpJsonClient.getNoReply(URI.create(TEST_STATUS_CODE + "status/500"), HEADERS);
             Assertions.fail();
-        } catch (final HttpException ignore) {
-            // Expected exception - test passes if we get here
+        } catch (final HttpException e) {
+            if (e.getStatusCode() == 503) {
+                Assumptions.assumeTrue(false, "Service unavailable (503) - skipping test");
+            }
+            // Expected exception for 500 - test passes if we get here
         }
     }
 
@@ -44,40 +55,62 @@ final class HttpJsonClientIntegrationTest {
     @Test
     public void testSimpleJsonGet() {
 
-        final var response =
-                HttpJsonClient.getWithReply(URI.create(TEST_JSON_SITE + "posts/1"), HEADERS, PostResponse.class);
+        try {
+            final var response =
+                    HttpJsonClient.getWithReply(URI.create(TEST_JSON_SITE + "posts/1"), HEADERS, PostResponse.class);
 
-        Assertions.assertNotNull(response);
-        Assertions.assertEquals(1, response.userId);
-        Assertions.assertEquals(1, response.id);
-        Assertions.assertEquals(
-                "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", response.title);
-        Assertions.assertEquals(158, response.body.length());
+            Assertions.assertNotNull(response);
+            Assertions.assertEquals(1, response.userId);
+            Assertions.assertEquals(1, response.id);
+            Assertions.assertEquals(
+                    "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", response.title);
+            Assertions.assertEquals(158, response.body.length());
+        } catch (final HttpException e) {
+            if (e.getStatusCode() == 503) {
+                Assumptions.assumeTrue(false, "Service unavailable (503) - skipping test");
+            }
+            throw e;
+        }
     }
 
     /** Tests posting and not processing a reply. */
     @Test
     public void testSimpleJsonPostNoResponse() {
 
-        final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
-        final var statusCode = HttpJsonClient.postJsonNoReply(URI.create(TEST_JSON_SITE + "posts"), HEADERS, request);
+        try {
+            final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
+            final var statusCode =
+                    HttpJsonClient.postJsonNoReply(URI.create(TEST_JSON_SITE + "posts"), HEADERS, request);
 
-        Assertions.assertEquals(201, statusCode);
+            Assertions.assertEquals(201, statusCode);
+        } catch (final HttpException e) {
+            if (e.getStatusCode() == 503) {
+                Assumptions.assumeTrue(false, "Service unavailable (503) - skipping test");
+            }
+            throw e;
+        }
     }
 
     /** Tests issuing a POST and receiving JSON. */
     @Test
     public void testSimpleJsonPostAndResponse() {
 
-        final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
-        final var response = HttpJsonClient.postJsonWithReply(
-                URI.create(TEST_JSON_SITE + "posts"), HEADERS, request, PostResponse.class);
+        try {
+            final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
+            final var response = HttpJsonClient.postJsonWithReply(
+                    URI.create(TEST_JSON_SITE + "posts"), HEADERS, request, PostResponse.class);
 
-        Assertions.assertNotNull(response);
-        Assertions.assertEquals(request.userId, response.userId);
-        Assertions.assertEquals(request.title, response.title);
-        Assertions.assertEquals(request.body, response.body);
-        Assertions.assertTrue(response.id > 0);
+            Assertions.assertNotNull(response);
+            Assertions.assertEquals(request.userId, response.userId);
+            Assertions.assertEquals(request.title, response.title);
+            Assertions.assertEquals(request.body, response.body);
+            Assertions.assertTrue(response.id > 0);
+        } catch (final HttpException e) {
+            if (e.getStatusCode() == 503) {
+                Assumptions.assumeTrue(false, "Service unavailable (503) - skipping test");
+            }
+            throw e;
+        }
     }
 
     /** Post response expected to be received. */

@@ -77,7 +77,7 @@ public final class Lazy<T> {
      */
     private void load() {
 
-        Invariant.requireTrue(!initializing.get(), "Recursive call to Lazy.get() on same instance in the same thread");
+        Invariant.require(!initializing.get(), "Recursive call to Lazy.get() on same instance in the same thread");
         lock.withVoid(() -> {
             if (!loaded.get()) {
                 initializing.set(true);
