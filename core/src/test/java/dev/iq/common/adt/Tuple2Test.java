@@ -6,20 +6,23 @@
 
 package dev.iq.common.adt;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Tuple2 record covering basic functionality, equality, and object methods.
- */
+/** Tests for the Tuple2 record covering basic functionality, equality, and object methods. */
 public final class Tuple2Test {
 
     @Test
     public void testBasicCreation() {
 
         final var tuple = new Tuple2<>("hello", 42);
-        
+
         assertEquals("hello", tuple._1());
         assertEquals(42, tuple._2());
     }
@@ -28,7 +31,7 @@ public final class Tuple2Test {
     public void testWithNullValues() {
 
         final var tuple = new Tuple2<String, Integer>(null, null);
-        
+
         assertNull(tuple._1());
         assertNull(tuple._2());
     }
@@ -40,7 +43,7 @@ public final class Tuple2Test {
         final var tuple2 = new Tuple2<>("hello", 42);
         final var tuple3 = new Tuple2<>("world", 42);
         final var tuple4 = new Tuple2<>("hello", 24);
-        
+
         assertEquals(tuple1, tuple2);
         assertNotEquals(tuple1, tuple3);
         assertNotEquals(tuple1, tuple4);
@@ -56,7 +59,7 @@ public final class Tuple2Test {
         final var tuple4 = new Tuple2<String, Integer>("hello", null);
         final var tuple5 = new Tuple2<String, Integer>(null, null);
         final var tuple6 = new Tuple2<String, Integer>(null, null);
-        
+
         assertEquals(tuple1, tuple2);
         assertEquals(tuple3, tuple4);
         assertEquals(tuple5, tuple6);
@@ -71,7 +74,7 @@ public final class Tuple2Test {
         final var tuple1 = new Tuple2<>("hello", 42);
         final var tuple2 = new Tuple2<>("hello", 42);
         final var tuple3 = new Tuple2<>("world", 42);
-        
+
         assertEquals(tuple1.hashCode(), tuple2.hashCode());
         assertNotEquals(tuple1.hashCode(), tuple3.hashCode());
     }
@@ -83,7 +86,7 @@ public final class Tuple2Test {
         final var tuple2 = new Tuple2<String, Integer>(null, 42);
         final var tuple3 = new Tuple2<String, Integer>("hello", null);
         final var tuple4 = new Tuple2<String, Integer>(null, null);
-        
+
         assertEquals(tuple1.hashCode(), tuple2.hashCode());
         assertNotEquals(tuple1.hashCode(), tuple3.hashCode());
         assertNotEquals(tuple1.hashCode(), tuple4.hashCode());
@@ -94,7 +97,7 @@ public final class Tuple2Test {
 
         final var tuple = new Tuple2<>("hello", 42);
         final var result = tuple.toString();
-        
+
         assertNotNull(result);
         assertTrue(result.contains("hello"));
         assertTrue(result.contains("42"));
@@ -106,11 +109,11 @@ public final class Tuple2Test {
         final var tuple1 = new Tuple2<String, Integer>(null, 42);
         final var tuple2 = new Tuple2<String, Integer>("hello", null);
         final var tuple3 = new Tuple2<String, Integer>(null, null);
-        
+
         final var result1 = tuple1.toString();
         final var result2 = tuple2.toString();
         final var result3 = tuple3.toString();
-        
+
         assertNotNull(result1);
         assertNotNull(result2);
         assertNotNull(result3);
@@ -124,15 +127,15 @@ public final class Tuple2Test {
 
         final var stringIntTuple = new Tuple2<>("test", 123);
         final var booleanDoubleTuple = new Tuple2<>(true, 3.14);
-        final var listArrayTuple = new Tuple2<>(new int[]{1, 2, 3}, "array");
-        
+        final var listArrayTuple = new Tuple2<>(new int[] {1, 2, 3}, "array");
+
         assertEquals("test", stringIntTuple._1());
         assertEquals(123, stringIntTuple._2());
-        
-        assertEquals(true, booleanDoubleTuple._1());
+
+        assertTrue(booleanDoubleTuple._1());
         assertEquals(3.14, booleanDoubleTuple._2());
-        
-        assertArrayEquals(new int[]{1, 2, 3}, listArrayTuple._1());
+
+        assertArrayEquals(new int[] {1, 2, 3}, listArrayTuple._1());
         assertEquals("array", listArrayTuple._2());
     }
 
@@ -140,7 +143,7 @@ public final class Tuple2Test {
     public void testSameType() {
 
         final var tuple = new Tuple2<>("first", "second");
-        
+
         assertEquals("first", tuple._1());
         assertEquals("second", tuple._2());
     }
@@ -150,7 +153,7 @@ public final class Tuple2Test {
 
         final var innerTuple = new Tuple2<>("inner", 42);
         final var outerTuple = new Tuple2<>(innerTuple, "outer");
-        
+
         assertEquals(innerTuple, outerTuple._1());
         assertEquals("outer", outerTuple._2());
         assertEquals("inner", outerTuple._1()._1());
@@ -163,7 +166,7 @@ public final class Tuple2Test {
         final var person = new Person("John", 30);
         final var address = new Address("123 Main St", "Anytown");
         final var tuple = new Tuple2<>(person, address);
-        
+
         assertEquals(person, tuple._1());
         assertEquals(address, tuple._2());
         assertEquals("John", tuple._1().name());
@@ -176,20 +179,16 @@ public final class Tuple2Test {
     public void testRecordMethods() {
 
         final var tuple = new Tuple2<>("test", 42);
-        
+
         // Test that standard record methods work
         assertNotNull(tuple.toString());
-        assertTrue(tuple.equals(new Tuple2<>("test", 42)));
+        assertEquals(tuple, new Tuple2<>("test", 42));
         assertEquals(tuple.hashCode(), new Tuple2<>("test", 42).hashCode());
     }
 
-    /**
-     * Simple test record for complex object testing.
-     */
+    /** Simple test record for complex object testing. */
     private record Person(String name, int age) {}
 
-    /**
-     * Simple test record for complex object testing.
-     */
+    /** Simple test record for complex object testing. */
     private record Address(String street, String city) {}
 }

@@ -6,18 +6,15 @@
 
 package dev.iq.common.io.stream;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * An output stream that writes to n underlying streams sequentially.
- */
+/** An output stream that writes to n underlying streams sequentially. */
 public final class Tee extends OutputStream {
 
     /** Underlying streams to output to. */
@@ -33,60 +30,45 @@ public final class Tee extends OutputStream {
         this.streams = Collections.unmodifiableList(Arrays.asList(streams));
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final int b)
-        throws IOException {
+    public void write(final int b) throws IOException {
 
         for (final var out : streams) {
             out.write(b);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final byte @NotNull [] buffer)
-        throws IOException {
+    public void write(final byte @NotNull [] buffer) throws IOException {
 
         for (final var out : streams) {
             out.write(buffer);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final byte @NotNull [] buffer, final int offset, final int length)
-        throws IOException {
+    public void write(final byte @NotNull [] buffer, final int offset, final int length) throws IOException {
 
         for (final var out : streams) {
             out.write(buffer, offset, length);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void flush()
-        throws IOException {
+    public void flush() throws IOException {
 
         for (final var out : streams) {
             out.flush();
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void close()
-        throws IOException {
+    public void close() throws IOException {
 
         final var fatal = new IOException("Error closing one or more streams");
         for (final var out : streams) {
@@ -98,11 +80,10 @@ public final class Tee extends OutputStream {
     }
 
     /**
-     * Helper method to safely close a stream and ensure that remaining streams
-     * can still be closed.
+     * Helper method to safely close a stream and ensure that remaining streams can still be closed.
      *
      * @param target Stream to close
-     * @param ex     Exception to eventually throw if any errors exist
+     * @param ex Exception to eventually throw if any errors exist
      */
     private static void closeInternal(final Closeable target, final Exception ex) {
 

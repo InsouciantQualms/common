@@ -7,14 +7,12 @@
 package dev.iq.common.adt;
 
 /**
- * Internal interface for returning a builder.
- * This interface is immutable and thread-safe when implementations are properly implemented.
+ * Internal interface for returning a builder. This interface is immutable and thread-safe when
+ * implementations are properly implemented.
  */
 @FunctionalInterface
 public interface Builder<T> {
 
-    /**
-     * Causes the builder to return a fully built instance of T.
-     */
+    /** Causes the builder to return a fully built instance of T. */
     T build();
 }

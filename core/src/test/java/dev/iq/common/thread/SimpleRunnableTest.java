@@ -6,17 +6,17 @@
 
 package dev.iq.common.thread;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the SimpleRunnable class covering threading functionality.
- */
+/** Tests for the SimpleRunnable class covering threading functionality. */
 public final class SimpleRunnableTest {
 
     @Test
@@ -272,8 +272,7 @@ public final class SimpleRunnableTest {
     @Test
     public void testSleepWithNegativeDuration() {
 
-        assertThrows(IllegalArgumentException.class, () -> SimpleRunnable.sleep(-100)
-        );
+        assertThrows(IllegalArgumentException.class, () -> SimpleRunnable.sleep(-100));
     }
 
     @Test

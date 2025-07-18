@@ -6,19 +6,18 @@
 
 package dev.iq.common.io.pipe;
 
-import dev.iq.common.fp.Fn0;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dev.iq.common.fp.Fn0;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for BytesSupplierPipe covering lazy evaluation of stream suppliers.
- */
+/** Tests for BytesSupplierPipe covering lazy evaluation of stream suppliers. */
 public final class BytesSupplierPipeTest {
 
     @Test
@@ -192,7 +191,7 @@ public final class BytesSupplierPipeTest {
     private static final class TestInputStream extends ByteArrayInputStream {
         private boolean closed = false;
 
-        public TestInputStream(final byte[] buf) {
+        TestInputStream(final byte[] buf) {
             super(buf);
         }
 

@@ -6,19 +6,18 @@
 
 package dev.iq.common.io.stream;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for FiniteInputStream covering finite reading with byte limits.
- */
+/** Tests for FiniteInputStream covering finite reading with byte limits. */
 public final class FiniteInputStreamTest {
 
     @Test
@@ -50,21 +49,23 @@ public final class FiniteInputStreamTest {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var finiteStream = new FiniteInputStream(inputStream, 1);
+        try (var finiteStream = new FiniteInputStream(inputStream, 1)) {
 
-        finiteStream.read(); // Read one byte
+            finiteStream.read(); // Read one byte
 
-        assertThrows(EOFException.class, finiteStream::read);
+            assertThrows(EOFException.class, finiteStream::read);
+        }
     }
 
     @Test
-    public void testReadSingleByteZeroLimit() {
+    public void testReadSingleByteZeroLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var finiteStream = new FiniteInputStream(inputStream, 0);
+        try (var finiteStream = new FiniteInputStream(inputStream, 0)) {
 
-        assertThrows(EOFException.class, finiteStream::read);
+            assertThrows(EOFException.class, finiteStream::read);
+        }
     }
 
     @Test
@@ -78,7 +79,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer);
 
         assertEquals(10, bytesRead);
-        assertArrayEquals("Hello, Wor".getBytes(StandardCharsets.UTF_8), buffer);
+        Assertions.assertArrayEquals("Hello, Wor".getBytes(StandardCharsets.UTF_8), buffer);
     }
 
     @Test
@@ -92,7 +93,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer);
 
         assertEquals(5, bytesRead);
-        assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 5));
+        Assertions.assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 5));
     }
 
     @Test
@@ -106,7 +107,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer);
 
         assertEquals(2, bytesRead);
-        assertArrayEquals("He".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 2));
+        Assertions.assertArrayEquals("He".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 2));
     }
 
     @Test
@@ -131,7 +132,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer, 2, 5);
 
         assertEquals(5, bytesRead);
-        assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 7));
+        Assertions.assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 7));
     }
 
     @Test
@@ -145,7 +146,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer, 2, 5);
 
         assertEquals(3, bytesRead);
-        assertArrayEquals("Hel".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 5));
+        Assertions.assertArrayEquals("Hel".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 5));
     }
 
     @Test
@@ -159,7 +160,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer, 2, 5);
 
         assertEquals(2, bytesRead);
-        assertArrayEquals("He".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 4));
+        Assertions.assertArrayEquals("He".getBytes(StandardCharsets.UTF_8), Arrays.copyOfRange(buffer, 2, 4));
     }
 
     @Test
@@ -186,7 +187,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer);
 
         assertEquals(1000, bytesRead);
-        assertArrayEquals(data, buffer);
+        Assertions.assertArrayEquals(data, buffer);
     }
 
     @Test
@@ -204,7 +205,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testMultipleReadsExceedLimit() {
+    public void testMultipleReadsExceedLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -217,7 +218,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadEOFFromUnderlyingStream() throws IOException {
+    public void testReadEofFromUnderlyingStream() throws IOException {
 
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -229,7 +230,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferEOFFromUnderlyingStream() throws IOException {
+    public void testReadBufferEofFromUnderlyingStream() throws IOException {
 
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -239,7 +240,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer);
 
         assertEquals(2, bytesRead);
-        assertArrayEquals("Hi".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 2));
+        Assertions.assertArrayEquals("Hi".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 2));
 
         final var nextRead = finiteStream.read(buffer);
         assertEquals(-1, nextRead);
@@ -291,7 +292,7 @@ public final class FiniteInputStreamTest {
         final var bytesRead = finiteStream.read(buffer);
 
         assertEquals(5, bytesRead);
-        assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 5));
+        Assertions.assertArrayEquals("Hello".getBytes(StandardCharsets.UTF_8), Arrays.copyOf(buffer, 5));
     }
 
     @Test

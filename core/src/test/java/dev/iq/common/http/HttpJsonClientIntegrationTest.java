@@ -12,9 +12,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests the operation of the HTTP JSON client.
- */
+/** Tests the operation of the HTTP JSON client. */
 @IntegrationTest
 final class HttpJsonClientIntegrationTest {
 
@@ -27,9 +25,7 @@ final class HttpJsonClientIntegrationTest {
     /** Headers to use. */
     private static final Map<String, String> HEADERS = Map.of("bearer", "bringing-gifts");
 
-    /**
-     * Tests that status codes are properly validated.
-     */
+    /** Tests that status codes are properly validated. */
     @Test
     public void testSimpleGet() {
 
@@ -40,27 +36,26 @@ final class HttpJsonClientIntegrationTest {
             HttpJsonClient.getNoReply(URI.create(TEST_STATUS_CODE + "status/500"), HEADERS);
             Assertions.fail();
         } catch (final HttpException ignore) {
+            // Expected exception - test passes if we get here
         }
     }
 
-    /**
-     * Tests issuing a GET and receiving JSON.
-     */
+    /** Tests issuing a GET and receiving JSON. */
     @Test
     public void testSimpleJsonGet() {
 
-        final var response = HttpJsonClient.getWithReply(URI.create(TEST_JSON_SITE + "posts/1"), HEADERS, PostResponse.class);
+        final var response =
+                HttpJsonClient.getWithReply(URI.create(TEST_JSON_SITE + "posts/1"), HEADERS, PostResponse.class);
 
         Assertions.assertNotNull(response);
         Assertions.assertEquals(1, response.userId);
         Assertions.assertEquals(1, response.id);
-        Assertions.assertEquals("sunt aut facere repellat provident occaecati excepturi optio reprehenderit", response.title);
+        Assertions.assertEquals(
+                "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", response.title);
         Assertions.assertEquals(158, response.body.length());
     }
 
-    /**
-     * Tests posting and not processing a reply
-     */
+    /** Tests posting and not processing a reply. */
     @Test
     public void testSimpleJsonPostNoResponse() {
 
@@ -70,15 +65,13 @@ final class HttpJsonClientIntegrationTest {
         Assertions.assertEquals(201, statusCode);
     }
 
-    /**
-     * Tests issuing a POST and receiving JSON.
-     */
+    /** Tests issuing a POST and receiving JSON. */
     @Test
     public void testSimpleJsonPostAndResponse() {
 
         final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
-        final var response =
-            HttpJsonClient.postJsonWithReply(URI.create(TEST_JSON_SITE + "posts"), HEADERS, request, PostResponse.class);
+        final var response = HttpJsonClient.postJsonWithReply(
+                URI.create(TEST_JSON_SITE + "posts"), HEADERS, request, PostResponse.class);
 
         Assertions.assertNotNull(response);
         Assertions.assertEquals(request.userId, response.userId);
@@ -87,13 +80,9 @@ final class HttpJsonClientIntegrationTest {
         Assertions.assertTrue(response.id > 0);
     }
 
-    /**
-     * Post response expected to be received.
-     */
+    /** Post response expected to be received. */
     private record PostResponse(int userId, int id, String title, String body) {}
 
-    /**
-     * Request to create a new post.
-     */
+    /** Request to create a new post. */
     private record PostCreateRequest(String title, String body, int userId) {}
 }

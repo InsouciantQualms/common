@@ -6,15 +6,17 @@
 
 package dev.iq.common.io.resource;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for CodeSourceHelper covering code source location and JAR detection.
- */
+/** Tests for CodeSourceHelper covering code source location and JAR detection. */
 public final class CodeSourceHelperTest {
 
     @Test
@@ -118,10 +120,7 @@ public final class CodeSourceHelperTest {
     @Test
     public void testCodeSourceLocationIsNotEmpty() {
 
-        final var classes = new Class<?>[]{
-            CodeSourceHelperTest.class,
-            CodeSourceHelper.class
-        };
+        final var classes = new Class<?>[] {CodeSourceHelperTest.class, CodeSourceHelper.class};
 
         for (final var clazz : classes) {
             final var uri = CodeSourceHelper.locateCodeSource(clazz);
@@ -141,7 +140,7 @@ public final class CodeSourceHelperTest {
         assertDoesNotThrow(() -> {
             final var firstByte = stream.read();
             // The stream should contain data (not -1 for EOF immediately)
-            assertTrue((firstByte >= 0) || (firstByte == -1)); // Both are valid
+            assertTrue(firstByte >= -1); // -1 is EOF, any other value is valid
             stream.close();
         });
     }

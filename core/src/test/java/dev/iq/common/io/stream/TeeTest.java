@@ -6,19 +6,20 @@
 
 package dev.iq.common.io.stream;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for Tee covering multi-stream output operations.
- */
+/** Tests for Tee covering multi-stream output operations. */
 public final class TeeTest {
 
     @Test
@@ -206,7 +207,7 @@ public final class TeeTest {
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1, stream2);
-        final var data = new byte[]{0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
+        final var data = new byte[] {0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
 
         tee.write(data);
 

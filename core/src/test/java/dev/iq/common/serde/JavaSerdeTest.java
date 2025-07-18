@@ -6,10 +6,14 @@
 
 package dev.iq.common.serde;
 
-import dev.iq.common.error.IoException;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import dev.iq.common.error.IoException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,12 +23,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the JavaSerde class covering Java serialization functionality.
- */
+/** Tests for the JavaSerde class covering Java serialization functionality. */
 public final class JavaSerdeTest {
 
     @TempDir
@@ -173,8 +175,7 @@ public final class JavaSerdeTest {
 
         final var nonExistentPath = tempDir.resolve("nonexistent.ser");
 
-        assertThrows(IoException.class, () -> JavaSerde.deserialize(nonExistentPath, String.class)
-        );
+        assertThrows(IoException.class, () -> JavaSerde.deserialize(nonExistentPath, String.class));
     }
 
     @Test
@@ -185,8 +186,7 @@ public final class JavaSerdeTest {
 
         JavaSerde.serialize(testString, testPath);
 
-        assertThrows(ClassCastException.class, () -> JavaSerde.deserialize(testPath, Integer.class)
-        );
+        assertThrows(ClassCastException.class, () -> JavaSerde.deserialize(testPath, Integer.class));
     }
 
     @Test
@@ -198,8 +198,7 @@ public final class JavaSerdeTest {
 
         final var testPath = readOnlyPath.resolve("test.ser");
 
-        assertThrows(IoException.class, () -> JavaSerde.serialize("test", testPath)
-        );
+        assertThrows(IoException.class, () -> JavaSerde.serialize("test", testPath));
     }
 
     @Test

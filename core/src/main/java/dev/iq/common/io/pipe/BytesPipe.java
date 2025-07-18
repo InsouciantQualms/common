@@ -7,53 +7,45 @@
 package dev.iq.common.io.pipe;
 
 import dev.iq.common.fp.Io;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Pipe implementation that reads from InputStream, writes to OutputStream
- * and works with byte[] values.
- * <br/>
+ * Pipe implementation that reads from InputStream, writes to OutputStream and works with byte[]
+ * values. <br>
  * This implementation does not close the streams passed in.
  */
 final class BytesPipe implements Pipe<byte[], InputStream, OutputStream> {
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public byte[] read(final InputStream in) {
+    public byte[] read(InputStream in) {
 
         return Io.withReturn(() -> {
-            try (final var out = new ByteArrayOutputStream()) {
+            try (var out = new ByteArrayOutputStream()) {
                 go(in, out);
                 return out.toByteArray();
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final byte[] target, final OutputStream out) {
+    public void write(byte[] target, OutputStream out) {
 
         Io.withVoid(() -> {
-            try (final var byteIn = new ByteArrayInputStream(target)) {
+            try (var byteIn = new ByteArrayInputStream(target)) {
                 go(byteIn, out);
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @SuppressWarnings("ReassignedVariable")
-    public long go(final InputStream in, final OutputStream out, final int bufferSize) {
+    public long go(InputStream in, OutputStream out, int bufferSize) {
 
         return Io.withReturn(() -> {
             var total = 0L;

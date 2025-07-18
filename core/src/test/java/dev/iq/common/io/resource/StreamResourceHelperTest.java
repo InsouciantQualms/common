@@ -6,15 +6,19 @@
 
 package dev.iq.common.io.resource;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for StreamResourceHelper covering classpath stream resolution.
- */
+/** Tests for StreamResourceHelper covering classpath stream resolution. */
 public final class StreamResourceHelperTest {
 
     @Test
@@ -93,8 +97,7 @@ public final class StreamResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
 
-        assertThrows(IllegalArgumentException.class, () -> StreamResourceHelper.requireStreamFromClasspath(path)
-        );
+        assertThrows(IllegalArgumentException.class, () -> StreamResourceHelper.requireStreamFromClasspath(path));
     }
 
     @Test
@@ -115,8 +118,9 @@ public final class StreamResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
 
-        assertThrows(IllegalArgumentException.class, () -> StreamResourceHelper.requireStreamFromClasspath(path, StreamResourceHelper.class)
-        );
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> StreamResourceHelper.requireStreamFromClasspath(path, StreamResourceHelper.class));
     }
 
     @Test
@@ -137,8 +141,8 @@ public final class StreamResourceHelperTest {
 
         final var path = "/missing/resource.txt";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> StreamResourceHelper.requireStreamFromClasspath(path)
-        );
+        final var exception = assertThrows(
+                IllegalArgumentException.class, () -> StreamResourceHelper.requireStreamFromClasspath(path));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -148,9 +152,9 @@ public final class StreamResourceHelperTest {
 
         final var path = "/missing/resource.txt";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> StreamResourceHelper.requireStreamFromClasspath(path,
-            StreamResourceHelper.class)
-        );
+        final var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> StreamResourceHelper.requireStreamFromClasspath(path, StreamResourceHelper.class));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -245,7 +249,7 @@ public final class StreamResourceHelperTest {
         assertDoesNotThrow(() -> {
             final var firstByte = stream.read();
             // The stream should contain data (not -1 for EOF immediately)
-            assertTrue((firstByte >= 0) || (firstByte == -1)); // Both are valid
+            assertTrue(firstByte >= -1); // -1 is EOF, any other value is valid
             stream.close();
         });
     }
@@ -285,8 +289,7 @@ public final class StreamResourceHelperTest {
     public void testNullPathHandling() {
 
         // This should handle null gracefully or throw an appropriate exception
-        assertThrows(Exception.class, () -> StreamResourceHelper.resolveStreamFromClasspath(null)
-        );
+        assertThrows(Exception.class, () -> StreamResourceHelper.resolveStreamFromClasspath(null));
     }
 
     @Test

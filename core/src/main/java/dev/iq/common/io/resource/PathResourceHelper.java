@@ -10,15 +10,13 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 /**
- * Helper class to assist in resolving resources from the classpath to a Path.
- * All the classloading methods in this type utilize Class#getResource() rather than
- * ClassLoader#getResource().  Therefore the paths may be either relative or absolute.
+ * Helper class to assist in resolving resources from the classpath to a Path. All the classloading
+ * methods in this type utilize Class#getResource() rather than ClassLoader#getResource(). Therefore
+ * the paths may be either relative or absolute.
  */
 public final class PathResourceHelper {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private PathResourceHelper() {}
 
     /**
@@ -31,8 +29,8 @@ public final class PathResourceHelper {
     }
 
     /**
-     * Attempts to resolve the Path of a resource from the curent classpath, relative to the calling class.
-     * If not found, an IllegalArgumentException will be thrown.
+     * Attempts to resolve the Path of a resource from the curent classpath, relative to the calling
+     * class. If not found, an IllegalArgumentException will be thrown.
      */
     public static Path requirePathFromClasspath(final String path, final Class<?> caller) {
 
@@ -49,7 +47,8 @@ public final class PathResourceHelper {
     }
 
     /**
-     * Attempts to resolve the Path of a resource from the curent classpath, relative to the calling class.
+     * Attempts to resolve the Path of a resource from the curent classpath, relative to the calling
+     * class.
      */
     public static Optional<Path> resolvePathFromClasspath(final String path, final Class<?> caller) {
 

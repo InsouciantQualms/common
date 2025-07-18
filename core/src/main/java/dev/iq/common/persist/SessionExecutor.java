@@ -3,18 +3,15 @@ package dev.iq.common.persist;
 import dev.iq.common.error.IoException;
 import dev.iq.common.fp.Fn0;
 
-/**
- * Convenience operations for using a session.
- */
+/** Convenience operations for using a session. */
 public final class SessionExecutor {
 
-    /**
-     * Type contains only static methods.
-     */
+    /** Type contains only static methods. */
     private SessionExecutor() {}
 
     /**
-     * Creates a session, executes the operation (commits if succsesful, rollsback if failed) and closes the session.
+     * Creates a session, executes the operation (commits if succsesful, rollsback if failed) and
+     * closes the session.
      */
     @SuppressWarnings("OverlyNestedMethod")
     public static <T> T execute(final SessionFactory factory, final Fn0<T> operation) {

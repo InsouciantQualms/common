@@ -9,9 +9,7 @@ package dev.iq.common.adt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for the CodedFinder utility class.
- */
+/** Tests for the CodedFinder utility class. */
 final class CodedFinderTest {
 
     @Test
@@ -22,7 +20,6 @@ final class CodedFinderTest {
     }
 
     private enum CodedEnum implements Coded<String> {
-
         MICHIGAN("MI"),
         NEW_JERSEY("NJ");
 

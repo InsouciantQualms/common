@@ -10,16 +10,18 @@ import dev.iq.common.error.Invariant;
 import dev.iq.common.fp.Fn0;
 import dev.iq.common.fp.Io;
 import dev.iq.common.lock.SimpleLock;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Indicates the type is lazy loadable.  The specified supplier will only be called once for the first get() and then
- * memoize the response for subsequent calls.
+ * Indicates the type is lazy loadable. The specified supplier will only be called once for the
+ * first get() and then memoize the response for subsequent calls.
  */
 public final class Lazy<T> {
 
-    /** Detects a recursive initialization within the same thread on the same instance (not static since check is per instance). */
+    /**
+     * Detects a recursive initialization within the same thread on the same instance (not static
+     * since check is per instance).
+     */
     @SuppressWarnings("ThreadLocalNotStaticFinal")
     private final ThreadLocal<Boolean> initializing = ThreadLocal.withInitial(() -> false);
 
@@ -35,16 +37,15 @@ public final class Lazy<T> {
     /** Cached (memoized) value. */
     private T value = null;
 
-    /**
-     * Private constructor.  Use factory methods to instantiate.
-     */
+    /** Private constructor. Use factory methods to instantiate. */
     private Lazy(final Fn0<T> supplier) {
 
         this.supplier = supplier;
     }
 
     /**
-     * Creates a lazily evaluated value that will invoke the supplied function only once, on the first call of get().
+     * Creates a lazily evaluated value that will invoke the supplied function only once, on the
+     * first call of get().
      */
     public static <T> Lazy<T> of(final Fn0<T> supplier) {
 
@@ -54,16 +55,14 @@ public final class Lazy<T> {
     /**
      * Returns whether the type has been loaded.
      *
-     * @return boolean         True if previously loaded
+     * @return boolean True if previously loaded
      */
     public boolean loaded() {
 
         return loaded.get();
     }
 
-    /**
-     * Return the underlying type using the supplied originally specified.
-     */
+    /** Return the underlying type using the supplied originally specified. */
     public T get() {
 
         if (!loaded()) {
@@ -73,7 +72,8 @@ public final class Lazy<T> {
     }
 
     /**
-     * Load the value from the supplier and ensure that we do not cause deadlock or allow recursive calls to stack overflow.
+     * Load the value from the supplier and ensure that we do not cause deadlock or allow recursive
+     * calls to stack overflow.
      */
     private void load() {
 

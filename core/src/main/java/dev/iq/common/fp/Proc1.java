@@ -8,42 +8,30 @@ package dev.iq.common.fp;
 
 import dev.iq.common.error.IoException;
 import dev.iq.common.error.UnexpectedException;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Wrapper to invoke an arbitrary Consumer that may have checked exceptions.
- */
+/** Wrapper to invoke an arbitrary Consumer that may have checked exceptions. */
 @FunctionalInterface
 public interface Proc1<T> {
 
-    /**
-     * Wraps the call to ensure only an unchecked exception will be thrown.
-     */
+    /** Wraps the call to ensure only an unchecked exception will be thrown. */
     static <T> Consumer<T> asTry(final Proc1<? super T> c) {
 
         return accept(c, UnexpectedException::new);
     }
 
-    /**
-     * Wraps the call to ensure only an unchecked exception will be thrown.
-     */
+    /** Wraps the call to ensure only an unchecked exception will be thrown. */
     static <T> Consumer<T> asIo(final Proc1<? super T> c) {
 
         return accept(c, IoException::new);
     }
 
-    /**
-     * Method taking one parameter with no return value but may throw an exception.
-     */
+    /** Method taking one parameter with no return value but may throw an exception. */
     @SuppressWarnings("ProhibitedExceptionDeclared")
-    void accept(final T t)
-        throws Exception;
+    void accept(T t) throws Exception;
 
-    /**
-     * Consistently execute the throwable consumer passed in and generate a mapped exception.
-     */
+    /** Consistently execute the throwable consumer passed in and generate a mapped exception. */
     @SuppressWarnings("ProhibitedExceptionThrown")
     private static <T> Consumer<T> accept(final Proc1<? super T> c, final Function<Exception, RuntimeException> ex) {
 
@@ -54,6 +42,5 @@ public interface Proc1<T> {
                 throw ex.apply(e);
             }
         };
-
     }
 }

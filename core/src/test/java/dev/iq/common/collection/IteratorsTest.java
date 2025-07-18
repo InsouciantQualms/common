@@ -6,11 +6,19 @@
 
 package dev.iq.common.collection;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Vector;
 import org.junit.jupiter.api.Test;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the Iterators utility class covering enumeration conversion and safe element removal.
@@ -242,13 +250,12 @@ public final class IteratorsTest {
         final var iterator = list.iterator();
         final var removedCount = Iterators.remove(iterator, s -> s.contains("1"));
 
-        // Should remove items containing "1": 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31, 41, 51, 61, 71, 81, 91
+        // Should remove items containing "1": 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31,
+        // 41, 51, 61, 71, 81, 91
         assertEquals(19, removedCount);
         assertEquals(81, list.size());
     }
 
-    /**
-     * Simple test record for custom object testing.
-     */
+    /** Simple test record for custom object testing. */
     private record Person(String name, int age) {}
 }

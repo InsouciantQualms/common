@@ -6,19 +6,16 @@
 
 package dev.iq.common.io.pipe;
 
-import dev.iq.common.fp.Fn0;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Tests for StringSupplierPipe covering lazy evaluation of reader and writer suppliers.
- */
+import dev.iq.common.fp.Fn0;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import org.junit.jupiter.api.Test;
+
+/** Tests for StringSupplierPipe covering lazy evaluation of reader and writer suppliers. */
 public final class StringSupplierPipeTest {
 
     @Test
@@ -252,7 +249,7 @@ public final class StringSupplierPipeTest {
     private static final class TestReader extends StringReader {
         private boolean closed = false;
 
-        public TestReader(final String s) {
+        TestReader(final String s) {
             super(s);
         }
 

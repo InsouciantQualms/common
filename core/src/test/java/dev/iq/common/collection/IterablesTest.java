@@ -6,11 +6,20 @@
 
 package dev.iq.common.collection;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Vector;
 import org.junit.jupiter.api.Test;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests for the Iterables utility class covering immutable collection operations and conversions.
@@ -93,8 +102,7 @@ public final class IterablesTest {
     public void testOfDoesNotSupportNullElements() {
 
         // Iterables.of() uses List.of() which doesn't allow null values
-        assertThrows(NullPointerException.class, () -> Iterables.of("first", null, "third")
-        );
+        assertThrows(NullPointerException.class, () -> Iterables.of("first", null, "third"));
     }
 
     @Test
@@ -225,11 +233,10 @@ public final class IterablesTest {
 
         // Verify we can't cast it back to a mutable collection
         assertThrows(UnsupportedOperationException.class, () -> {
-                if (immutableIterable instanceof final List<String> list) {
-                    list.add("should fail");
-                }
+            if (immutableIterable instanceof final List<String> list) {
+                list.add("should fail");
             }
-        );
+        });
     }
 
     @Test
@@ -244,16 +251,13 @@ public final class IterablesTest {
 
         // Verify we can't modify the sorted result
         assertThrows(UnsupportedOperationException.class, () -> {
-                if (sorted instanceof final List<String> list) {
-                    list.add("should fail");
-                }
+            if (sorted instanceof final List<String> list) {
+                list.add("should fail");
             }
-        );
+        });
     }
 
-    /**
-     * Helper method to get size of an iterable.
-     */
+    /** Helper method to get size of an iterable. */
     private static <T> int getSize(final Iterable<T> iterable) {
         var count = 0;
         for (final var ignored : iterable) {
@@ -262,9 +266,7 @@ public final class IterablesTest {
         return count;
     }
 
-    /**
-     * Helper method to check if an iterable contains a specific element.
-     */
+    /** Helper method to check if an iterable contains a specific element. */
     private static <T> boolean contains(final Iterable<T> iterable, final T element) {
         for (final var item : iterable) {
             if (Objects.equals(item, element)) {

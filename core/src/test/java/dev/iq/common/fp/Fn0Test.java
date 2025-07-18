@@ -6,17 +6,18 @@
 
 package dev.iq.common.fp;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import dev.iq.common.error.IoException;
 import dev.iq.common.error.UnexpectedException;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Fn0 functional interface covering supplier functionality.
- */
+/** Tests for the Fn0 functional interface covering supplier functionality. */
 public final class Fn0Test {
 
     @Test
@@ -36,8 +37,7 @@ public final class Fn0Test {
             throw new IOException("Test exception");
         };
 
-        assertThrows(UnexpectedException.class, () -> Fn0.asTry(supplier)
-        );
+        assertThrows(UnexpectedException.class, () -> Fn0.asTry(supplier));
     }
 
     @Test
@@ -76,8 +76,7 @@ public final class Fn0Test {
             throw new IOException("Test exception");
         };
 
-        assertThrows(IoException.class, () -> Fn0.asIo(supplier)
-        );
+        assertThrows(IoException.class, () -> Fn0.asIo(supplier));
     }
 
     @Test
@@ -106,8 +105,7 @@ public final class Fn0Test {
             throw new RuntimeException("Original exception");
         };
 
-        final var thrown = assertThrows(UnexpectedException.class, () -> Fn0.asTry(supplier)
-        );
+        final var thrown = assertThrows(UnexpectedException.class, () -> Fn0.asTry(supplier));
 
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
@@ -120,8 +118,7 @@ public final class Fn0Test {
             throw new RuntimeException("Original exception");
         };
 
-        final var thrown = assertThrows(IoException.class, () -> Fn0.asIo(supplier)
-        );
+        final var thrown = assertThrows(IoException.class, () -> Fn0.asIo(supplier));
 
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
@@ -153,8 +150,7 @@ public final class Fn0Test {
             }
         };
 
-        assertThrows(Exception.class, fn0::get
-        );
+        assertThrows(Exception.class, fn0::get);
     }
 
     @Test

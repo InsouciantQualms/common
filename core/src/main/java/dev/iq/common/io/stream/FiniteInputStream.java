@@ -7,16 +7,15 @@
 package dev.iq.common.io.stream;
 
 import dev.iq.common.io.IoConstants;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.EOFException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Input stream that will throw an EOFException once a pre-set maximum number of bytes
- * has been read.
+ * Input stream that will throw an EOFException once a pre-set maximum number of bytes has been
+ * read.
  */
 public final class FiniteInputStream extends FilterInputStream {
 
@@ -24,8 +23,8 @@ public final class FiniteInputStream extends FilterInputStream {
     private long bytesRemaining;
 
     /**
-     * Creates a finite input stream that will only write to the default large object (LOB)
-     * length in bytes.  Currently, this is set to 64 mB.
+     * Creates a finite input stream that will only write to the default large object (LOB) length
+     * in bytes. Currently, this is set to 64 mB.
      *
      * @param in Underlying stream to read
      */
@@ -37,7 +36,7 @@ public final class FiniteInputStream extends FilterInputStream {
     /**
      * Creates a finite input stream that will only read up to maximum bytes.
      *
-     * @param in           Underlying stream to read
+     * @param in Underlying stream to read
      * @param maximumBytes Number of bytes after which reading will cease
      */
     public FiniteInputStream(final InputStream in, final long maximumBytes) {
@@ -46,12 +45,9 @@ public final class FiniteInputStream extends FilterInputStream {
         bytesRemaining = maximumBytes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int read()
-        throws IOException {
+    public int read() throws IOException {
 
         if (bytesRemaining <= 0) {
             throw new EOFException("Maximum number of bytes read");
@@ -63,22 +59,16 @@ public final class FiniteInputStream extends FilterInputStream {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int read(final byte @NotNull [] buffer)
-        throws IOException {
+    public int read(final byte @NotNull [] buffer) throws IOException {
 
         return read(buffer, 0, buffer.length);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int read(final byte @NotNull [] buffer, final int offset, final int length)
-        throws IOException {
+    public int read(final byte @NotNull [] buffer, final int offset, final int length) throws IOException {
 
         if (bytesRemaining <= 0) {
             throw new EOFException("Maximum number of bytes read");

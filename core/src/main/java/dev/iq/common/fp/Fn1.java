@@ -8,43 +8,32 @@ package dev.iq.common.fp;
 
 import dev.iq.common.error.IoException;
 import dev.iq.common.error.UnexpectedException;
-
 import java.util.function.Function;
 
-/**
- * Wrapper to invoke an arbitrary Function that may have checked exceptions.
- */
+/** Wrapper to invoke an arbitrary Function that may have checked exceptions. */
 @FunctionalInterface
 public interface Fn1<T, R> {
 
-    /**
-     * Wraps the call to ensure only an unchecked exception will be thrown.
-     */
+    /** Wraps the call to ensure only an unchecked exception will be thrown. */
     static <T, R> Function<T, R> asTry(final Fn1<? super T, ? extends R> fx) {
 
         return apply(fx, UnexpectedException::new);
     }
 
-    /**
-     * Wraps the call to ensure only an unchecked exception will be thrown.
-     */
+    /** Wraps the call to ensure only an unchecked exception will be thrown. */
     static <T, R> Function<T, R> asIo(final Fn1<? super T, ? extends R> fx) {
 
         return apply(fx, IoException::new);
     }
 
-    /**
-     * Method taking one parameter with a return value but may throw an exception.
-     */
+    /** Method taking one parameter with a return value but may throw an exception. */
     @SuppressWarnings("ProhibitedExceptionDeclared")
-    R apply(final T t)
-        throws Exception;
+    R apply(T t) throws Exception;
 
-    /**
-     * Executes the function and throws the wraps any exception with the one specified.
-     */
+    /** Executes the function and throws the wraps any exception with the one specified. */
     @SuppressWarnings("ProhibitedExceptionThrown")
-    private static <T, R> Function<T, R> apply(final Fn1<? super T, ? extends R> fx, final Function<Exception, RuntimeException> ex) {
+    private static <T, R> Function<T, R> apply(
+            final Fn1<? super T, ? extends R> fx, final Function<Exception, RuntimeException> ex) {
 
         return t -> {
             try {

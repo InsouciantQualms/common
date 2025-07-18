@@ -8,20 +8,15 @@ package dev.iq.common.fp;
 
 import dev.iq.common.error.UnexpectedException;
 import dev.iq.common.log.Log;
+import java.beans.IntrospectionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.beans.IntrospectionException;
-
-/**
- * Tests the various methods of the Try type.
- */
+/** Tests the various methods of the Try type. */
 public final class TryTest {
 
-    /**
-     * Helper method to always throw an exception.
-     */
-    private static void throwException() {
+    /** Helper method to always throw an exception. */
+    private static void throwException() throws IntrospectionException {
 
         throw new IntrospectionException("Testing");
     }
@@ -32,8 +27,7 @@ public final class TryTest {
      * @param message Error message
      * @throws IntrospectionException Test exception
      */
-    private static void throwException(final String message)
-        throws IntrospectionException {
+    private static void throwException(final String message) throws IntrospectionException {
 
         throw new IntrospectionException(message);
     }
@@ -44,25 +38,21 @@ public final class TryTest {
      * @param message Error message
      * @throws IntrospectionException Test exception
      */
-    private static Integer throwReturnException(final String message)
-        throws IntrospectionException {
+    private static Integer throwReturnException(final String message) throws IntrospectionException {
 
         throw new IntrospectionException(message);
     }
 
-    /**
-     * Tests runnable methods.
-     */
+    /** Tests runnable methods. */
     @Test
     public void testVoid() {
 
         Assertions.assertThrows(UnexpectedException.class, () -> Try.withVoid(TryTest::throwException));
-        Assertions.assertDoesNotThrow(() -> Try.withVoid(TryTest::throwException, e -> Log.error(TryTest.class, () -> "testing", e)));
+        Assertions.assertDoesNotThrow(
+                () -> Try.withVoid(TryTest::throwException, e -> Log.error(TryTest.class, () -> "testing", e)));
     }
 
-    /**
-     * Tests function methods.
-     */
+    /** Tests function methods. */
     @Test
     public void testReturn() {
 

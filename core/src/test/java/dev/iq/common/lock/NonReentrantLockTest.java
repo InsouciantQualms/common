@@ -6,18 +6,19 @@
 
 package dev.iq.common.lock;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the NonReentrantLock covering basic locking, fairness, and non-reentrant behavior.
- */
+/** Tests for the NonReentrantLock covering basic locking, fairness, and non-reentrant behavior. */
 public final class NonReentrantLockTest {
 
     @Test

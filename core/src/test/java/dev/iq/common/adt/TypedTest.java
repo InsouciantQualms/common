@@ -6,16 +6,17 @@
 
 package dev.iq.common.adt;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Set;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Typed class covering type reference functionality.
- */
+/** Tests for the Typed class covering type reference functionality. */
 public final class TypedTest {
 
     @Test
@@ -51,8 +52,7 @@ public final class TypedTest {
     @Test
     public void testTyped1WithNullClassThrows() {
 
-        assertThrows(NullPointerException.class, () -> Typed.of("test", null)
-        );
+        assertThrows(NullPointerException.class, () -> Typed.of("test", null));
     }
 
     @Test
@@ -82,11 +82,9 @@ public final class TypedTest {
     @Test
     public void testTyped2WithNullClassThrows() {
 
-        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, null, Integer.class)
-        );
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, null, Integer.class));
 
-        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, String.class, null)
-        );
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, String.class, null));
     }
 
     @Test
@@ -97,7 +95,7 @@ public final class TypedTest {
         assertNotNull(typed);
         assertEquals("hello", typed.getFirst());
         assertEquals(123, typed.getSecond());
-        assertEquals(true, typed.getThird());
+        assertTrue(typed.getThird());
         assertNotNull(typed.getTypeA());
         assertNotNull(typed.getTypeB());
         assertNotNull(typed.getTypeC());
@@ -120,14 +118,12 @@ public final class TypedTest {
     @Test
     public void testTyped3WithNullClassThrows() {
 
-        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, null, Integer.class, Boolean.class)
-        );
+        assertThrows(
+                NullPointerException.class, () -> Typed.of("hello", 123, true, null, Integer.class, Boolean.class));
 
-        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, String.class, null, Boolean.class)
-        );
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, String.class, null, Boolean.class));
 
-        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, String.class, Integer.class, null)
-        );
+        assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, true, String.class, Integer.class, null));
     }
 
     @Test
@@ -157,7 +153,7 @@ public final class TypedTest {
 
         assertEquals("hello", typed.getFirst());
         assertEquals(123, typed.getSecond());
-        assertEquals(true, typed.getThird());
+        assertTrue(typed.getThird());
         assertNotNull(typed.getTypeA());
         assertNotNull(typed.getTypeB());
         assertNotNull(typed.getTypeC());
@@ -172,7 +168,7 @@ public final class TypedTest {
 
         assertEquals(42.0, typed1.getFirst());
         assertEquals("test", typed2.getFirst());
-        assertEquals(true, typed2.getSecond());
+        assertTrue(typed2.getSecond());
         assertEquals(1, typed3.getFirst());
         assertEquals(2.0, typed3.getSecond());
         assertEquals("three", typed3.getThird());

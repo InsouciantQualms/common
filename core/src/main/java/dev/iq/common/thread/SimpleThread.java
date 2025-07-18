@@ -7,9 +7,8 @@
 package dev.iq.common.thread;
 
 /**
- * SimpleThead is desigend to be used with SimpleRunnable and ThreadRegistry.  The thread will
- * retain a reference to its runnable in the registry to facilitate easy, graceful shutdown
- * of resources.
+ * SimpleThead is desigend to be used with SimpleRunnable and ThreadRegistry. The thread will retain
+ * a reference to its runnable in the registry to facilitate easy, graceful shutdown of resources.
  */
 @SuppressWarnings("ClassExplicitlyExtendsThread")
 final class SimpleThread extends Thread {
@@ -20,20 +19,18 @@ final class SimpleThread extends Thread {
     /**
      * Creates a simple thread.
      *
-     * @param   group                   Registry owned thread group
-     * @param   runnable                Runnable to execute
-     * @param   name                    Name of the thread
+     * @param group Registry owned thread group
+     * @param runnable Runnable to execute
+     * @param name Name of the thread
      */
-    public SimpleThread(final ThreadGroup group, final SimpleRunnable runnable, final String name) {
+    SimpleThread(final ThreadGroup group, final SimpleRunnable runnable, final String name) {
 
         super(group, runnable, name);
 
         this.runnable = runnable;
     }
 
-    /**
-     * Gracefully kill the thread.
-     */
+    /** Gracefully kill the thread. */
     public void kill9() {
 
         runnable.kill9();

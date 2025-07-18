@@ -7,7 +7,6 @@
 package dev.iq.common.serde;
 
 import dev.iq.common.fp.Io;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -17,55 +16,48 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-/**
- * Serialization methods for a java.util.Properties object.
- */
+/** Serialization methods for a java.util.Properties object. */
 public final class XmlPropertiesSerde {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private XmlPropertiesSerde() {}
 
     /**
-     * Parses the local filesystem URI into a map of string key/value pairs.  The XML file should
-     * be in standard java.util.Properties format.
+     * Parses the local filesystem URI into a map of string key/value pairs. The XML file should be
+     * in standard java.util.Properties format.
      */
     public static Map<String, String> deserialize(final Path path) {
 
         return Io.withReturn(() -> {
-            try (final InputStream in = new FileInputStream(path.toFile())) {
+            try (InputStream in = new FileInputStream(path.toFile())) {
                 return deserialize(in);
             }
         });
     }
 
     /**
-     * Parses the specified stream into a map of string key/value pairs.  The XML file should
-     * be in standard java.util.Properties format.
+     * Parses the specified stream into a map of string key/value pairs. The XML file should be in
+     * standard java.util.Properties format.
      */
     public static Map<String, String> deserialize(final InputStream in) {
 
         final var props = new Properties();
         Io.withVoid(() -> props.loadFromXML(in));
-        return props.entrySet().stream().collect(Collectors.toMap(e -> String.valueOf(e.getKey()), e -> String.valueOf(e.getValue())));
+        return props.entrySet().stream()
+                .collect(Collectors.toMap(e -> String.valueOf(e.getKey()), e -> String.valueOf(e.getValue())));
     }
 
-    /**
-     * Outputs the specified map as XML properties to the filesystem URI specified.
-     */
+    /** Outputs the specified map as XML properties to the filesystem URI specified. */
     public static void serialize(final Map<String, String> map, final Path target) {
 
         Io.withVoid(() -> {
-            try (final OutputStream out = new FileOutputStream(target.toFile())) {
+            try (OutputStream out = new FileOutputStream(target.toFile())) {
                 serialize(map, out);
             }
         });
     }
 
-    /**
-     * Outputs the specified map as a XML properties.
-     */
+    /** Outputs the specified map as a XML properties. */
     public static void serialize(final Map<String, String> map, final OutputStream out) {
 
         final var props = new Properties();

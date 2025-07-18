@@ -9,9 +9,9 @@ package dev.iq.common.adt;
 /**
  * Simple tuple holding two values.
  *
- * @param _1        First value
- * @param _2        Second value
- * @param <L>       Type of first value
- * @param <R>       Type of second value
+ * @param _1 First value
+ * @param _2 Second value
+ * @param <L> Type of first value
+ * @param <R> Type of second value
  */
 public record Tuple2<L, R>(L _1, R _2) {}

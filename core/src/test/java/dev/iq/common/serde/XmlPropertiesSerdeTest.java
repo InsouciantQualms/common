@@ -6,8 +6,9 @@
 
 package dev.iq.common.serde;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,12 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the XmlPropertiesSerde class covering Properties serialization functionality.
- */
+/** Tests for the XmlPropertiesSerde class covering Properties serialization functionality. */
 public final class XmlPropertiesSerdeTest {
 
     @TempDir
@@ -30,10 +29,9 @@ public final class XmlPropertiesSerdeTest {
     public void testSerializeAndDeserializeSimpleMap() {
 
         final var testMap = Map.of(
-            "key1", "value1",
-            "key2", "value2",
-            "key3", "value3"
-        );
+                "key1", "value1",
+                "key2", "value2",
+                "key3", "value3");
 
         final var testPath = tempDir.resolve("test.properties");
 
@@ -125,9 +123,8 @@ public final class XmlPropertiesSerdeTest {
     public void testSerializeAndDeserializeWithEmptyValues() {
 
         final var testMap = Map.of(
-            "emptyValue", "",
-            "normalValue", "normal"
-        );
+                "emptyValue", "",
+                "normalValue", "normal");
 
         final var testPath = tempDir.resolve("empty_values.properties");
 
@@ -143,11 +140,10 @@ public final class XmlPropertiesSerdeTest {
     public void testSerializeAndDeserializeWithDotNotation() {
 
         final var testMap = Map.of(
-            "app.name", "MyApplication",
-            "app.version", "1.0.0",
-            "app.database.host", "localhost",
-            "app.database.port", "5432"
-        );
+                "app.name", "MyApplication",
+                "app.version", "1.0.0",
+                "app.database.host", "localhost",
+                "app.database.port", "5432");
 
         final var testPath = tempDir.resolve("dot_notation.properties");
 
@@ -178,10 +174,9 @@ public final class XmlPropertiesSerdeTest {
     public void testRoundTripWithStream() {
 
         final var originalMap = Map.of(
-            "database.url", "jdbc:postgresql://localhost:5432/mydb",
-            "database.username", "user",
-            "server.port", "8080"
-        );
+                "database.url", "jdbc:postgresql://localhost:5432/mydb",
+                "database.username", "user",
+                "server.port", "8080");
 
         final var outputStream = new ByteArrayOutputStream();
         XmlPropertiesSerde.serialize(originalMap, outputStream);
@@ -196,9 +191,8 @@ public final class XmlPropertiesSerdeTest {
     public void testSerializeAndDeserializeWithSpecialCharacters() {
 
         final var testMap = Map.of(
-            "key_with_underscore", "value_with_underscore",
-            "key-with-dash", "value-with-dash"
-        );
+                "key_with_underscore", "value_with_underscore",
+                "key-with-dash", "value-with-dash");
 
         final var testPath = tempDir.resolve("special.properties");
 

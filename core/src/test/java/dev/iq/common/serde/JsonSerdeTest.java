@@ -9,21 +9,18 @@ package dev.iq.common.serde;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests JSON serialization and deserialization.
- */
+/** Tests JSON serialization and deserialization. */
 final class JsonSerdeTest {
 
     /** Test JSON to use. */
-    private static final String TEST_JSON = """
+    private static final String TEST_JSON =
+            """
         {
           "name" : "Sascha",
           "age" : 42
         }""";
 
-    /**
-     * Tests serialization.
-     */
+    /** Tests serialization. */
     @Test
     public void testSerialize() {
 
@@ -32,9 +29,7 @@ final class JsonSerdeTest {
         Assertions.assertEquals(TEST_JSON, json);
     }
 
-    /**
-     * Tests deserialization.
-     */
+    /** Tests deserialization. */
     @Test
     public void testDeserialize() {
 
@@ -43,8 +38,6 @@ final class JsonSerdeTest {
         Assertions.assertEquals(42, test.age);
     }
 
-    /**
-     * Data class for testing.
-     */
+    /** Data class for testing. */
     private record Tester(String name, int age) {}
 }

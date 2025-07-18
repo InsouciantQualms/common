@@ -6,9 +6,7 @@
 
 package dev.iq.common.io;
 
-/**
- * Constants for IO operations.
- */
+/** Constants for IO operations. */
 public final class IoConstants {
 
     /** Default buffer length to use for streams. (4 kB) */
@@ -26,8 +24,6 @@ public final class IoConstants {
     /** Empty byte array. */
     public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
-    /**
-     * Private constructor.  Type contains only constants.
-     */
+    /** Private constructor. Type contains only constants. */
     private IoConstants() {}
 }

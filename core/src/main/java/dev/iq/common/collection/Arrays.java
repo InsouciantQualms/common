@@ -8,22 +8,14 @@ package dev.iq.common.collection;
 
 import java.lang.reflect.Array;
 
-/**
- * Helper methods to facilitate working with arrays.
- */
+/** Helper methods to facilitate working with arrays. */
 public final class Arrays {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private Arrays() {}
 
     /**
-     * Cnvert a class to the array class equivalent.
-     *
-     * @param  target           Class representing a single value
-     * @return Class            Class representing an array of values
-     * @param  <T>              Parameterized type of class
+     * Convert a class to the array class equivalent.
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T[]> toArray(final Class<T> target) {

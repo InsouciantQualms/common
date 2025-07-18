@@ -6,15 +6,12 @@
 
 package dev.iq.common.error;
 
+import java.net.URISyntaxException;
+import java.text.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.net.URISyntaxException;
-import java.text.ParseException;
-
-/**
- * Tests for the UnexpectedException custom exception class.
- */
+/** Tests for the UnexpectedException custom exception class. */
 final class UnexpectedExceptionTest {
 
     @Test
@@ -25,7 +22,7 @@ final class UnexpectedExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -37,7 +34,7 @@ final class UnexpectedExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertEquals(cause, exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -47,7 +44,7 @@ final class UnexpectedExceptionTest {
         final var exception = new UnexpectedException(cause);
 
         Assertions.assertEquals(cause, exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
         // Message should be the toString of the cause
         Assertions.assertEquals(cause.toString(), exception.getMessage());
     }
@@ -59,7 +56,7 @@ final class UnexpectedExceptionTest {
 
         Assertions.assertNull(exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -70,7 +67,7 @@ final class UnexpectedExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -79,7 +76,7 @@ final class UnexpectedExceptionTest {
         final var exception = new UnexpectedException((Throwable) null);
 
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -90,7 +87,7 @@ final class UnexpectedExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -101,7 +98,7 @@ final class UnexpectedExceptionTest {
 
         Assertions.assertNull(exception.getMessage());
         Assertions.assertEquals(cause, exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -123,9 +120,9 @@ final class UnexpectedExceptionTest {
         try {
             final var field = UnexpectedException.class.getDeclaredField("serialVersionUID");
             field.setAccessible(true);
-            final var serialVersionUID = field.get(null);
-            Assertions.assertNotNull(serialVersionUID);
-            Assertions.assertTrue(serialVersionUID instanceof Long);
+            final var serialVersionUid = field.get(null);
+            Assertions.assertNotNull(serialVersionUid);
+            Assertions.assertInstanceOf(Long.class, serialVersionUid);
         } catch (final Exception e) {
             Assertions.fail("serialVersionUID field should exist and be accessible");
         }
@@ -136,8 +133,8 @@ final class UnexpectedExceptionTest {
 
         final var exception = new UnexpectedException("Test message");
 
-        Assertions.assertTrue(exception instanceof RuntimeException);
-        Assertions.assertFalse(exception instanceof Exception && !(exception instanceof RuntimeException));
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
+        Assertions.assertFalse((exception instanceof Exception) && !(exception instanceof RuntimeException));
     }
 
     @Test
@@ -169,7 +166,7 @@ final class UnexpectedExceptionTest {
         final var stackTrace = unexpectedException.getStackTrace();
         Assertions.assertNotNull(stackTrace);
         Assertions.assertTrue(stackTrace.length > 0);
-        
+
         // Verify the cause stack trace is preserved
         Assertions.assertNotNull(unexpectedException.getCause().getStackTrace());
         Assertions.assertTrue(unexpectedException.getCause().getStackTrace().length > 0);
@@ -180,13 +177,13 @@ final class UnexpectedExceptionTest {
 
         final var message = "Test message";
         final var cause = new RuntimeException("Cause");
-        
+
         final var unexpectedException = new UnexpectedException(message, cause);
         final var ioException = new IoException(message, cause);
 
         // Both should be runtime exceptions but different types
-        Assertions.assertTrue(unexpectedException instanceof RuntimeException);
-        Assertions.assertTrue(ioException instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, unexpectedException);
+        Assertions.assertInstanceOf(RuntimeException.class, ioException);
         Assertions.assertNotEquals(unexpectedException.getClass(), ioException.getClass());
     }
 

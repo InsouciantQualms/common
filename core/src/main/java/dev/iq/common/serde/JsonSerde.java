@@ -13,81 +13,66 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import dev.iq.common.fp.Io;
-
 import java.io.Reader;
 import java.io.Writer;
 import java.util.function.Supplier;
 
 /**
- * Allows for serialization and desrialization of objects to and from JSON.
- * This types abstracts away the underlying implementation.
+ * Allows for serialization and desrialization of objects to and from JSON. This types abstracts
+ * away the underlying implementation.
  */
 public final class JsonSerde {
 
-    /**
-     * Type contains only static methods.
-     */
+    /** Type contains only static methods. */
     private JsonSerde() {}
 
-    /**
-     * Deserializes from JSON.
-     */
+    /** Deserializes from JSON. */
     public static <T> T fromJson(final String json, final Class<T> target) {
 
         return Io.withReturn(() -> createMapper().readValue(json, target));
     }
 
-    /**
-     * Deserializes from JSON.
-     */
+    /** Deserializes from JSON. */
     public static <T> T fromJson(final Reader reader, final Class<T> target) {
 
         return Io.withReturn(() -> createMapper().readValue(reader, target));
     }
 
-    /**
-     * Deserializes from JSON.
-     */
+    /** Deserializes from JSON. */
     public static <T> T fromJson(final Supplier<? extends Reader> fx, final Class<T> target) {
 
         return Io.withReturn(() -> {
-            try (final var reader = fx.get()) {
+            try (var reader = fx.get()) {
                 return fromJson(reader, target);
             }
         });
     }
 
-    /**
-     * Serializes out to JSON.
-     */
+    /** Serializes out to JSON. */
     public static String toJson(final Object target) {
 
         return Io.withReturn(() -> createMapper().writeValueAsString(target));
     }
 
-    /**
-     * Serializes as JSON writing to the specified writer.
-     */
+    /** Serializes as JSON writing to the specified writer. */
     public static void toJson(final Object target, final Writer writer) {
 
         Io.withVoid(() -> createMapper().writeValue(writer, target));
     }
 
-    /**
-     * Serializes as JSON writing to the specified lazy writer.
-     */
+    /** Serializes as JSON writing to the specified lazy writer. */
     public static void toJson(final Object target, final Supplier<? extends Writer> fx) {
 
         Io.withVoid(() -> {
-            try (final var writer = fx.get()) {
+            try (var writer = fx.get()) {
                 toJson(target, writer);
             }
         });
     }
 
     /**
-     * Attempts to remove JSON symbols and delimiters to output JSON that could not be
-     * parsed (either came in as an unexpected type or is invalid format).
+     * Attempts to remove JSON symbols and delimiters to output JSON that could not be parsed
+     * (either came in as an unexpected type or is invalid format).
      */
     @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
     public static String prettify(final String maybeJson) {
@@ -98,7 +83,7 @@ public final class JsonSerde {
     /**
      * Creates an object mapper to use.
      *
-     * @return ObjectMapper     Mapper to use
+     * @return ObjectMapper Mapper to use
      */
     private static ObjectMapper createMapper() {
 

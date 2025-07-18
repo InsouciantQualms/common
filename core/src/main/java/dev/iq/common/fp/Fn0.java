@@ -8,22 +8,19 @@ package dev.iq.common.fp;
 
 import dev.iq.common.error.IoException;
 import dev.iq.common.error.UnexpectedException;
-
 import java.util.function.Function;
 
-/**
- * Wrapper to invoke an arbitrary Supplier that may have checked exceptions.
- */
+/** Wrapper to invoke an arbitrary Supplier that may have checked exceptions. */
 @FunctionalInterface
 public interface Fn0<T> {
 
     /**
-     * Execute the specified supplier that can throw an exception.  If an exception is thrown,
-     * it will be converted to an unchecked exception.
+     * Execute the specified supplier that can throw an exception. If an exception is thrown, it
+     * will be converted to an unchecked exception.
      *
-     * @param fx  Supplier function to execute
+     * @param fx Supplier function to execute
      * @param <T> Type parameter of consumer arguent
-     * @return T           Value returned
+     * @return T Value returned
      */
     static <T> T asTry(final Fn0<T> fx) {
 
@@ -31,28 +28,23 @@ public interface Fn0<T> {
     }
 
     /**
-     * Execute the specified supplier that can throw an exception.  If an exception is thrown,
-     * it will be converted to an unchecked exception.
+     * Execute the specified supplier that can throw an exception. If an exception is thrown, it
+     * will be converted to an unchecked exception.
      *
-     * @param fx  Supplier function to execute
+     * @param fx Supplier function to execute
      * @param <T> Type parameter of consumer arguent
-     * @return T           Value returned
+     * @return T Value returned
      */
     static <T> T asIo(final Fn0<T> fx) {
 
         return get(fx, IoException::new);
     }
 
-    /**
-     * Method that returns a value possibly throwing an exception.
-     */
+    /** Method that returns a value possibly throwing an exception. */
     @SuppressWarnings("ProhibitedExceptionDeclared")
-    T get()
-        throws Exception;
+    T get() throws Exception;
 
-    /**
-     * Execute the specified supplier that can throw an exception.
-     */
+    /** Execute the specified supplier that can throw an exception. */
     @SuppressWarnings("ProhibitedExceptionThrown")
     private static <T> T get(final Fn0<? extends T> fx, final Function<Exception, RuntimeException> ex) {
 

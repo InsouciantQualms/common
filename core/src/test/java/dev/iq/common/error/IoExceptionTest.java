@@ -6,15 +6,12 @@
 
 package dev.iq.common.error;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-/**
- * Tests for the IoException custom exception class.
- */
+/** Tests for the IoException custom exception class. */
 final class IoExceptionTest {
 
     @Test
@@ -25,7 +22,7 @@ final class IoExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -37,7 +34,7 @@ final class IoExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertEquals(cause, exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -47,7 +44,7 @@ final class IoExceptionTest {
         final var exception = new IoException(cause);
 
         Assertions.assertEquals(cause, exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
         // Message should be the toString of the cause
         Assertions.assertEquals(cause.toString(), exception.getMessage());
     }
@@ -59,7 +56,7 @@ final class IoExceptionTest {
 
         Assertions.assertNull(exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -70,7 +67,7 @@ final class IoExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -79,7 +76,7 @@ final class IoExceptionTest {
         final var exception = new IoException((Throwable) null);
 
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -90,7 +87,7 @@ final class IoExceptionTest {
 
         Assertions.assertEquals(message, exception.getMessage());
         Assertions.assertNull(exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -101,7 +98,7 @@ final class IoExceptionTest {
 
         Assertions.assertNull(exception.getMessage());
         Assertions.assertEquals(cause, exception.getCause());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -123,9 +120,9 @@ final class IoExceptionTest {
         try {
             final var field = IoException.class.getDeclaredField("serialVersionUID");
             field.setAccessible(true);
-            final var serialVersionUID = field.get(null);
-            Assertions.assertNotNull(serialVersionUID);
-            Assertions.assertTrue(serialVersionUID instanceof Long);
+            final var serialVersionUid = field.get(null);
+            Assertions.assertNotNull(serialVersionUid);
+            Assertions.assertInstanceOf(Long.class, serialVersionUid);
         } catch (final Exception e) {
             Assertions.fail("serialVersionUID field should exist and be accessible");
         }
@@ -136,8 +133,8 @@ final class IoExceptionTest {
 
         final var exception = new IoException("Test message");
 
-        Assertions.assertTrue(exception instanceof RuntimeException);
-        Assertions.assertFalse(exception instanceof Exception && !(exception instanceof RuntimeException));
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
+        Assertions.assertFalse((exception instanceof Exception) && !(exception instanceof RuntimeException));
     }
 
     @Test
@@ -166,7 +163,7 @@ final class IoExceptionTest {
         final var stackTrace = ioException.getStackTrace();
         Assertions.assertNotNull(stackTrace);
         Assertions.assertTrue(stackTrace.length > 0);
-        
+
         // Verify the cause stack trace is preserved
         Assertions.assertNotNull(ioException.getCause().getStackTrace());
         Assertions.assertTrue(ioException.getCause().getStackTrace().length > 0);

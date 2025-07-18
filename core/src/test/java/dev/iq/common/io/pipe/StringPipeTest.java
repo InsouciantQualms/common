@@ -6,18 +6,15 @@
 
 package dev.iq.common.io.pipe;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-/**
- * Tests for StringPipe covering string operations with readers and writers.
- */
+/** Tests for StringPipe covering string operations with readers and writers. */
 public final class StringPipeTest {
 
     @Test
@@ -212,7 +209,7 @@ public final class StringPipeTest {
     private static final class TestReader extends StringReader {
         private boolean closed = false;
 
-        public TestReader(final String s) {
+        TestReader(final String s) {
             super(s);
         }
 

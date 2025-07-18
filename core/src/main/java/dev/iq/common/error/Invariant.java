@@ -7,51 +7,49 @@
 package dev.iq.common.error;
 
 /**
- * Tests for various invariant conditions and throws an exception when they are
- * not true (or do not pass).
+ * Tests for various invariant conditions and throws an exception when they are not true (or do not
+ * pass).
  */
 @SuppressWarnings("BooleanParameter")
 public final class Invariant {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private Invariant() {}
 
     /**
-     * Throws an IllegalStateException if the condition is not true.  Use this
-     * method for all non-fatal errors and all cases outside of testing.
+     * Throws an IllegalStateException if the condition is not true. Use this method for all
+     * non-fatal errors and all cases outside of testing.
      *
-     * @param   value               Boolean value to test
-     * @param   message             Error message if false
+     * @param value Boolean value to test
+     * @param message Error message if false
      */
     public static void requireTrue(final boolean value, final String message) {
 
-        if (! value) {
+        if (!value) {
             throw new IllegalStateException(message);
         }
     }
 
     /**
-     * Throws an AssertionError if the condition passed in is not true.  Note that
-     * since AssertionError extends Error, use this method mainly for truly fatal
-     * errors or testing.  Prefer requireTrue() for most cases.
+     * Throws an AssertionError if the condition passed in is not true. Note that since
+     * AssertionError extends Error, use this method mainly for truly fatal errors or testing.
+     * Prefer requireTrue() for most cases.
      *
-     * @param   value               Boolean value to test
-     * @param   message             Error message if false
+     * @param value Boolean value to test
+     * @param message Error message if false
      */
     public static void assertTrue(final boolean value, final String message) {
 
-        if (! value) {
+        if (!value) {
             throw new AssertionError(message);
         }
     }
 
     /**
-     * Always throws an AssertionError.  This should be invoked only from areas
-     * where there is unreachable code.
+     * Always throws an AssertionError. This should be invoked only from areas where there is
+     * unreachable code.
      *
-     * @param   message             Message to display
+     * @param message Message to display
      */
     public static void fail(final String message) {
 

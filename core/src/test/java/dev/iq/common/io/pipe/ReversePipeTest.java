@@ -6,15 +6,14 @@
 
 package dev.iq.common.io.pipe;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for ReversePipe covering basic functionality.
- */
+/** Tests for ReversePipe covering basic functionality. */
 public final class ReversePipeTest {
 
     @Test
@@ -22,7 +21,7 @@ public final class ReversePipeTest {
 
         final var pipe = new ReversePipe();
         final var testData = "Hello, World!";
-        
+
         final var result = pipe.read(outputStream -> {
             try {
                 outputStream.write(testData.getBytes());
@@ -31,7 +30,7 @@ public final class ReversePipeTest {
                 throw new RuntimeException(e);
             }
         });
-        
+
         assertArrayEquals(testData.getBytes(), result);
     }
 
@@ -39,7 +38,7 @@ public final class ReversePipeTest {
     public void testReadWithEmptyOutput() {
 
         final var pipe = new ReversePipe();
-        
+
         final var result = pipe.read(outputStream -> {
             try {
                 outputStream.close();
@@ -47,7 +46,7 @@ public final class ReversePipeTest {
                 throw new RuntimeException(e);
             }
         });
-        
+
         assertEquals(0, result.length);
     }
 
@@ -55,7 +54,7 @@ public final class ReversePipeTest {
     public void testPipeCreation() {
 
         final var pipe = new ReversePipe();
-        
+
         assertNotNull(pipe);
     }
 
@@ -66,7 +65,7 @@ public final class ReversePipeTest {
         final var testData1 = "First part ";
         final var testData2 = "Second part";
         final var expectedData = testData1 + testData2;
-        
+
         final var result = pipe.read(outputStream -> {
             try {
                 outputStream.write(testData1.getBytes());
@@ -76,7 +75,7 @@ public final class ReversePipeTest {
                 throw new RuntimeException(e);
             }
         });
-        
+
         assertArrayEquals(expectedData.getBytes(), result);
     }
 
@@ -85,7 +84,7 @@ public final class ReversePipeTest {
 
         final var pipe = new ReversePipe();
         final var testData = "x".repeat(1000);
-        
+
         final var result = pipe.read(outputStream -> {
             try {
                 outputStream.write(testData.getBytes());
@@ -94,7 +93,7 @@ public final class ReversePipeTest {
                 throw new RuntimeException(e);
             }
         });
-        
+
         assertArrayEquals(testData.getBytes(), result);
     }
 }

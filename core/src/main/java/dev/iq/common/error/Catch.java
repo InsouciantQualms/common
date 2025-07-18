@@ -9,20 +9,14 @@ package dev.iq.common.error;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Utility class to assist with handling caught exceptions properly.
- */
+/** Utility class to assist with handling caught exceptions properly. */
 @SuppressWarnings("ChainOfInstanceofChecks")
 public final class Catch {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private Catch() {}
 
-    /**
-     * Executes the specified handler.  This is normally invoked from within a catch-block.
-     */
+    /** Executes the specified handler. This is normally invoked from within a catch-block. */
     public static void withVoid(final Throwable thrown, final Consumer<Throwable> fx) {
 
         try {
@@ -37,7 +31,8 @@ public final class Catch {
     }
 
     /**
-     * Executes the specified funciton, returning the result.  This is normally called from within a catch-block.
+     * Executes the specified funciton, returning the result. This is normally called from within a
+     * catch-block.
      */
     public static <T> T withReturn(final Throwable thrown, final Function<Throwable, T> fx) {
 
@@ -54,17 +49,13 @@ public final class Catch {
         }
     }
 
-    /**
-     * Determines whether a re-throw is required.
-     */
+    /** Determines whether a re-throw is required. */
     private static boolean requiresRethrow(final Throwable thrown) {
 
         return !(thrown instanceof Exception);
     }
 
-    /**
-     * Safely re-throws an exception based on its instance type.
-     */
+    /** Safely re-throws an exception based on its instance type. */
     @SuppressWarnings("ProhibitedExceptionThrown")
     private static void rethrow(final Throwable thrown) {
 

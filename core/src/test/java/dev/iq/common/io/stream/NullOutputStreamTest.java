@@ -6,17 +6,17 @@
 
 package dev.iq.common.io.stream;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for NullOutputStream covering null stream behavior that consumes all writes.
- */
+/** Tests for NullOutputStream covering null stream behavior that consumes all writes. */
 public final class NullOutputStreamTest {
 
     @Test
@@ -91,7 +91,7 @@ public final class NullOutputStreamTest {
     public void testWriteBinaryData() {
 
         final var nullStream = new NullOutputStream();
-        final var data = new byte[]{0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
+        final var data = new byte[] {0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
 
         assertDoesNotThrow(() -> nullStream.write(data));
     }
@@ -279,7 +279,8 @@ public final class NullOutputStreamTest {
 
         final var nullStream = new NullOutputStream();
 
-        // According to the documentation, it "performs no action but simply consumes any write requests"
+        // According to the documentation, it "performs no action but simply consumes any write
+        // requests"
         // This means all write operations should succeed without throwing exceptions
         assertDoesNotThrow(() -> {
             nullStream.write(65); // 'A'

@@ -4,48 +4,35 @@ import dev.iq.common.annotation.Stable;
 import java.time.Instant;
 import java.util.Optional;
 
-/**
- * Represents a versioned item that can be located by a unique NanoId and version number.
- */
+/** Represents a versioned item that can be located by a unique NanoId and version number. */
 @Stable
 public interface Versioned {
 
-    /**
-     * Returns the unique locator for this versioned item.
-     */
+    /** Returns the unique locator for this versioned item. */
     Locator locator();
 
-    /**
-     * Returns the timestamp when this version was created.
-     */
+    /** Returns the timestamp when this version was created. */
     Instant created();
 
-    /**
-     * Returns the timestamp when this version expired, if applicable.
-     */
+    /** Returns the timestamp when this version expired, if applicable. */
     Optional<Instant> expired();
 
-    /**
-     * Checks if an identifiable item is active at a given timestamp.
-     */
+    /** Checks if an identifiable item is active at a given timestamp. */
     static boolean isActiveAt(final Instant timestamp, final Versioned e) {
 
         final var created = e.created();
         final var expired = e.expired();
-        return !created.isAfter(timestamp) && (expired.isEmpty() || expired.get().isAfter(timestamp));
+        return !created.isAfter(timestamp)
+                && (expired.isEmpty() || expired.get().isAfter(timestamp));
     }
 
-    /**
-     * Compares two identifiable items for equality based on their locators.
-     */
+    /** Compares two identifiable items for equality based on their locators. */
     static boolean equals(final Versioned source, final Versioned target) {
 
         return source.locator().equals(target.locator());
     }
 
-    /**
-     * Computes hash code for an identifiable item based on its locator.
-     */
+    /** Computes hash code for an identifiable item based on its locator. */
     static int hashCode(final Versioned target) {
 
         return target.locator().hashCode();

@@ -8,14 +8,11 @@ package dev.iq.common.fp;
 
 import dev.iq.common.error.IoException;
 import dev.iq.common.log.Log;
+import java.io.IOException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
-/**
- * Tests the various methods of the Try type.
- */
+/** Tests the various methods of the Try type. */
 public final class IoTest {
 
     /**
@@ -23,8 +20,7 @@ public final class IoTest {
      *
      * @throws IOException Test exception
      */
-    private static void throwException()
-        throws IOException {
+    private static void throwException() throws IOException {
 
         throw new IOException("Testing");
     }
@@ -35,8 +31,7 @@ public final class IoTest {
      * @param message Error message
      * @throws IOException Test exception
      */
-    private static void throwException(final String message)
-        throws IOException {
+    private static void throwException(final String message) throws IOException {
 
         throw new IOException(message);
     }
@@ -47,25 +42,21 @@ public final class IoTest {
      * @param message Error message
      * @throws IOException Test exception
      */
-    private static Integer throwReturnException(final String message)
-        throws IOException {
+    private static Integer throwReturnException(final String message) throws IOException {
 
         throw new IOException(message);
     }
 
-    /**
-     * Tests runnable methods.
-     */
+    /** Tests runnable methods. */
     @Test
     public void testVoid() {
 
         Assertions.assertThrows(IoException.class, () -> Io.withVoid(IoTest::throwException));
-        Assertions.assertDoesNotThrow(() -> Io.withVoid(IoTest::throwException, e -> Log.error(IoTest.class, () -> "testing", e)));
+        Assertions.assertDoesNotThrow(
+                () -> Io.withVoid(IoTest::throwException, e -> Log.error(IoTest.class, () -> "testing", e)));
     }
 
-    /**
-     * Tests function methods.
-     */
+    /** Tests function methods. */
     @Test
     public void testReturn() {
 

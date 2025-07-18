@@ -8,14 +8,10 @@ package dev.iq.common.io.stream;
 
 import java.io.InputStream;
 
-/**
- * An input stream that reads nothing and always indicates more data is present.
- */
+/** An input stream that reads nothing and always indicates more data is present. */
 public final class NullInputStream extends InputStream {
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public int read() {
 

@@ -6,14 +6,20 @@
 
 package dev.iq.common.adt;
 
-import dev.iq.common.error.IoException;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import dev.iq.common.error.IoException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the Lazy type covering lazy evaluation, thread safety, and recursive call protection.
@@ -105,7 +111,9 @@ public final class LazyTest {
         final var exception = assertThrows(IoException.class, recursiveLazy::get);
         assertInstanceOf(IoException.class, exception.getCause());
         assertInstanceOf(IllegalStateException.class, exception.getCause().getCause());
-        assertEquals("Recursive call to Lazy.get() on same instance in the same thread", exception.getCause().getCause().getMessage());
+        assertEquals(
+                "Recursive call to Lazy.get() on same instance in the same thread",
+                exception.getCause().getCause().getMessage());
     }
 
     @Test
@@ -201,18 +209,14 @@ public final class LazyTest {
         assertTrue(lazy2.loaded());
     }
 
-    /**
-     * Simple test object for complex object testing.
-     */
+    /** Simple test object for complex object testing. */
     private record TestObject(String name, int value) {}
 
-    /**
-     * Helper class to test recursive call prevention.
-     */
+    /** Helper class to test recursive call prevention. */
     private static final class RecursiveLazy {
         private final Lazy<String> lazy;
 
-        public RecursiveLazy() {
+        RecursiveLazy() {
             lazy = Lazy.of(this::getValue);
         }
 

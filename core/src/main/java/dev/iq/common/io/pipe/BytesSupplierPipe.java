@@ -8,14 +8,12 @@ package dev.iq.common.io.pipe;
 
 import dev.iq.common.fp.Fn0;
 import dev.iq.common.fp.Io;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Pipe implementation that reads from InputStream, writes to OutputStream
- * and works with byte[] values.  All suppliers are lazily evaluated.
- * <br/>
+ * Pipe implementation that reads from InputStream, writes to OutputStream and works with byte[]
+ * values. All suppliers are lazily evaluated. <br>
  * This implementation will close the streams passed in.
  */
 final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>, Fn0<? extends OutputStream>> {
@@ -23,40 +21,35 @@ final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>
     /** Delegate for byte-based operations. */
     private static final BytesPipe delegate = new BytesPipe();
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public byte[] read(final Fn0<? extends InputStream> in) {
+    public byte[] read(Fn0<? extends InputStream> in) {
 
         return Io.withReturn(() -> {
-            try (final var stream = in.get()) {
+            try (var stream = in.get()) {
                 return delegate.read(stream);
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final byte[] target, final Fn0<? extends OutputStream> out) {
+    public void write(byte[] target, Fn0<? extends OutputStream> out) {
 
         Io.withVoid(() -> {
-            try (final var stream = out.get()) {
+            try (var stream = out.get()) {
                 delegate.write(target, stream);
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public long go(final Fn0<? extends InputStream> in, final Fn0<? extends OutputStream> out, final int bufferSize) {
+    public long go(Fn0<? extends InputStream> in, Fn0<? extends OutputStream> out, int bufferSize) {
 
         return Io.withReturn(() -> {
-            try (final var streamIn = in.get(); final var streamOut = out.get()) {
+            try (var streamIn = in.get();
+                    var streamOut = out.get()) {
                 return delegate.go(streamIn, streamOut, bufferSize);
             }
         });

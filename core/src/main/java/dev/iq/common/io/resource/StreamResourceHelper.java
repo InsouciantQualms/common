@@ -10,20 +10,19 @@ import java.io.InputStream;
 import java.util.Optional;
 
 /**
- * Helper class to assist in resolving resources from the classpath to an InputStream.
- * All the classloading methods in this type utilize Class#getResource() rather than
- * ClassLoader#getResource().  Therefore the paths may be either relative or absolute.
+ * Helper class to assist in resolving resources from the classpath to an InputStream. All the
+ * classloading methods in this type utilize Class#getResource() rather than
+ * ClassLoader#getResource(). Therefore the paths may be either relative or absolute.
  */
 public final class StreamResourceHelper {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private StreamResourceHelper() {}
 
     /**
-     * Attempts to resolve a stream with the content of a resource from the curent classpath, relative to this class.
-     * If the resource does not exist, an IllegalArgumentException is thrown.
+     * Attempts to resolve a stream with the content of a resource from the curent classpath,
+     * relative to this class. If the resource does not exist, an IllegalArgumentException is
+     * thrown.
      */
     public static InputStream requireStreamFromClasspath(final String path) {
 
@@ -31,8 +30,9 @@ public final class StreamResourceHelper {
     }
 
     /**
-     * Attempts to resolve a stream with the content of a resource from the curent classpath, relative to the specified caller.
-     * If the resource does not exist, an IllegalArgumentException is thrown.
+     * Attempts to resolve a stream with the content of a resource from the curent classpath,
+     * relative to the specified caller. If the resource does not exist, an IllegalArgumentException
+     * is thrown.
      */
     public static InputStream requireStreamFromClasspath(final String path, final Class<?> caller) {
 
@@ -41,7 +41,8 @@ public final class StreamResourceHelper {
     }
 
     /**
-     * Attempts to resolve a stream with the content of a resource from the curent classpath, relative to this class.
+     * Attempts to resolve a stream with the content of a resource from the curent classpath,
+     * relative to this class.
      */
     public static Optional<InputStream> resolveStreamFromClasspath(final String path) {
 
@@ -49,7 +50,8 @@ public final class StreamResourceHelper {
     }
 
     /**
-     * Attempts to resolve a stream with the content of a resource from the curent classpath, relative to the specified caller.
+     * Attempts to resolve a stream with the content of a resource from the curent classpath,
+     * relative to the specified caller.
      */
     public static Optional<InputStream> resolveStreamFromClasspath(final String path, final Class<?> caller) {
 

@@ -9,14 +9,11 @@ package dev.iq.common.lock;
 import dev.iq.common.fp.Fn0;
 import dev.iq.common.fp.Io;
 import dev.iq.common.fp.Proc0;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.jetbrains.annotations.NotNull;
 
-/**
- * Functional implementation concurrent locks
- */
+/** Functional implementation concurrent locks. */
 public final class SimpleLock {
 
     /** Underlying re-entrant lock. */
@@ -33,24 +30,21 @@ public final class SimpleLock {
     }
 
     /**
-     * Returns a re-entrant lock, with similar semantics to the Java synchronized keyword.
-     * This implementation by default utilizes a fair lock, whereby the thread with the longest
-     * wait gets first access to the lock.
+     * Returns a re-entrant lock, with similar semantics to the Java synchronized keyword. This
+     * implementation by default utilizes a fair lock, whereby the thread with the longest wait gets
+     * first access to the lock.
      */
     public static SimpleLock reentrant() {
 
         return new SimpleLock(new ReentrantLock(true));
     }
 
-
     public static @NotNull SimpleLock nonReentrant() {
 
         return new SimpleLock(new NonReentrantLock());
     }
 
-    /**
-     * Executes the special function within a re-entrant lock.
-     */
+    /** Executes the special function within a re-entrant lock. */
     public <T> T withReturn(final @NotNull Fn0<T> fx) {
 
         lock.lock();
@@ -61,9 +55,7 @@ public final class SimpleLock {
         }
     }
 
-    /**
-     * Executes the special function within a re-entrant lock.
-     */
+    /** Executes the special function within a re-entrant lock. */
     public void withVoid(final @NotNull Proc0 fx) {
 
         lock.lock();

@@ -6,16 +6,15 @@
 
 package dev.iq.common.io.stream;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Helper stream that will output the data read to a separate file for analysis,
- * logging or debugging.
+ * Helper stream that will output the data read to a separate file for analysis, logging or
+ * debugging.
  */
 public final class LoggingInputStream extends FilterInputStream {
 
@@ -23,26 +22,22 @@ public final class LoggingInputStream extends FilterInputStream {
     private final FileOutputStream fileOut;
 
     /**
-     * Creates a logging stream that will output all bytes read to the specified
-     * URI for later analysis.
+     * Creates a logging stream that will output all bytes read to the specified URI for later
+     * analysis.
      *
      * @param uri URI to output results to
-     * @param in  Input stream to read
+     * @param in Input stream to read
      * @throws IOException Error opening a file at the specified URI
      */
-    public LoggingInputStream(final String uri, final InputStream in)
-        throws IOException {
+    public LoggingInputStream(final String uri, final InputStream in) throws IOException {
 
         super(in);
         fileOut = new FileOutputStream(uri);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int read()
-        throws IOException {
+    public int read() throws IOException {
 
         final var result = super.read();
         if (result > -1) {
@@ -52,12 +47,9 @@ public final class LoggingInputStream extends FilterInputStream {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int read(final byte @NotNull [] buffer)
-        throws IOException {
+    public int read(final byte @NotNull [] buffer) throws IOException {
 
         final var result = super.read(buffer);
         if (result > -1) {
@@ -67,12 +59,9 @@ public final class LoggingInputStream extends FilterInputStream {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public int read(final byte @NotNull [] buffer, final int offset, final int length)
-        throws IOException {
+    public int read(final byte @NotNull [] buffer, final int offset, final int length) throws IOException {
 
         final var result = super.read(buffer, offset, length);
         if (result > -1) {
@@ -82,12 +71,9 @@ public final class LoggingInputStream extends FilterInputStream {
         return result;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void close()
-        throws IOException {
+    public void close() throws IOException {
 
         super.close();
         fileOut.flush();

@@ -6,16 +6,18 @@
 
 package dev.iq.common.io.resource;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
 import java.util.Optional;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for UriResourceHelper covering classpath URI resolution and require functionality.
- */
+/** Tests for UriResourceHelper covering classpath URI resolution and require functionality. */
 public final class UriResourceHelperTest {
 
     @Test
@@ -90,8 +92,7 @@ public final class UriResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
 
-        assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path)
-        );
+        assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path));
     }
 
     @Test
@@ -111,8 +112,9 @@ public final class UriResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
 
-        assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class)
-        );
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class));
     }
 
     @Test
@@ -132,8 +134,8 @@ public final class UriResourceHelperTest {
 
         final var path = "/missing/resource.txt";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path)
-        );
+        final var exception =
+                assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -143,9 +145,9 @@ public final class UriResourceHelperTest {
 
         final var path = "/missing/resource.txt";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.requireUriFromClasspath(path,
-            UriResourceHelper.class)
-        );
+        final var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -249,8 +251,7 @@ public final class UriResourceHelperTest {
     public void testNullPathHandling() {
 
         // This should handle null gracefully or throw an appropriate exception
-        assertThrows(Exception.class, () -> UriResourceHelper.resolveUriFromClasspath(null)
-        );
+        assertThrows(Exception.class, () -> UriResourceHelper.resolveUriFromClasspath(null));
     }
 
     @Test
@@ -271,8 +272,8 @@ public final class UriResourceHelperTest {
         final var optional = Optional.<String>empty();
         final var path = "/test/path";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.require(path, optional)
-        );
+        final var exception =
+                assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.require(path, optional));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -305,8 +306,8 @@ public final class UriResourceHelperTest {
         final var path = "/missing/resource.txt";
         final var optional = Optional.<String>empty();
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.require(path, optional)
-        );
+        final var exception =
+                assertThrows(IllegalArgumentException.class, () -> UriResourceHelper.require(path, optional));
 
         assertEquals("Missing resource /missing/resource.txt", exception.getMessage());
     }

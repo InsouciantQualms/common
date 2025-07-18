@@ -6,13 +6,14 @@
 
 package dev.iq.common.adt;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Coded interface covering basic functionality.
- */
+/** Tests for the Coded interface covering basic functionality. */
 public final class CodedTest {
 
     @Test
@@ -20,7 +21,7 @@ public final class CodedTest {
 
         final var coded = new TestStringCoded("TEST_CODE");
         final var result = coded.getCode();
-        
+
         assertNotNull(result);
         assertEquals("TEST_CODE", result);
     }
@@ -30,7 +31,7 @@ public final class CodedTest {
 
         final var coded = new TestIntegerCoded(42);
         final var result = coded.getCode();
-        
+
         assertNotNull(result);
         assertEquals(42, result);
     }
@@ -40,7 +41,7 @@ public final class CodedTest {
 
         final var coded = new TestStringCoded(null);
         final var result = coded.getCode();
-        
+
         assertNull(result);
     }
 
@@ -49,7 +50,7 @@ public final class CodedTest {
 
         final var coded = new TestEnumCoded(TestEnum.VALUE1);
         final var result = coded.getCode();
-        
+
         assertNotNull(result);
         assertEquals(TestEnum.VALUE1, result);
     }
@@ -60,7 +61,7 @@ public final class CodedTest {
         final var coded = new TestStringCoded("CONSISTENT");
         final var result1 = coded.getCode();
         final var result2 = coded.getCode();
-        
+
         assertEquals(result1, result2);
         assertSame(result1, result2);
     }
@@ -70,7 +71,7 @@ public final class CodedTest {
 
         final var coded = new TestStringCoded("");
         final var result = coded.getCode();
-        
+
         assertNotNull(result);
         assertEquals("", result);
     }
@@ -81,7 +82,7 @@ public final class CodedTest {
         final var stringCoded = new TestStringCoded("abc");
         final var intCoded = new TestIntegerCoded(123);
         final var enumCoded = new TestEnumCoded(TestEnum.VALUE2);
-        
+
         assertEquals("abc", stringCoded.getCode());
         assertEquals(123, intCoded.getCode());
         assertEquals(TestEnum.VALUE2, enumCoded.getCode());
@@ -127,6 +128,7 @@ public final class CodedTest {
     }
 
     private enum TestEnum {
-        VALUE1, VALUE2
+        VALUE1,
+        VALUE2
     }
 }

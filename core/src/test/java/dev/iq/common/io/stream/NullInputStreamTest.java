@@ -6,16 +6,17 @@
 
 package dev.iq.common.io.stream;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.util.Arrays;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for NullInputStream covering null stream behavior that always returns zero.
- */
+/** Tests for NullInputStream covering null stream behavior that always returns zero. */
 public final class NullInputStreamTest {
 
     @Test
@@ -215,7 +216,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testNeverReturnsEOF() {
+    public void testNeverReturnsEof() {
 
         final var nullStream = new NullInputStream();
 
@@ -290,7 +291,8 @@ public final class NullInputStreamTest {
 
         final var nullStream = new NullInputStream();
 
-        // According to the documentation, it "reads nothing and always indicates more data is present"
+        // According to the documentation, it "reads nothing and always indicates more data is
+        // present"
         // Single byte read returns 0 (byte value, not EOF)
         assertEquals(0, nullStream.read());
         // Buffer reads return the amount requested/available

@@ -6,15 +6,14 @@
 
 package dev.iq.common.adt;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Function;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Either monad implementation covering left and right projections.
- */
+/** Tests for the Either monad implementation covering left and right projections. */
 public final class EitherTest {
 
     @Test
@@ -110,9 +109,7 @@ public final class EitherTest {
         final var either = Either.<Exception, String>right("hello world");
 
         final var result = either.either(
-            ex -> "Error: " + ex.getMessage(),
-            str -> str.toUpperCase().replace(" ", "_")
-        );
+                ex -> "Error: " + ex.getMessage(), str -> str.toUpperCase().replace(" ", "_"));
 
         assertEquals("HELLO_WORLD", result);
     }
@@ -123,10 +120,7 @@ public final class EitherTest {
         final var exception = new IllegalArgumentException("Invalid input");
         final var either = Either.<Exception, String>left(exception);
 
-        final var result = either.either(
-            ex -> "Exception: " + ex.getClass().getSimpleName(),
-            str -> "Success: " + str
-        );
+        final var result = either.either(ex -> "Exception: " + ex.getClass().getSimpleName(), str -> "Success: " + str);
 
         assertEquals("Exception: IllegalArgumentException", result);
     }

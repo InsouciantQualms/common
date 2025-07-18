@@ -6,15 +6,14 @@
 
 package dev.iq.common.collection;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Arrays utility class covering array class conversion functionality.
- */
+/** Tests for the Arrays utility class covering array class conversion functionality. */
 public final class ArraysTest {
 
     @Test
@@ -48,7 +47,7 @@ public final class ArraysTest {
         final var arrayClass = Arrays.toArray(intClass);
 
         assertNotNull(arrayClass);
-        assertSame(Integer[].class, arrayClass);
+        assertSame(int[].class, arrayClass);
         assertTrue(arrayClass.isArray());
         assertSame(int.class, arrayClass.getComponentType());
     }
@@ -60,7 +59,7 @@ public final class ArraysTest {
         final var arrayClass = Arrays.toArray(booleanClass);
 
         assertNotNull(arrayClass);
-        assertSame(Boolean[].class, arrayClass);
+        assertSame(boolean[].class, arrayClass);
         assertTrue(arrayClass.isArray());
         assertSame(boolean.class, arrayClass.getComponentType());
     }
@@ -72,7 +71,7 @@ public final class ArraysTest {
         final var arrayClass = Arrays.toArray(doubleClass);
 
         assertNotNull(arrayClass);
-        assertSame(Double[].class, arrayClass);
+        assertSame(double[].class, arrayClass);
         assertTrue(arrayClass.isArray());
         assertSame(double.class, arrayClass.getComponentType());
     }
@@ -145,16 +144,13 @@ public final class ArraysTest {
         final var longClass = Arrays.toArray(long.class);
         final var floatClass = Arrays.toArray(float.class);
 
-        assertSame(Byte[].class, byteClass);
-        assertSame(Short[].class, shortClass);
-        assertSame(Character[].class, charClass);
-        assertSame(Long[].class, longClass);
-        assertSame(Float[].class, floatClass);
+        assertSame(byte[].class, byteClass);
+        assertSame(short[].class, shortClass);
+        assertSame(char[].class, charClass);
+        assertSame(long[].class, longClass);
+        assertSame(float[].class, floatClass);
     }
 
-    /**
-     * Simple test class for custom class testing.
-     */
-    private record TestClass(String value) {
-    }
+    /** Simple test class for custom class testing. */
+    private record TestClass(String value) {}
 }

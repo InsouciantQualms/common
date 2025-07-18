@@ -8,14 +8,10 @@ package dev.iq.common.io.stream;
 
 import java.io.OutputStream;
 
-/**
- * Output stream that performs no action but simply consumes any write requests.
- */
+/** Output stream that performs no action but simply consumes any write requests. */
 public final class NullOutputStream extends OutputStream {
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public void write(final int b) {}
 }

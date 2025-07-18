@@ -6,25 +6,28 @@
 
 package dev.iq.common.collection;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for the Streams utility class covering conversions from various collection types to streams.
+ * Tests for the Streams utility class covering conversions from various collection types to
+ * streams.
  */
 public final class StreamsTest {
 
     @Test
     public void testOfWithBytes() {
 
-        final var bytes = new byte[]{1, 2, 3, 4, 5};
+        final var bytes = new byte[] {1, 2, 3, 4, 5};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
@@ -51,7 +54,7 @@ public final class StreamsTest {
     @Test
     public void testOfWithSingleByte() {
 
-        final var bytes = new byte[]{42};
+        final var bytes = new byte[] {42};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
@@ -63,7 +66,7 @@ public final class StreamsTest {
     @Test
     public void testOfWithNegativeBytes() {
 
-        final var bytes = new byte[]{-1, -2, -3};
+        final var bytes = new byte[] {-1, -2, -3};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
@@ -219,13 +222,11 @@ public final class StreamsTest {
     @Test
     public void testStreamOperationsOnByteStream() {
 
-        final var bytes = new byte[]{1, 2, 3, 4, 5};
+        final var bytes = new byte[] {1, 2, 3, 4, 5};
         final var stream = Streams.of(bytes);
 
-        final var result = stream
-            .filter(b -> (b % 2) == 1)
-            .map(b -> (byte) (b * 2))
-            .collect(Collectors.toList());
+        final var result =
+                stream.filter(b -> (b % 2) == 1).map(b -> (byte) (b * 2)).collect(Collectors.toList());
 
         assertEquals(3, result.size());
         assertEquals(Byte.valueOf((byte) 2), result.get(0));
@@ -239,11 +240,10 @@ public final class StreamsTest {
         final var iterable = List.of("apple", "banana", "cherry", "date");
         final var stream = Streams.from(iterable);
 
-        final var result = stream
-            .filter(s -> s.length() > 4)
-            .map(String::toUpperCase)
-            .sorted()
-            .collect(Collectors.toList());
+        final var result = stream.filter(s -> s.length() > 4)
+                .map(String::toUpperCase)
+                .sorted()
+                .collect(Collectors.toList());
 
         assertEquals(List.of("APPLE", "BANANA", "CHERRY"), result);
     }
@@ -261,10 +261,7 @@ public final class StreamsTest {
         final var enumeration = vector.elements();
         final var stream = Streams.from(enumeration);
 
-        final var result = stream
-            .filter(n -> (n % 2) == 0)
-            .map(n -> n * n)
-            .collect(Collectors.toList());
+        final var result = stream.filter(n -> (n % 2) == 0).map(n -> n * n).collect(Collectors.toList());
 
         assertEquals(List.of(4, 16), result);
     }
@@ -282,7 +279,7 @@ public final class StreamsTest {
     @Test
     public void testByteStreamWithMaxAndMinValues() {
 
-        final var bytes = new byte[]{Byte.MIN_VALUE, 0, Byte.MAX_VALUE};
+        final var bytes = new byte[] {Byte.MIN_VALUE, 0, Byte.MAX_VALUE};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
@@ -330,24 +327,16 @@ public final class StreamsTest {
     @Test
     public void testCustomObjectsInStream() {
 
-        final var people = List.of(
-            new Person("Alice", 25),
-            new Person("Bob", 30),
-            new Person("Charlie", 35)
-        );
+        final var people = List.of(new Person("Alice", 25), new Person("Bob", 30), new Person("Charlie", 35));
 
         final var stream = Streams.from(people);
 
         assertNotNull(stream);
-        final var names = stream
-            .map(Person::name)
-            .collect(Collectors.toList());
+        final var names = stream.map(Person::name).collect(Collectors.toList());
 
         assertEquals(List.of("Alice", "Bob", "Charlie"), names);
     }
 
-    /**
-     * Simple test record for custom object testing.
-     */
+    /** Simple test record for custom object testing. */
     private record Person(String name, int age) {}
 }

@@ -6,19 +6,21 @@
 
 package dev.iq.common.fp;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import dev.iq.common.error.IoException;
 import dev.iq.common.error.UnexpectedException;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Proc1 functional interface covering consumer functionality.
- */
+/** Tests for the Proc1 functional interface covering consumer functionality. */
 public final class Proc1Test {
 
     @Test
@@ -44,8 +46,7 @@ public final class Proc1Test {
 
         final var wrappedConsumer = Proc1.asTry(consumer);
 
-        assertThrows(UnexpectedException.class, () -> wrappedConsumer.accept("test")
-        );
+        assertThrows(UnexpectedException.class, () -> wrappedConsumer.accept("test"));
     }
 
     @Test
@@ -82,8 +83,7 @@ public final class Proc1Test {
 
         final var wrappedConsumer = Proc1.asIo(consumer);
 
-        assertThrows(IoException.class, () -> wrappedConsumer.accept("test")
-        );
+        assertThrows(IoException.class, () -> wrappedConsumer.accept("test"));
     }
 
     @Test
@@ -105,8 +105,7 @@ public final class Proc1Test {
         };
 
         final var wrappedConsumer = Proc1.asTry(consumer);
-        final var thrown = assertThrows(UnexpectedException.class, () -> wrappedConsumer.accept("test")
-        );
+        final var thrown = assertThrows(UnexpectedException.class, () -> wrappedConsumer.accept("test"));
 
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
@@ -120,8 +119,7 @@ public final class Proc1Test {
         };
 
         final var wrappedConsumer = Proc1.asIo(consumer);
-        final var thrown = assertThrows(IoException.class, () -> wrappedConsumer.accept("test")
-        );
+        final var thrown = assertThrows(IoException.class, () -> wrappedConsumer.accept("test"));
 
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
@@ -152,8 +150,7 @@ public final class Proc1Test {
             }
         };
 
-        assertThrows(Exception.class, () -> proc1.accept("test")
-        );
+        assertThrows(Exception.class, () -> proc1.accept("test"));
     }
 
     @Test
@@ -246,7 +243,8 @@ public final class Proc1Test {
     public void testAsTryWithComplexOperation() {
 
         final var stringBuilder = new StringBuilder();
-        final var consumer = (Proc1<String>) (s) -> stringBuilder.append("Processed: ").append(s);
+        final var consumer =
+                (Proc1<String>) (s) -> stringBuilder.append("Processed: ").append(s);
 
         final var wrappedConsumer = Proc1.asTry(consumer);
 
@@ -258,7 +256,8 @@ public final class Proc1Test {
     public void testAsIoWithComplexOperation() {
 
         final var stringBuilder = new StringBuilder();
-        final var consumer = (Proc1<String>) (s) -> stringBuilder.append("Processed: ").append(s);
+        final var consumer =
+                (Proc1<String>) (s) -> stringBuilder.append("Processed: ").append(s);
 
         final var wrappedConsumer = Proc1.asIo(consumer);
 

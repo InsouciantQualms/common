@@ -6,8 +6,11 @@
 
 package dev.iq.common.io.stream;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,12 +18,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for LoggingInputStream covering data logging to files during reading.
- */
+/** Tests for LoggingInputStream covering data logging to files during reading. */
 public final class LoggingInputStreamTest {
 
     @TempDir
@@ -33,7 +34,7 @@ public final class LoggingInputStreamTest {
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var result = loggingStream.read();
 
             assertEquals('H', result);
@@ -52,7 +53,7 @@ public final class LoggingInputStreamTest {
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
             assertEquals('e', loggingStream.read());
             assertEquals('l', loggingStream.read());
@@ -72,7 +73,7 @@ public final class LoggingInputStreamTest {
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[10];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var bytesRead = loggingStream.read(buffer);
 
             assertEquals(10, bytesRead);
@@ -98,7 +99,7 @@ public final class LoggingInputStreamTest {
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[10];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var bytesRead = loggingStream.read(buffer, 2, 5);
 
             assertEquals(5, bytesRead);
@@ -117,13 +118,13 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadEOFDoesNotLog() throws IOException {
+    public void testReadEofDoesNotLog() throws IOException {
 
         final var logFile = tempDir.resolve("eof.log");
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
             assertEquals('i', loggingStream.read());
             assertEquals(-1, loggingStream.read()); // EOF
@@ -141,14 +142,14 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadBufferEOFDoesNotLog() throws IOException {
+    public void testReadBufferEofDoesNotLog() throws IOException {
 
         final var logFile = tempDir.resolve("buffer_eof.log");
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[10];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals(2, loggingStream.read(buffer));
             assertEquals(-1, loggingStream.read(buffer)); // EOF
         }
@@ -170,7 +171,7 @@ public final class LoggingInputStreamTest {
         final var logFile = tempDir.resolve("empty.log");
         final var inputStream = new ByteArrayInputStream(new byte[0]);
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals(-1, loggingStream.read());
         }
 
@@ -186,7 +187,7 @@ public final class LoggingInputStreamTest {
         final var inputStream = new ByteArrayInputStream(new byte[0]);
         final var buffer = new byte[10];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals(-1, loggingStream.read(buffer));
         }
 
@@ -203,7 +204,7 @@ public final class LoggingInputStreamTest {
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[5];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
             assertEquals(4, loggingStream.read(buffer, 0, 4));
             assertEquals(',', loggingStream.read());
@@ -229,7 +230,7 @@ public final class LoggingInputStreamTest {
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[1000];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             var totalRead = 0;
             int bytesRead;
             while ((bytesRead = loggingStream.read(buffer)) != -1) {
@@ -257,7 +258,7 @@ public final class LoggingInputStreamTest {
 
         assertFalse(Files.exists(logFile));
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             loggingStream.read();
         }
 
@@ -271,7 +272,7 @@ public final class LoggingInputStreamTest {
         final var data = "Test".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             loggingStream.read();
             // Data should be flushed when stream is closed
         }
@@ -289,8 +290,7 @@ public final class LoggingInputStreamTest {
         final var data = "Test".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
 
-        assertThrows(IOException.class, () -> new LoggingInputStream(invalidPath, inputStream)
-        );
+        assertThrows(IOException.class, () -> new LoggingInputStream(invalidPath, inputStream));
     }
 
     @Test
@@ -316,7 +316,7 @@ public final class LoggingInputStreamTest {
         final var inputStream = new ByteArrayInputStream(data);
         final var buffer = new byte[5];
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var bytesRead = loggingStream.read(buffer);
             assertEquals(5, bytesRead);
         }
@@ -335,10 +335,10 @@ public final class LoggingInputStreamTest {
     public void testBinaryDataLogging() throws IOException {
 
         final var logFile = tempDir.resolve("binary.log");
-        final var data = new byte[]{0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
+        final var data = new byte[] {0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
         final var inputStream = new ByteArrayInputStream(data);
 
-        try (final var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+        try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             final var buffer = new byte[10];
             loggingStream.read(buffer);
         }
@@ -361,11 +361,11 @@ public final class LoggingInputStreamTest {
         final var inputStream1 = new ByteArrayInputStream(data1);
         final var inputStream2 = new ByteArrayInputStream(data2);
 
-        try (final var loggingStream1 = new LoggingInputStream(logFile.toString(), inputStream1)) {
+        try (var loggingStream1 = new LoggingInputStream(logFile.toString(), inputStream1)) {
             loggingStream1.read();
         }
 
-        try (final var loggingStream2 = new LoggingInputStream(logFile.toString(), inputStream2)) {
+        try (var loggingStream2 = new LoggingInputStream(logFile.toString(), inputStream2)) {
             loggingStream2.read();
         }
 

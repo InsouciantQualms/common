@@ -6,18 +6,22 @@
 
 package dev.iq.common.fp;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import dev.iq.common.error.IoException;
 import dev.iq.common.error.UnexpectedException;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.util.function.Function;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Fn1 functional interface covering function functionality.
- */
+/** Tests for the Fn1 functional interface covering function functionality. */
 public final class Fn1Test {
 
     @Test
@@ -40,8 +44,7 @@ public final class Fn1Test {
 
         final var wrappedFunction = Fn1.asTry(function);
 
-        assertThrows(UnexpectedException.class, () -> wrappedFunction.apply("test")
-        );
+        assertThrows(UnexpectedException.class, () -> wrappedFunction.apply("test"));
     }
 
     @Test
@@ -84,8 +87,7 @@ public final class Fn1Test {
 
         final var wrappedFunction = Fn1.asIo(function);
 
-        assertThrows(IoException.class, () -> wrappedFunction.apply("test")
-        );
+        assertThrows(IoException.class, () -> wrappedFunction.apply("test"));
     }
 
     @Test
@@ -116,8 +118,7 @@ public final class Fn1Test {
         };
 
         final var wrappedFunction = Fn1.asTry(function);
-        final var thrown = assertThrows(UnexpectedException.class, () -> wrappedFunction.apply("test")
-        );
+        final var thrown = assertThrows(UnexpectedException.class, () -> wrappedFunction.apply("test"));
 
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
@@ -131,8 +132,7 @@ public final class Fn1Test {
         };
 
         final var wrappedFunction = Fn1.asIo(function);
-        final var thrown = assertThrows(IoException.class, () -> wrappedFunction.apply("test")
-        );
+        final var thrown = assertThrows(IoException.class, () -> wrappedFunction.apply("test"));
 
         assertNotNull(thrown.getCause());
         assertEquals("Original exception", thrown.getCause().getMessage());
@@ -164,8 +164,7 @@ public final class Fn1Test {
             }
         };
 
-        assertThrows(Exception.class, () -> fn1.apply("test")
-        );
+        assertThrows(Exception.class, () -> fn1.apply("test"));
     }
 
     @Test
@@ -178,8 +177,8 @@ public final class Fn1Test {
         final var boolResult = Fn1.asTry(stringToBoolean);
 
         assertEquals("42", intResult.apply(42));
-        assertEquals(true, boolResult.apply("true"));
-        assertEquals(false, boolResult.apply("false"));
+        assertTrue(boolResult.apply("true"));
+        assertFalse(boolResult.apply("false"));
     }
 
     @Test
@@ -192,8 +191,8 @@ public final class Fn1Test {
         final var boolResult = Fn1.asIo(stringToBoolean);
 
         assertEquals("42", intResult.apply(42));
-        assertEquals(true, boolResult.apply("true"));
-        assertEquals(false, boolResult.apply("false"));
+        assertTrue(boolResult.apply("true"));
+        assertFalse(boolResult.apply("false"));
     }
 
     @Test

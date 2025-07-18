@@ -6,17 +6,22 @@
 
 package dev.iq.common.thread;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the ThreadRegistry enum covering thread registration functionality.
- */
+/** Tests for the ThreadRegistry enum covering thread registration functionality. */
 public final class ThreadRegistryTest {
 
     @Test
@@ -181,8 +186,7 @@ public final class ThreadRegistryTest {
     @Test
     public void testRegisterNullRunnable() {
 
-        assertThrows(NullPointerException.class, () -> ThreadRegistry.INSTANCE.register(null)
-        );
+        assertThrows(NullPointerException.class, () -> ThreadRegistry.INSTANCE.register(null));
     }
 
     @Test

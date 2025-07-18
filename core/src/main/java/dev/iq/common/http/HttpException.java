@@ -8,13 +8,12 @@ package dev.iq.common.http;
 
 import java.io.Serial;
 
-/**
- * Exception thrown when the HTTP status code received is outside the 200 series.
- */
+/** Exception thrown when the HTTP status code received is outside the 200 series. */
 public final class HttpException extends RuntimeException {
 
     /** Serialization constant. */
-    @Serial private static final long serialVersionUID = - 6927773739313371398L;
+    @Serial
+    private static final long serialVersionUID = -6927773739313371398L;
 
     /** HTTP status code returned. */
     private final int statusCode;
@@ -25,8 +24,8 @@ public final class HttpException extends RuntimeException {
     /**
      * Creates an exception.
      *
-     * @param  statusCode       HTTP status code
-     * @param  body             HTTP response body
+     * @param statusCode HTTP status code
+     * @param body HTTP response body
      */
     public HttpException(final int statusCode, final String body) {
 
@@ -37,7 +36,7 @@ public final class HttpException extends RuntimeException {
     /**
      * Returns the HTTP status code received in the response.
      *
-     * @return int              HTTP status code
+     * @return int HTTP status code
      */
     public int getStatusCode() {
 
@@ -47,16 +46,14 @@ public final class HttpException extends RuntimeException {
     /**
      * Returns the body received in the HTTP response.
      *
-     * @return String           HTTP body (will not be null but may be empty)
+     * @return String HTTP body (will not be null but may be empty)
      */
     public String getBody() {
 
         return body;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     public String getMessage() {
 

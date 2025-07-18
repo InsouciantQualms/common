@@ -8,14 +8,12 @@ package dev.iq.common.io.pipe;
 
 import dev.iq.common.fp.Fn0;
 import dev.iq.common.fp.Io;
-
 import java.io.Reader;
 import java.io.Writer;
 
 /**
- * Pipe implementation that reads from Reader, writes to Writer
- * and works with String values.  All suppliers are lazily evaluated.
- * <br/>
+ * Pipe implementation that reads from Reader, writes to Writer and works with String values. All
+ * suppliers are lazily evaluated. <br>
  * This implementation will close the streams passed in.
  */
 final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn0<? extends Writer>> {
@@ -23,40 +21,35 @@ final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn
     /** Delegate for character-based operations. */
     private static final StringPipe delegate = new StringPipe();
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public String read(final Fn0<? extends Reader> reader) {
+    public String read(Fn0<? extends Reader> reader) {
 
         return Io.withReturn(() -> {
-            try (final var stream = reader.get()) {
+            try (var stream = reader.get()) {
                 return delegate.read(stream);
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final String target, final Fn0<? extends Writer> writer) {
+    public void write(String target, Fn0<? extends Writer> writer) {
 
         Io.withVoid(() -> {
-            try (final var stream = writer.get()) {
+            try (var stream = writer.get()) {
                 delegate.write(target, stream);
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public long go(final Fn0<? extends Reader> reader, final Fn0<? extends Writer> writer, final int bufferSize) {
+    public long go(Fn0<? extends Reader> reader, Fn0<? extends Writer> writer, int bufferSize) {
 
         return Io.withReturn(() -> {
-            try (final var r = reader.get(); final var w = writer.get()) {
+            try (var r = reader.get();
+                    var w = writer.get()) {
                 return delegate.go(r, w, bufferSize);
             }
         });

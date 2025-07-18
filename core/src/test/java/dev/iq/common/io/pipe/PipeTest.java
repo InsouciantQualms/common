@@ -6,17 +6,21 @@
 
 package dev.iq.common.io.pipe;
 
-import org.junit.jupiter.api.Test;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Tests for Pipe interface default methods and behavior.
- */
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
+
+/** Tests for Pipe interface default methods and behavior. */
 public final class PipeTest {
 
     @Test

@@ -7,7 +7,6 @@
 package dev.iq.common.io.pipe;
 
 import dev.iq.common.fp.Fn0;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -15,21 +14,18 @@ import java.io.Writer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Factory to return various Pipe implementations from this package.
- */
+/** Factory to return various Pipe implementations from this package. */
 public final class Pipes {
 
     /** Type containts only static members. */
     private Pipes() {}
 
     /**
-     * Returns a pipe that reads from an InputStream, writes to an OutputStream and operates
-     * with byte[] values.
-     * <br/>
+     * Returns a pipe that reads from an InputStream, writes to an OutputStream and operates with
+     * byte[] values. <br>
      * The pipe will not close the streams passed into its operations.
      *
-     * @return Pipe            Pipe to use
+     * @return Pipe Pipe to use
      */
     public static Pipe<byte[], InputStream, OutputStream> bytes() {
 
@@ -37,12 +33,11 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an InputStream, writes to an OutputStream and operates
-     * with byte[] values.  All suppliers of these values will be lazilly evaluated.
-     * <br/>
+     * Returns a pipe that reads from an InputStream, writes to an OutputStream and operates with
+     * byte[] values. All suppliers of these values will be lazilly evaluated. <br>
      * The pipe will not close the streams passed into its operations.
      *
-     * @return Pipe            Pipe to use
+     * @return Pipe Pipe to use
      */
     public static Pipe<byte[], Fn0<? extends InputStream>, Fn0<? extends OutputStream>> bytesSupplier() {
 
@@ -50,12 +45,11 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an Reader, writes to an Writer and operates
-     * with String values.
-     * <br/>
+     * Returns a pipe that reads from an Reader, writes to an Writer and operates with String
+     * values. <br>
      * The pipe will not close the streams passed into its operations.
      *
-     * @return Pipe            Pipe to use
+     * @return Pipe Pipe to use
      */
     public static Pipe<String, Reader, Writer> chars() {
 
@@ -63,12 +57,11 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an Reader, writes to an Writer and operates
-     * with String values.  All suppliers of these values will be lazilly evaluated.
-     * <br/>
+     * Returns a pipe that reads from an Reader, writes to an Writer and operates with String
+     * values. All suppliers of these values will be lazilly evaluated. <br>
      * The pipe will close the streams passed into its operations.
      *
-     * @return Pipe            Pipe to use
+     * @return Pipe Pipe to use
      */
     public static Pipe<String, Fn0<? extends Reader>, Fn0<? extends Writer>> charsSupplier() {
 
@@ -76,18 +69,15 @@ public final class Pipes {
     }
 
     /**
-     * Returns a "reverse" Pipe where data is "read" from an output stream and
-     * "written" to an input stream.  This is useful in a number of situations,
-     * such as where one is producing output on the fly that needs to be read
-     * in by another process.
-     * <br/>
-     * Note that this implementation uses PipedInputStream and PipedOutputStream,
-     * so an extra thread is created transparently in the background to buffer
-     * the output and input.  This thread does not need to be separately managed.
-     * <br/>
+     * Returns a "reverse" Pipe where data is "read" from an output stream and "written" to an input
+     * stream. This is useful in a number of situations, such as where one is producing output on
+     * the fly that needs to be read in by another process. <br>
+     * Note that this implementation uses PipedInputStream and PipedOutputStream, so an extra thread
+     * is created transparently in the background to buffer the output and input. This thread does
+     * not need to be separately managed. <br>
      * The pipe will not close the streams passed into its operations.
      *
-     * @return Pipe            Pipe to use
+     * @return Pipe Pipe to use
      */
     public static Pipe<byte[], Consumer<OutputStream>, Function<InputStream, Long>> reverse() {
 

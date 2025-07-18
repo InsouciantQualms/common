@@ -6,18 +6,17 @@
 
 package dev.iq.common.io.pipe;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for BytesPipe covering byte array operations with input and output streams.
- */
+/** Tests for BytesPipe covering byte array operations with input and output streams. */
 public final class BytesPipeTest {
 
     @Test
@@ -156,7 +155,7 @@ public final class BytesPipeTest {
     private static final class TestInputStream extends ByteArrayInputStream {
         private boolean closed = false;
 
-        public TestInputStream(final byte[] buf) {
+        TestInputStream(final byte[] buf) {
             super(buf);
         }
 

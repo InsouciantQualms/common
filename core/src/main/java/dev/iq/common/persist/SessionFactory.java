@@ -1,13 +1,9 @@
 package dev.iq.common.persist;
 
-/**
- * Factory for creating graph sessions.
- */
+/** Factory for creating graph sessions. */
 @FunctionalInterface
 public interface SessionFactory {
 
-    /**
-     * Creates a new session.
-     */
+    /** Creates a new session. */
     Session create();
 }

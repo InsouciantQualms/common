@@ -6,15 +6,15 @@
 
 package dev.iq.common.lock;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Fair lock that is non re-entrant.  If the same thread tries to lock() twice, it will deadlock rather than recurse.
+ * Fair lock that is non re-entrant. If the same thread tries to lock() twice, it will deadlock
+ * rather than recurse.
  */
 final class NonReentrantLock implements Lock {
 
@@ -45,7 +45,9 @@ final class NonReentrantLock implements Lock {
     }
 
     @Override
-    public void unlock() {sem.release();}
+    public void unlock() {
+        sem.release();
+    }
 
     @Override
     public @NotNull Condition newCondition() {

@@ -6,26 +6,28 @@
 
 package dev.iq.common.io.pipe;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.iq.common.fp.Fn0;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for Pipes factory class covering all factory methods.
- */
+/** Tests for Pipes factory class covering all factory methods. */
 public final class PipesTest {
 
     @Test
     public void testBytesFactory() {
 
         final var pipe = Pipes.bytes();
-        
+
         assertNotNull(pipe);
         assertInstanceOf(BytesPipe.class, pipe);
     }
@@ -37,9 +39,9 @@ public final class PipesTest {
         final var testData = "Hello, World!".getBytes();
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
-        
+
         final var bytesProcessed = pipe.go(inputStream, outputStream);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -48,7 +50,7 @@ public final class PipesTest {
     public void testBytesSupplierFactory() {
 
         final var pipe = Pipes.bytesSupplier();
-        
+
         assertNotNull(pipe);
         assertInstanceOf(BytesSupplierPipe.class, pipe);
     }
@@ -61,9 +63,9 @@ public final class PipesTest {
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
         final Fn0<ByteArrayOutputStream> outputStreamSupplier = () -> outputStream;
-        
+
         final var bytesProcessed = pipe.go(inputStreamSupplier, outputStreamSupplier);
-        
+
         assertEquals(testData.length, bytesProcessed);
         assertArrayEquals(testData, outputStream.toByteArray());
     }
@@ -72,7 +74,7 @@ public final class PipesTest {
     public void testCharsFactory() {
 
         final var pipe = Pipes.chars();
-        
+
         assertNotNull(pipe);
         assertInstanceOf(StringPipe.class, pipe);
     }
@@ -84,9 +86,9 @@ public final class PipesTest {
         final var testData = "Hello, World!";
         final var reader = new StringReader(testData);
         final var writer = new StringWriter();
-        
+
         final var charsProcessed = pipe.go(reader, writer);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -95,7 +97,7 @@ public final class PipesTest {
     public void testCharsSupplierFactory() {
 
         final var pipe = Pipes.charsSupplier();
-        
+
         assertNotNull(pipe);
         assertInstanceOf(StringSupplierPipe.class, pipe);
     }
@@ -108,9 +110,9 @@ public final class PipesTest {
         final Fn0<StringReader> readerSupplier = () -> new StringReader(testData);
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> writer;
-        
+
         final var charsProcessed = pipe.go(readerSupplier, writerSupplier);
-        
+
         assertEquals(testData.length(), charsProcessed);
         assertEquals(testData, writer.toString());
     }
@@ -119,7 +121,7 @@ public final class PipesTest {
     public void testReverseFactory() {
 
         final var pipe = Pipes.reverse();
-        
+
         assertNotNull(pipe);
         assertInstanceOf(ReversePipe.class, pipe);
     }
@@ -129,17 +131,18 @@ public final class PipesTest {
 
         final var pipe = Pipes.reverse();
         final var testData = "Hello, World!";
-        
+
         final var result = pipe.read(outputStream -> {
             try {
                 outputStream.write(testData.getBytes());
                 outputStream.flush();
-                outputStream.close(); // Important: close the output stream to signal end
+                outputStream.close(); // Important: close the output stream to signal
+                // end
             } catch (final Exception e) {
                 throw new RuntimeException(e);
             }
         });
-        
+
         assertArrayEquals(testData.getBytes(), result);
     }
 
@@ -148,7 +151,7 @@ public final class PipesTest {
 
         final var pipe1 = Pipes.bytes();
         final var pipe2 = Pipes.bytes();
-        
+
         assertNotNull(pipe1);
         assertNotNull(pipe2);
         assertNotSame(pipe1, pipe2);
@@ -159,7 +162,7 @@ public final class PipesTest {
 
         final var pipe1 = Pipes.bytesSupplier();
         final var pipe2 = Pipes.bytesSupplier();
-        
+
         assertNotNull(pipe1);
         assertNotNull(pipe2);
         assertNotSame(pipe1, pipe2);
@@ -170,7 +173,7 @@ public final class PipesTest {
 
         final var pipe1 = Pipes.chars();
         final var pipe2 = Pipes.chars();
-        
+
         assertNotNull(pipe1);
         assertNotNull(pipe2);
         assertNotSame(pipe1, pipe2);
@@ -181,7 +184,7 @@ public final class PipesTest {
 
         final var pipe1 = Pipes.charsSupplier();
         final var pipe2 = Pipes.charsSupplier();
-        
+
         assertNotNull(pipe1);
         assertNotNull(pipe2);
         assertNotSame(pipe1, pipe2);
@@ -192,7 +195,7 @@ public final class PipesTest {
 
         final var pipe1 = Pipes.reverse();
         final var pipe2 = Pipes.reverse();
-        
+
         assertNotNull(pipe1);
         assertNotNull(pipe2);
         assertNotSame(pipe1, pipe2);
@@ -206,7 +209,7 @@ public final class PipesTest {
         final var charsPipe = Pipes.chars();
         final var charsSupplierPipe = Pipes.charsSupplier();
         final var reversePipe = Pipes.reverse();
-        
+
         assertTrue(bytesPipe instanceof Pipe);
         assertTrue(bytesSupplierPipe instanceof Pipe);
         assertTrue(charsPipe instanceof Pipe);

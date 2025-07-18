@@ -7,53 +7,44 @@
 package dev.iq.common.io.pipe;
 
 import dev.iq.common.fp.Io;
-
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Pipe implementation that reads from Reader, writes to Writer
- * and works with String values.
- * <br/>
+ * Pipe implementation that reads from Reader, writes to Writer and works with String values. <br>
  * This implementation does not close the streams passed in.
  */
 final class StringPipe implements Pipe<String, Reader, Writer> {
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public String read(final Reader reader) {
+    public String read(Reader reader) {
 
         return Io.withReturn(() -> {
-            try (final var writer = new StringWriter()) {
+            try (var writer = new StringWriter()) {
                 go(reader, writer);
                 return writer.toString();
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
-    public void write(final String target, final Writer writer) {
+    public void write(String target, Writer writer) {
 
         Io.withVoid(() -> {
-            try (final var reader = new StringReader(target)) {
+            try (var reader = new StringReader(target)) {
                 go(reader, writer);
             }
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    /** {@inheritDoc} */
     @Override
     @SuppressWarnings("ReassignedVariable")
-    public long go(final Reader reader, final Writer writer, final int bufferSize) {
+    public long go(Reader reader, Writer writer, int bufferSize) {
 
         return Io.withReturn(() -> {
             var total = 0L;

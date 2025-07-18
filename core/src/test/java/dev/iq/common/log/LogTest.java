@@ -6,16 +6,15 @@
 
 package dev.iq.common.log;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Log utility class covering all logging levels and lazy evaluation of messages.
- */
+/** Tests for the Log utility class covering all logging levels and lazy evaluation of messages. */
 public final class LogTest {
 
     @Test
@@ -24,10 +23,9 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
 
         Log.trace(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "trace message";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "trace message";
+        });
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -39,11 +37,13 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
 
-        Log.trace(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "trace message with exception";
-            }, exception
-        );
+        Log.trace(
+                LogTest.class,
+                () -> {
+                    messageEvaluated.incrementAndGet();
+                    return "trace message with exception";
+                },
+                exception);
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -55,10 +55,9 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
 
         Log.debug(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "debug message";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "debug message";
+        });
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -70,11 +69,13 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
 
-        Log.debug(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "debug message with exception";
-            }, exception
-        );
+        Log.debug(
+                LogTest.class,
+                () -> {
+                    messageEvaluated.incrementAndGet();
+                    return "debug message with exception";
+                },
+                exception);
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -86,10 +87,9 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
 
         Log.info(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "info message";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "info message";
+        });
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -101,11 +101,13 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
 
-        Log.info(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "info message with exception";
-            }, exception
-        );
+        Log.info(
+                LogTest.class,
+                () -> {
+                    messageEvaluated.incrementAndGet();
+                    return "info message with exception";
+                },
+                exception);
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -117,10 +119,9 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
 
         Log.warn(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "warn message";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "warn message";
+        });
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -132,11 +133,13 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
 
-        Log.warn(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "warn message with exception";
-            }, exception
-        );
+        Log.warn(
+                LogTest.class,
+                () -> {
+                    messageEvaluated.incrementAndGet();
+                    return "warn message with exception";
+                },
+                exception);
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -148,10 +151,9 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
 
         Log.error(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "error message";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "error message";
+        });
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -163,11 +165,13 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
 
-        Log.error(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "error message with exception";
-            }, exception
-        );
+        Log.error(
+                LogTest.class,
+                () -> {
+                    messageEvaluated.incrementAndGet();
+                    return "error message with exception";
+                },
+                exception);
 
         // Message evaluation depends on logging configuration
         assertTrue(messageEvaluated.get() >= 0);
@@ -182,10 +186,9 @@ public final class LogTest {
         // Most logging frameworks disable TRACE by default
         if (!logger.isTraceEnabled()) {
             Log.trace(LogTest.class, () -> {
-                    messageEvaluated.incrementAndGet();
-                    return "this should not be evaluated";
-                }
-            );
+                messageEvaluated.incrementAndGet();
+                return "this should not be evaluated";
+            });
 
             assertEquals(0, messageEvaluated.get());
         }
@@ -194,17 +197,13 @@ public final class LogTest {
     @Test
     public void testNullMessageSupplier() {
 
-        assertThrows(NullPointerException.class, () ->
-            Log.info(LogTest.class, null)
-        );
+        assertThrows(NullPointerException.class, () -> Log.info(LogTest.class, null));
     }
 
     @Test
     public void testNullCallerClass() {
 
-        assertThrows(NullPointerException.class, () ->
-            Log.info(null, () -> "message")
-        );
+        assertThrows(NullPointerException.class, () -> Log.info(null, () -> "message"));
     }
 
     @Test
@@ -219,12 +218,11 @@ public final class LogTest {
     public void testMessageSupplierThrowsException() {
 
         // Should propagate exception from supplier
-        assertThrows(RuntimeException.class, () ->
-            Log.info(LogTest.class, () -> {
+        assertThrows(
+                RuntimeException.class,
+                () -> Log.info(LogTest.class, () -> {
                     throw new RuntimeException("Supplier exception");
-                }
-            )
-        );
+                }));
     }
 
     @Test
@@ -233,16 +231,14 @@ public final class LogTest {
         final var messageEvaluated = new AtomicInteger(0);
 
         Log.info(LogTest.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "message from LogTest";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "message from LogTest";
+        });
 
         Log.info(String.class, () -> {
-                messageEvaluated.incrementAndGet();
-                return "message from String";
-            }
-        );
+            messageEvaluated.incrementAndGet();
+            return "message from String";
+        });
 
         // Both messages should be evaluated (assuming INFO is enabled)
         assertTrue(messageEvaluated.get() >= 0);
@@ -254,12 +250,11 @@ public final class LogTest {
         final var counter = new AtomicInteger(0);
 
         Log.info(LogTest.class, () -> {
-                final var count = counter.incrementAndGet();
-                return String.format("Complex message with count: %d, thread: %s",
-                    count, Thread.currentThread().getName()
-                );
-            }
-        );
+            final var count = counter.incrementAndGet();
+            return String.format(
+                    "Complex message with count: %d, thread: %s",
+                    count, Thread.currentThread().getName());
+        });
 
         assertTrue(counter.get() >= 0);
     }
@@ -300,10 +295,9 @@ public final class LogTest {
                 for (var j = 0; j < 100; j++) {
                     final var iteration = j;
                     Log.info(LogTest.class, () -> {
-                            counter.incrementAndGet();
-                            return String.format("Thread %d, iteration %d", threadId, iteration);
-                        }
-                    );
+                        counter.incrementAndGet();
+                        return String.format("Thread %d, iteration %d", threadId, iteration);
+                    });
                 }
             });
         }
@@ -320,16 +314,14 @@ public final class LogTest {
         assertTrue(counter.get() >= 0);
     }
 
-    /**
-     * Custom exception for testing.
-     */
+    /** Custom exception for testing. */
     private static final class TestException extends Exception {
 
-        public TestException(final String message) {
+        TestException(final String message) {
             super(message);
         }
 
-        public TestException(final String message, final Throwable cause) {
+        TestException(final String message, final Throwable cause) {
             super(message, cause);
         }
     }

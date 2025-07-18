@@ -10,16 +10,13 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import dev.iq.common.annotation.Stable;
 
 /**
- * Encapsulates a Nano ID used to uniquely identify an item, like a UUID,
- * but compliant for REST or microservice usage.
- * This record is immutable and thread-safe.
+ * Encapsulates a Nano ID used to uniquely identify an item, like a UUID, but compliant for REST or
+ * microservice usage. This record is immutable and thread-safe.
  */
 @Stable
 public record NanoId(String id) {
 
-    /**
-     * Generate a new, random Nano ID.
-     */
+    /** Generate a new, random Nano ID. */
     public static NanoId generate() {
 
         final var generated = NanoIdUtils.randomNanoId();

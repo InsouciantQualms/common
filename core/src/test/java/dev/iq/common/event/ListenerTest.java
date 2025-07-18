@@ -6,16 +6,17 @@
 
 package dev.iq.common.event;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Listener functional interface covering event notification and handling.
- */
+/** Tests for the Listener functional interface covering event notification and handling. */
 public final class ListenerTest {
 
     @Test
@@ -121,19 +122,18 @@ public final class ListenerTest {
 
         final var results = new ArrayList<String>();
         final var listeners = List.of(
-            event -> {
-                results.add("A: " + event);
-                return true;
-            },
-            event -> {
-                results.add("B: " + event);
-                return false;
-            },
-            (Listener<String>) event -> {
-                results.add("C: " + event);
-                return true;
-            }
-        );
+                event -> {
+                    results.add("A: " + event);
+                    return true;
+                },
+                event -> {
+                    results.add("B: " + event);
+                    return false;
+                },
+                (Listener<String>) event -> {
+                    results.add("C: " + event);
+                    return true;
+                });
 
         listeners.forEach(listener -> listener.notify("event"));
 
@@ -157,9 +157,7 @@ public final class ListenerTest {
         assertThrows(RuntimeException.class, () -> listener.notify("error"));
     }
 
-    /**
-     * Simple test listener implementation.
-     */
+    /** Simple test listener implementation. */
     private static final class TestListener implements Listener<String> {
 
         @Override
@@ -169,9 +167,7 @@ public final class ListenerTest {
         }
     }
 
-    /**
-     * Generic typed listener for testing.
-     */
+    /** Generic typed listener for testing. */
     private static final class TypedListener<T> implements Listener<T> {
 
         private T lastEvent;
@@ -184,8 +180,6 @@ public final class ListenerTest {
         }
     }
 
-    /**
-     * Simple test event record.
-     */
+    /** Simple test event record. */
     private record TestEvent(String name, int value) {}
 }

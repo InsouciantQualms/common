@@ -6,16 +6,20 @@
 
 package dev.iq.common.lock;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for the SimpleLock covering withReturn and withVoid methods for both reentrant and non-reentrant locks.
+ * Tests for the SimpleLock covering withReturn and withVoid methods for both reentrant and
+ * non-reentrant locks.
  */
 public final class SimpleLockTest {
 
@@ -146,11 +150,11 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.reentrant();
 
-        assertThrows(RuntimeException.class, () ->
-            lock.withReturn(() -> {
-                throw new RuntimeException("Test exception");
-            })
-        );
+        assertThrows(
+                RuntimeException.class,
+                () -> lock.withReturn(() -> {
+                    throw new RuntimeException("Test exception");
+                }));
     }
 
     @Test
@@ -158,11 +162,11 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.reentrant();
 
-        assertThrows(RuntimeException.class, () ->
-            lock.withVoid(() -> {
-                throw new RuntimeException("Test exception");
-            })
-        );
+        assertThrows(
+                RuntimeException.class,
+                () -> lock.withVoid(() -> {
+                    throw new RuntimeException("Test exception");
+                }));
     }
 
     @Test
@@ -170,11 +174,11 @@ public final class SimpleLockTest {
 
         final var lock = SimpleLock.reentrant();
 
-        assertThrows(RuntimeException.class, () ->
-            lock.withReturn(() -> {
-                throw new RuntimeException("Test exception");
-            })
-        );
+        assertThrows(
+                RuntimeException.class,
+                () -> lock.withReturn(() -> {
+                    throw new RuntimeException("Test exception");
+                }));
 
         // Lock should be released and available
         final var result = lock.withReturn(() -> "success");
@@ -280,8 +284,6 @@ public final class SimpleLockTest {
         assertEquals(2, counter.get());
     }
 
-    /**
-     * Simple test object for complex return type testing.
-     */
+    /** Simple test object for complex return type testing. */
     private record TestObject(String name, int value) {}
 }

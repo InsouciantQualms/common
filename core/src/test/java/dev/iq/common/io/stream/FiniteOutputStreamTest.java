@@ -6,18 +6,17 @@
 
 package dev.iq.common.io.stream;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for FiniteOutputStream covering finite writing with byte limits.
- */
+/** Tests for FiniteOutputStream covering finite writing with byte limits. */
 public final class FiniteOutputStreamTest {
 
     @Test

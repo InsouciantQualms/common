@@ -3,7 +3,6 @@ package dev.iq.common.persist;
 import dev.iq.common.version.Locator;
 import dev.iq.common.version.NanoId;
 import dev.iq.common.version.Versioned;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -13,38 +12,24 @@ import java.util.Optional;
  */
 public interface VersionedRepository<T extends Versioned> {
 
-    /**
-     * Saves an element to the persistence store.
-     */
+    /** Saves an element to the persistence store. */
     T save(T node);
 
-    /**
-     * Finds an element by its ID returning all versions (active and inactive).
-     */
+    /** Finds an element by its ID returning all versions (active and inactive). */
     List<T> findAll(NanoId nodeId);
 
-    /**
-     * Finds the active element (if present) for the specified ID.
-     */
+    /** Finds the active element (if present) for the specified ID. */
     Optional<T> findActive(NanoId nodeId);
 
-    /**
-     * Finds a specific version of an element by its ID and version.
-     */
+    /** Finds a specific version of an element by its ID and version. */
     Optional<T> find(Locator locator);
 
-    /**
-     * Finds an element by its ID at the specified timestamp (if it exists).
-     */
+    /** Finds an element by its ID at the specified timestamp (if it exists). */
     Optional<T> findAt(NanoId nodeId, Instant timestamp);
 
-    /**
-     * Deletes an element from the repository returning true if it was found.
-     */
+    /** Deletes an element from the repository returning true if it was found. */
     boolean delete(NanoId nodeId);
 
-    /**
-     * Expires an element at the given timestamp returning true if it was found.
-     */
+    /** Expires an element at the given timestamp returning true if it was found. */
     boolean expire(NanoId id, Instant timestamp);
 }

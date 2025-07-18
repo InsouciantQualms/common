@@ -10,22 +10,18 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-/**
- * Convenience methods for working with iterators.
- */
+/** Convenience methods for working with iterators. */
 public final class Iterators {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private Iterators() {}
 
     /**
      * Converts an Enumeration to an iterator.
      *
      * @param target Enumeration to convert
-     * @param <T>    Parameteried type
-     * @return Iterator     Iterator to use
+     * @param <T> Parameteried type
+     * @return Iterator Iterator to use
      */
     public static <T> Iterator<T> from(final Enumeration<T> target) {
 
@@ -49,9 +45,9 @@ public final class Iterators {
      * Safely removes elements from an iterator based on the test passed in.
      *
      * @param target Iterator to inspect
-     * @param test   Test to apply
-     * @param <T>    Parameterized type
-     * @return int          Number of elements removed
+     * @param test Test to apply
+     * @param <T> Parameterized type
+     * @return int Number of elements removed
      */
     @SuppressWarnings("ReassignedVariable")
     public static <T> int remove(final Iterator<T> target, final Predicate<T> test) {

@@ -9,37 +9,42 @@ package dev.iq.common.error;
 import java.io.Serial;
 
 /**
- * Exception indicating that we encountered during an IO operation or anything that has a side-effect.
- * Within functional programming, pure functions do not perform IO or have side-effects.  However, for
- * a system to interact with the real world or perform work, side-effects are required.
- * <br/>
- * Examples of side effects include (but are not limited to): <br/>
+ * Exception indicating that we encountered during an IO operation or anything that has a
+ * side-effect. Within functional programming, pure functions do not perform IO or have
+ * side-effects. However, for a system to interact with the real world or perform work, side-effects
+ * are required. <br>
+ * Examples of side effects include (but are not limited to): <br>
+ *
  * <ul>
- *     <li>IOException - error interacting with input or output streams</li>
- *     <li>SQLException - error interacting with the database</li>
- *     <li>SocketException - error interacting with the networking interface</li>
+ *   <li>IOException - error interacting with input or output streams
+ *   <li>SQLException - error interacting with the database
+ *   <li>SocketException - error interacting with the networking interface
  * </ul>
- * <br/>
- * However, a large population of errors that can occur at runtime do not necessarily involve
- * side effects.  A few examples: <br/>
+ *
+ * <br>
+ * However, a large population of errors that can occur at runtime do not necessarily involve side
+ * effects. A few examples: <br>
+ *
  * <ul>
- *     <li>NullPointerException</li>
- *     <li>ArrayIndexOutOfBoundsException</li>
- *     <li>ParseException</li>
- *     <li>URISyntaxException</li>
+ *   <li>NullPointerException
+ *   <li>ArrayIndexOutOfBoundsException
+ *   <li>ParseException
+ *   <li>URISyntaxException
  * </ul>
- * The general best practice is to throw a {@code IoException} for true IO or operations
- * that perform side-effects.  For the other cases that can occur, throw a {@code UnexpectedException}.
+ *
+ * The general best practice is to throw a {@code IoException} for true IO or operations that
+ * perform side-effects. For the other cases that can occur, throw a {@code UnexpectedException}.
  */
 public final class IoException extends RuntimeException {
 
     /** Serialization constant. */
-    @Serial private static final long serialVersionUID = 1554475580689944097L;
+    @Serial
+    private static final long serialVersionUID = 1554475580689944097L;
 
     /**
      * Creates an exception with the specified message.
      *
-     * @param   message             Message to include
+     * @param message Message to include
      */
     public IoException(final String message) {
 
@@ -49,8 +54,8 @@ public final class IoException extends RuntimeException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param   message             Message to include
-     * @param   cause               Original exception received
+     * @param message Message to include
+     * @param cause Original exception received
      */
     public IoException(final String message, final Throwable cause) {
 
@@ -60,7 +65,7 @@ public final class IoException extends RuntimeException {
     /**
      * Creates an exception with the specified cause.
      *
-     * @param   cause               Original exception received
+     * @param cause Original exception received
      */
     public IoException(final Throwable cause) {
 

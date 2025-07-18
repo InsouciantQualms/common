@@ -6,13 +6,14 @@
 
 package dev.iq.common.adt;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for the Builder interface covering basic functionality.
- */
+/** Tests for the Builder interface covering basic functionality. */
 public final class BuilderTest {
 
     @Test
@@ -20,7 +21,7 @@ public final class BuilderTest {
 
         final var builder = new TestStringBuilder("test");
         final var result = builder.build();
-        
+
         assertNotNull(result);
         assertEquals("test", result);
     }
@@ -30,7 +31,7 @@ public final class BuilderTest {
 
         final var builder = new TestIntegerBuilder(42);
         final var result = builder.build();
-        
+
         assertNotNull(result);
         assertEquals(42, result);
     }
@@ -40,7 +41,7 @@ public final class BuilderTest {
 
         final var builder = new TestStringBuilder(null);
         final var result = builder.build();
-        
+
         assertNull(result);
     }
 
@@ -50,7 +51,7 @@ public final class BuilderTest {
         final var data = new TestData("name", 123);
         final var builder = new TestObjectBuilder(data);
         final var result = builder.build();
-        
+
         assertNotNull(result);
         assertEquals(data, result);
         assertEquals("name", result.getName());
@@ -63,7 +64,7 @@ public final class BuilderTest {
         final var builder = new TestStringBuilder("consistent");
         final var result1 = builder.build();
         final var result2 = builder.build();
-        
+
         assertEquals(result1, result2);
     }
 
@@ -72,7 +73,7 @@ public final class BuilderTest {
 
         final var builder = new TestStringBuilder("");
         final var result = builder.build();
-        
+
         assertNotNull(result);
         assertEquals("", result);
     }
@@ -135,16 +136,19 @@ public final class BuilderTest {
 
         @Override
         public boolean equals(final Object obj) {
-            if (this == obj) return true;
-            if (obj == null || getClass() != obj.getClass()) return false;
+            if (this == obj) {
+                return true;
+            }
+            if ((obj == null) || (getClass() != obj.getClass())) {
+                return false;
+            }
             final var testData = (TestData) obj;
-            return value == testData.value && 
-                   (name != null ? name.equals(testData.name) : testData.name == null);
+            return (value == testData.value) && (Objects.equals(name, testData.name));
         }
 
         @Override
         public int hashCode() {
-            return (name != null ? name.hashCode() : 0) * 31 + value;
+            return (((name != null) ? name.hashCode() : 0) * 31) + value;
         }
     }
 }

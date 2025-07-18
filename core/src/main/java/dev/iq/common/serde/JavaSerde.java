@@ -7,7 +7,6 @@
 package dev.iq.common.serde;
 
 import dev.iq.common.error.IoException;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,58 +19,46 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.nio.file.Path;
 
-/**
- * Helper methods to serialize and deserialize an object.
- */
+/** Helper methods to serialize and deserialize an object. */
 public final class JavaSerde {
 
-    /**
-     * Type contains only static members.
-     */
+    /** Type contains only static members. */
     private JavaSerde() {}
 
-    /**
-     * Serializes the specified object to the target URI.
-     */
+    /** Serializes the specified object to the target URI. */
     public static void serialize(final Serializable target, final Path path) {
 
-        try (final var out = new FileOutputStream(path.toFile())) {
+        try (var out = new FileOutputStream(path.toFile())) {
             serialize(target, out);
         } catch (final IOException e) {
             throw new IoException("Error evaluating URI %s for output".formatted(path), e);
         }
     }
 
-    /**
-     * Serializes the specified object to the output stream.
-     */
+    /** Serializes the specified object to the output stream. */
     public static void serialize(final Serializable target, final OutputStream out) {
 
-        try (final ObjectOutput object = new ObjectOutputStream(out)) {
+        try (ObjectOutput object = new ObjectOutputStream(out)) {
             object.writeObject(target);
         } catch (final IOException e) {
             throw new IoException("Error serializing %s".formatted(target.getClass()), e);
         }
     }
 
-    /**
-     * Deserializes the specified type of object found at the indicated URI.
-     */
+    /** Deserializes the specified type of object found at the indicated URI. */
     public static <T extends Serializable> T deserialize(final Path path, final Class<T> target) {
 
-        try (final var in = new FileInputStream(path.toFile())) {
+        try (var in = new FileInputStream(path.toFile())) {
             return deserialize(in, target);
         } catch (final IOException e) {
             throw new IoException("Error evaluating URI %s for input".formatted(path), e);
         }
     }
 
-    /**
-     * Deserializes the data in the specified stream, returning the target type requested.
-     */
+    /** Deserializes the data in the specified stream, returning the target type requested. */
     public static <T extends Serializable> T deserialize(final InputStream in, final Class<T> target) {
 
-        try (final ObjectInput object = new ObjectInputStream(in)) {
+        try (ObjectInput object = new ObjectInputStream(in)) {
             return target.cast(object.readObject());
         } catch (final ClassNotFoundException notPossible) {
             throw new IoException("Class not found %s".formatted(target), notPossible);

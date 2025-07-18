@@ -7,14 +7,11 @@
 package dev.iq.common.error;
 
 import dev.iq.common.fp.Proc0;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-/**
- * Tests for the Retry utility class and its retry strategies.
- */
+/** Tests for the Retry utility class and its retry strategies. */
 final class RetryTest {
 
     @Test
@@ -73,9 +70,7 @@ final class RetryTest {
         };
 
         final var exception = Assertions.assertThrows(
-            Retry.RetryLimitExceededException.class,
-            () -> Retry.simple(alwaysFailingOperation, 3, 50)
-        );
+                Retry.RetryLimitExceededException.class, () -> Retry.simple(alwaysFailingOperation, 3, 50));
 
         Assertions.assertEquals(3, attemptCount.get());
         Assertions.assertTrue(exception.getMessage().contains("Failed after 3 attempts"));
@@ -87,10 +82,8 @@ final class RetryTest {
         final var attemptCount = new AtomicInteger(0);
         final Proc0 operation = attemptCount::incrementAndGet;
 
-        final var exception = Assertions.assertThrows(
-            Retry.RetryLimitExceededException.class,
-            () -> Retry.simple(operation, 0, 100)
-        );
+        final var exception =
+                Assertions.assertThrows(Retry.RetryLimitExceededException.class, () -> Retry.simple(operation, 0, 100));
 
         Assertions.assertEquals(0, attemptCount.get());
         Assertions.assertTrue(exception.getMessage().contains("Failed after 0 attempts"));
@@ -106,9 +99,7 @@ final class RetryTest {
         };
 
         final var exception = Assertions.assertThrows(
-            Retry.RetryLimitExceededException.class,
-            () -> Retry.simple(failingOperation, 1, 100)
-        );
+                Retry.RetryLimitExceededException.class, () -> Retry.simple(failingOperation, 1, 100));
 
         Assertions.assertEquals(1, attemptCount.get());
         Assertions.assertTrue(exception.getMessage().contains("Failed after 1 attempts"));
@@ -133,9 +124,7 @@ final class RetryTest {
         };
 
         final var exception = Assertions.assertThrows(
-            Retry.RetryLimitExceededException.class,
-            () -> Retry.simple(differentExceptionsOperation, 3, 50)
-        );
+                Retry.RetryLimitExceededException.class, () -> Retry.simple(differentExceptionsOperation, 3, 50));
 
         Assertions.assertEquals(3, attemptCount.get());
         Assertions.assertTrue(exception.getMessage().contains("Failed after 3 attempts"));
@@ -151,10 +140,7 @@ final class RetryTest {
             throw new RuntimeException("Always fails");
         };
 
-        Assertions.assertThrows(
-            Retry.RetryLimitExceededException.class,
-            () -> Retry.simple(failingOperation, 3, 200)
-        );
+        Assertions.assertThrows(Retry.RetryLimitExceededException.class, () -> Retry.simple(failingOperation, 3, 200));
 
         final var endTime = System.currentTimeMillis();
         final var totalTime = endTime - startTime;
@@ -172,7 +158,7 @@ final class RetryTest {
         final var exception = new Retry.RetryLimitExceededException(message);
 
         Assertions.assertEquals(message, exception.getMessage());
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -180,7 +166,7 @@ final class RetryTest {
 
         final var exception = new Retry.RetryLimitExceededException("test");
 
-        Assertions.assertTrue(exception instanceof RuntimeException);
+        Assertions.assertInstanceOf(RuntimeException.class, exception);
     }
 
     @Test
@@ -196,9 +182,7 @@ final class RetryTest {
         Thread.currentThread().interrupt();
 
         final var exception = Assertions.assertThrows(
-            Retry.RetryLimitExceededException.class,
-            () -> Retry.simple(failingOperation, 2, 100)
-        );
+                Retry.RetryLimitExceededException.class, () -> Retry.simple(failingOperation, 2, 100));
 
         Assertions.assertEquals(2, attemptCount.get());
         Assertions.assertTrue(exception.getMessage().contains("Failed after 2 attempts"));

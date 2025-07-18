@@ -6,16 +6,18 @@
 
 package dev.iq.common.io.resource;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Path;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-/**
- * Tests for PathResourceHelper covering classpath path resolution.
- */
+/** Tests for PathResourceHelper covering classpath path resolution. */
 public final class PathResourceHelperTest {
 
     @Test
@@ -98,8 +100,7 @@ public final class PathResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
 
-        assertThrows(IllegalArgumentException.class, () -> PathResourceHelper.requirePathFromClasspath(path)
-        );
+        assertThrows(IllegalArgumentException.class, () -> PathResourceHelper.requirePathFromClasspath(path));
     }
 
     @Test
@@ -121,8 +122,9 @@ public final class PathResourceHelperTest {
 
         final var path = "/non/existing/resource.txt";
 
-        assertThrows(IllegalArgumentException.class, () -> PathResourceHelper.requirePathFromClasspath(path, PathResourceHelper.class)
-        );
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> PathResourceHelper.requirePathFromClasspath(path, PathResourceHelper.class));
     }
 
     @Test
@@ -144,8 +146,8 @@ public final class PathResourceHelperTest {
 
         final var path = "/missing/resource.txt";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> PathResourceHelper.requirePathFromClasspath(path)
-        );
+        final var exception =
+                assertThrows(IllegalArgumentException.class, () -> PathResourceHelper.requirePathFromClasspath(path));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -155,9 +157,9 @@ public final class PathResourceHelperTest {
 
         final var path = "/missing/resource.txt";
 
-        final var exception = assertThrows(IllegalArgumentException.class, () -> PathResourceHelper.requirePathFromClasspath(path,
-            PathResourceHelper.class)
-        );
+        final var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> PathResourceHelper.requirePathFromClasspath(path, PathResourceHelper.class));
 
         assertTrue(exception.getMessage().contains(path));
     }
@@ -272,7 +274,6 @@ public final class PathResourceHelperTest {
     public void testNullPathHandling() {
 
         // This should handle null gracefully or throw an appropriate exception
-        assertThrows(Exception.class, () -> PathResourceHelper.resolvePathFromClasspath(null)
-        );
+        assertThrows(Exception.class, () -> PathResourceHelper.resolvePathFromClasspath(null));
     }
 }
