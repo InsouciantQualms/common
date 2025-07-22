@@ -9,6 +9,7 @@ package dev.iq.common.adt;
 import dev.iq.common.error.Invariant;
 import dev.iq.common.fp.Fn0;
 import dev.iq.common.fp.Io;
+import dev.iq.common.fp.Proc1;
 import dev.iq.common.lock.SimpleLock;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,10 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public final class Lazy<T> {
 
-    /**
-     * Detects a recursive initialization within the same thread on the same instance (not static
-     * since check is per instance).
-     */
+    /** Detects a recursive initialization on the same thread and instance (not static since check is per instance). */
     @SuppressWarnings("ThreadLocalNotStaticFinal")
     private final ThreadLocal<Boolean> initializing = ThreadLocal.withInitial(() -> false);
 
@@ -34,13 +32,22 @@ public final class Lazy<T> {
     /** Supplier of the value (evaluated lazily on a call to get()). */
     private final Fn0<T> supplier;
 
+    /** Loader function (either retryable or fail-fast). */
+    private final Proc1<Lazy<T>> loader;
+
     /** Cached (memoized) value. */
     private T value = null;
 
-    /** Private constructor. Use factory methods to instantiate. */
-    private Lazy(final Fn0<T> supplier) {
+    /** Cached failure if initialization failed (only used in fail-fast mode). */
+    private Throwable failure = null;
+
+    /**
+     * Private constructor. Use factory methods to instantiate.
+     */
+    private Lazy(final Fn0<T> supplier, final Proc1<Lazy<T>> loader) {
 
         this.supplier = supplier;
+        this.loader = loader;
     }
 
     /**
@@ -49,24 +56,36 @@ public final class Lazy<T> {
      */
     public static <T> Lazy<T> of(final Fn0<T> supplier) {
 
-        return new Lazy<>(supplier);
+        return new Lazy<>(supplier, Lazy::loadAllowRetry);
+    }
+
+    /**
+     * Creates a fail-fast lazily evaluated value that will invoke the supplied function only once,
+     * caching either the successful result or the failure.
+     */
+    public static <T> Lazy<T> ofFailFast(final Fn0<T> supplier) {
+
+        return new Lazy<>(supplier, Lazy::loadFailFast);
     }
 
     /**
      * Returns whether the type has been loaded.
-     *
-     * @return boolean True if previously loaded
      */
     public boolean loaded() {
 
         return loaded.get();
     }
 
-    /** Return the underlying type using the supplied originally specified. */
+    /**
+     * Return the underlying type using the supplier originally specified.
+     */
     public T get() {
 
         if (!loaded()) {
             load();
+        }
+        if (failure != null) {
+            throw new IllegalStateException("Lazy initialization previously failed", failure);
         }
         return value;
     }
@@ -82,12 +101,36 @@ public final class Lazy<T> {
             if (!loaded.get()) {
                 initializing.set(true);
                 try {
-                    value = Io.withReturn(supplier);
-                    loaded.set(true);
+                    loader.accept(this);
                 } finally {
                     initializing.set(false);
                 }
             }
         });
+    }
+
+    /**
+     * Loads the value from the supplier and allows subsequent requests to retry if failed.
+     */
+    private void loadAllowRetry() {
+
+        value = Io.withReturn(supplier);
+        loaded.set(true);
+    }
+
+    /**
+     * Load the value from the supplier in fail-fast mode, caching any failures.
+     */
+    @SuppressWarnings("ProhibitedExceptionThrown")
+    private void loadFailFast() {
+
+        try {
+            value = Io.withReturn(supplier);
+            loaded.set(true);
+        } catch (final Throwable t) {
+            failure = t;
+            loaded.set(true);
+            throw t;
+        }
     }
 }

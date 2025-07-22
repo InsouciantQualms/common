@@ -124,7 +124,7 @@ public final class LazyTest {
         });
 
         assertFalse(lazy.loaded());
-        assertThrows(RuntimeException.class, lazy::get);
+        assertThrows(IoException.class, lazy::get);
         assertFalse(lazy.loaded());
     }
 
@@ -137,12 +137,54 @@ public final class LazyTest {
             throw new RuntimeException("Test exception");
         });
 
-        assertThrows(RuntimeException.class, lazy::get);
-        assertThrows(RuntimeException.class, lazy::get);
-        assertThrows(RuntimeException.class, lazy::get);
+        assertThrows(IoException.class, lazy::get);
+        assertThrows(IoException.class, lazy::get);
+        assertThrows(IoException.class, lazy::get);
 
         assertEquals(3, counter.get());
         assertFalse(lazy.loaded());
+    }
+
+    @Test
+    public void testFailFastExceptionHandling() {
+
+        final var lazy = Lazy.ofFailFast(() -> {
+            throw new RuntimeException("Test exception");
+        });
+
+        assertFalse(lazy.loaded());
+        assertThrows(IoException.class, lazy::get);
+        assertTrue(lazy.loaded());
+    }
+
+    @Test
+    public void testFailFastExceptionMemoization() {
+
+        final var counter = new AtomicInteger(0);
+        final var lazy = Lazy.ofFailFast(() -> {
+            counter.incrementAndGet();
+            throw new RuntimeException("Test exception");
+        });
+
+        assertThrows(IoException.class, lazy::get);
+        assertThrows(IllegalStateException.class, lazy::get);
+        assertThrows(IllegalStateException.class, lazy::get);
+
+        assertEquals(1, counter.get());
+        assertTrue(lazy.loaded());
+
+        final var exception = assertThrows(IllegalStateException.class, lazy::get);
+        assertEquals("Lazy initialization previously failed", exception.getMessage());
+        assertNotNull(exception.getCause());
+        
+        // The exception is wrapped by Io.withReturn in an IoException
+        final var cause = exception.getCause();
+        assertInstanceOf(IoException.class, cause);
+        
+        // The IoException should have the original RuntimeException as its cause
+        assertNotNull(cause.getCause());
+        assertInstanceOf(RuntimeException.class, cause.getCause());
+        assertEquals("Test exception", cause.getCause().getMessage());
     }
 
     @Test
@@ -207,6 +249,77 @@ public final class LazyTest {
         assertEquals("base_extended", lazy2.get());
         assertTrue(lazy1.loaded());
         assertTrue(lazy2.loaded());
+    }
+
+    @Test
+    public void testFailFastSuccessfulEvaluation() {
+
+        final var counter = new AtomicInteger(0);
+        final var lazy = Lazy.ofFailFast(() -> {
+            counter.incrementAndGet();
+            return "computed";
+        });
+
+        assertFalse(lazy.loaded());
+        assertEquals(0, counter.get());
+
+        final var result = lazy.get();
+
+        assertEquals("computed", result);
+        assertTrue(lazy.loaded());
+        assertEquals(1, counter.get());
+
+        final var result2 = lazy.get();
+        assertEquals("computed", result2);
+        assertSame(result, result2);
+        assertEquals(1, counter.get());
+    }
+
+    @Test
+    public void testFailFastWithNullValue() {
+
+        final var lazy = Lazy.ofFailFast(() -> null);
+
+        assertFalse(lazy.loaded());
+        assertNull(lazy.get());
+        assertTrue(lazy.loaded());
+        assertNull(lazy.get());
+    }
+
+    @Test
+    public void testFailFastThreadSafety() throws InterruptedException {
+
+        final var counter = new AtomicInteger(0);
+        final var lazy = Lazy.ofFailFast(() -> {
+            counter.incrementAndGet();
+            if (counter.get() == 1) {
+                throw new RuntimeException("First thread fails");
+            }
+            return "success";
+        });
+
+        final var executor = Executors.newFixedThreadPool(10);
+        final var latch = new CountDownLatch(10);
+        final var exceptions = new AtomicInteger(0);
+
+        for (var i = 0; i < 10; i++) {
+            executor.submit(() -> {
+                try {
+                    lazy.get();
+                } catch (Exception e) {
+                    exceptions.incrementAndGet();
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+
+        latch.await();
+        executor.shutdown();
+
+        assertEquals(1, counter.get());
+        assertTrue(lazy.loaded());
+        assertEquals(10, exceptions.get());
     }
 
     /** Simple test object for complex object testing. */
