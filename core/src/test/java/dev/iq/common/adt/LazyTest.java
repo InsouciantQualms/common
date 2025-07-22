@@ -176,11 +176,11 @@ public final class LazyTest {
         final var exception = assertThrows(IllegalStateException.class, lazy::get);
         assertEquals("Lazy initialization previously failed", exception.getMessage());
         assertNotNull(exception.getCause());
-        
+
         // The exception is wrapped by Io.withReturn in an IoException
         final var cause = exception.getCause();
         assertInstanceOf(IoException.class, cause);
-        
+
         // The IoException should have the original RuntimeException as its cause
         assertNotNull(cause.getCause());
         assertInstanceOf(RuntimeException.class, cause.getCause());
