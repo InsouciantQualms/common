@@ -31,7 +31,7 @@ final class CodedFinderTest {
         }
 
         @Override
-        public String getCode() {
+        public String code() {
 
             return code;
         }

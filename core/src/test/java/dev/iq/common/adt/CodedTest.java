@@ -20,7 +20,7 @@ public final class CodedTest {
     public void testGetCodeWithString() {
 
         final var coded = new TestStringCoded("TEST_CODE");
-        final var result = coded.getCode();
+        final var result = coded.code();
 
         assertNotNull(result);
         assertEquals("TEST_CODE", result);
@@ -30,7 +30,7 @@ public final class CodedTest {
     public void testGetCodeWithInteger() {
 
         final var coded = new TestIntegerCoded(42);
-        final var result = coded.getCode();
+        final var result = coded.code();
 
         assertNotNull(result);
         assertEquals(42, result);
@@ -40,7 +40,7 @@ public final class CodedTest {
     public void testGetCodeWithNull() {
 
         final var coded = new TestStringCoded(null);
-        final var result = coded.getCode();
+        final var result = coded.code();
 
         assertNull(result);
     }
@@ -49,7 +49,7 @@ public final class CodedTest {
     public void testGetCodeWithEnum() {
 
         final var coded = new TestEnumCoded(TestEnum.VALUE1);
-        final var result = coded.getCode();
+        final var result = coded.code();
 
         assertNotNull(result);
         assertEquals(TestEnum.VALUE1, result);
@@ -59,8 +59,8 @@ public final class CodedTest {
     public void testGetCodeConsistency() {
 
         final var coded = new TestStringCoded("CONSISTENT");
-        final var result1 = coded.getCode();
-        final var result2 = coded.getCode();
+        final var result1 = coded.code();
+        final var result2 = coded.code();
 
         assertEquals(result1, result2);
         assertSame(result1, result2);
@@ -70,7 +70,7 @@ public final class CodedTest {
     public void testGetCodeWithEmptyString() {
 
         final var coded = new TestStringCoded("");
-        final var result = coded.getCode();
+        final var result = coded.code();
 
         assertNotNull(result);
         assertEquals("", result);
@@ -83,9 +83,9 @@ public final class CodedTest {
         final var intCoded = new TestIntegerCoded(123);
         final var enumCoded = new TestEnumCoded(TestEnum.VALUE2);
 
-        assertEquals("abc", stringCoded.getCode());
-        assertEquals(123, intCoded.getCode());
-        assertEquals(TestEnum.VALUE2, enumCoded.getCode());
+        assertEquals("abc", stringCoded.code());
+        assertEquals(123, intCoded.code());
+        assertEquals(TestEnum.VALUE2, enumCoded.code());
     }
 
     private static final class TestStringCoded implements Coded<String> {
@@ -96,7 +96,7 @@ public final class CodedTest {
         }
 
         @Override
-        public String getCode() {
+        public String code() {
             return code;
         }
     }
@@ -109,7 +109,7 @@ public final class CodedTest {
         }
 
         @Override
-        public Integer getCode() {
+        public Integer code() {
             return code;
         }
     }
@@ -122,7 +122,7 @@ public final class CodedTest {
         }
 
         @Override
-        public TestEnum getCode() {
+        public TestEnum code() {
             return code;
         }
     }

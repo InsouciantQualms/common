@@ -17,24 +17,4 @@ public interface Versioned {
     /** Returns the timestamp when this version expired, if applicable. */
     Optional<Instant> expired();
 
-    /** Checks if an identifiable item is active at a given timestamp. */
-    static boolean isActiveAt(final Instant timestamp, final Versioned e) {
-
-        final var created = e.created();
-        final var expired = e.expired();
-        return !created.isAfter(timestamp)
-                && (expired.isEmpty() || expired.get().isAfter(timestamp));
-    }
-
-    /** Compares two identifiable items for equality based on their locators. */
-    static boolean equals(final Versioned source, final Versioned target) {
-
-        return source.locator().equals(target.locator());
-    }
-
-    /** Computes hash code for an identifiable item based on its locator. */
-    static int hashCode(final Versioned target) {
-
-        return target.locator().hashCode();
-    }
 }

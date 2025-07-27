@@ -60,7 +60,7 @@ public final class CodedFinder {
      */
     public static <C, T extends Coded<C>> Optional<T> find(final C code, final Iterable<T> values) {
 
-        return Streams.from(values).filter(t -> t.getCode().equals(code)).findFirst();
+        return Streams.from(values).filter(t -> t.code().equals(code)).findFirst();
     }
 
     /**

@@ -20,5 +20,5 @@ public interface Coded<T> {
      *
      * @return T Code value
      */
-    T getCode();
+    T code();
 }
