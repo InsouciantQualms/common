@@ -16,5 +16,4 @@ public interface Versioned {
 
     /** Returns the timestamp when this version expired, if applicable. */
     Optional<Instant> expired();
-
 }
