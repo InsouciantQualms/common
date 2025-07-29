@@ -28,7 +28,7 @@ class FinderTest {
     }
 
     @Test
-    void versionHistory_returnsAllVersionsForId() {
+    void findVersions_returnsAllVersionsForId() {
         var v1 = new TestVersioned(
                 new Locator(id1, 1),
                 Instant.now().minusSeconds(60),
@@ -37,7 +37,7 @@ class FinderTest {
         finder.add(v1);
         finder.add(v2);
 
-        List<TestVersioned> history = finder.versionHistory(id1);
+        List<TestVersioned> history = finder.findVersions(id1);
 
         assertEquals(2, history.size());
         assertEquals(1, history.get(0).locator().version());
@@ -45,13 +45,13 @@ class FinderTest {
     }
 
     @Test
-    void versionHistory_returnsEmptyListForUnknownId() {
-        List<TestVersioned> history = finder.versionHistory(id1);
+    void findVersions_returnsEmptyListForUnknownId() {
+        List<TestVersioned> history = finder.findVersions(id1);
         assertTrue(history.isEmpty());
     }
 
     @Test
-    void currentVersion_returnsLatestActiveVersion() {
+    void findActiveAt() {
         var v1 = new TestVersioned(
                 new Locator(id1, 1),
                 Instant.now().minusSeconds(60),
@@ -60,26 +60,28 @@ class FinderTest {
         finder.add(v1);
         finder.add(v2);
 
-        TestVersioned current = finder.currentVersion(id1);
+        TestVersioned current = finder.findActive(id1).orElseThrow();
 
         assertNotNull(current);
         assertEquals(2, current.locator().version());
     }
 
     @Test
-    void currentVersion_throwsForUnknownId() {
-        assertThrows(NoSuchElementException.class, () -> finder.currentVersion(id1));
+    void findActive_returnsEmptyForUnknownId() {
+        Optional<TestVersioned> result = finder.findActive(id1);
+        assertTrue(result.isEmpty());
     }
 
     @Test
-    void currentVersion_throwsWhenNoActiveVersion() {
+    void findActive_returnsEmptyForExpiredVersion() {
         var v1 = new TestVersioned(
                 new Locator(id1, 1),
                 Instant.now().minusSeconds(60),
                 Optional.of(Instant.now().minusSeconds(30)));
         finder.add(v1);
 
-        assertThrows(NoSuchElementException.class, () -> finder.currentVersion(id1));
+        Optional<TestVersioned> result = finder.findActive(id1);
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -90,39 +92,39 @@ class FinderTest {
         finder.add(v1);
         finder.add(v2);
 
-        TestVersioned result = finder.versionById(locator);
+        TestVersioned result = finder.find(locator);
 
         assertNotNull(result);
         assertEquals(locator, result.locator());
     }
 
     @Test
-    void versionById_throwsForUnknownLocator() {
+    void find_throwsForUnknownLocator() {
         var locator = new Locator(id1, 1);
-        assertThrows(NoSuchElementException.class, () -> finder.versionById(locator));
+        assertThrows(NoSuchElementException.class, () -> finder.find(locator));
     }
 
     @Test
-    void versionAt_returnsVersionActiveAtTimestamp() {
+    void versionAt_returnsFindActiveAtTimestamp() {
         Instant base = Instant.now();
         var v1 = new TestVersioned(new Locator(id1, 1), base.minusSeconds(100), Optional.of(base.minusSeconds(50)));
         var v2 = new TestVersioned(new Locator(id1, 2), base.minusSeconds(50), Optional.empty());
         finder.add(v1);
         finder.add(v2);
 
-        Optional<TestVersioned> result = finder.versionAt(id1, base.minusSeconds(75));
+        Optional<TestVersioned> result = finder.findAt(id1, base.minusSeconds(75));
 
         assertTrue(result.isPresent());
         assertEquals(1, result.get().locator().version());
     }
 
     @Test
-    void versionAt_returnsEmptyWhenNoVersionActiveAtTimestamp() {
+    void versionAt_returnsEmptyWhenNoFindActiveAtTimestamp() {
         Instant base = Instant.now();
         var v1 = new TestVersioned(new Locator(id1, 1), base.minusSeconds(50), Optional.empty());
         finder.add(v1);
 
-        Optional<TestVersioned> result = finder.versionAt(id1, base.minusSeconds(100));
+        Optional<TestVersioned> result = finder.findAt(id1, base.minusSeconds(100));
 
         assertFalse(result.isPresent());
     }
@@ -136,8 +138,8 @@ class FinderTest {
         finder.add(versionOneIdTwo);
         finder.add(versionTwoIdTwo);
 
-        assertEquals(1, finder.versionHistory(id1).size());
-        assertEquals(2, finder.versionHistory(id2).size());
+        assertEquals(1, finder.findVersions(id1).size());
+        assertEquals(2, finder.findVersions(id2).size());
     }
 
     private static class TestVersioned implements Versioned {
@@ -175,18 +177,17 @@ class FinderTest {
         }
 
         @Override
-        public List<TestVersioned> versionHistory(NanoId id) {
+        public List<TestVersioned> findVersions(NanoId id) {
             return Versions.findAllVersions(id, items);
         }
 
         @Override
-        public TestVersioned currentVersion(NanoId id) {
-            return Versions.findActive(id, items)
-                    .orElseThrow(() -> new NoSuchElementException("No active version found for id: " + id));
+        public Optional<TestVersioned> findActive(NanoId id) {
+            return Versions.findActive(id, items);
         }
 
         @Override
-        public TestVersioned versionById(Locator locator) {
+        public TestVersioned find(Locator locator) {
             return items.stream()
                     .filter(v -> v.locator().equals(locator))
                     .findFirst()
@@ -194,7 +195,7 @@ class FinderTest {
         }
 
         @Override
-        public Optional<TestVersioned> versionAt(NanoId id, Instant timestamp) {
+        public Optional<TestVersioned> findAt(NanoId id, Instant timestamp) {
             return Versions.findAt(id, timestamp, items);
         }
     }

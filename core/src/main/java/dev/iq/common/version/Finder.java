@@ -7,11 +7,11 @@ import java.util.Optional;
 /** Interface to locate elements and components contained in a graph. */
 public interface Finder<T extends Versioned> {
 
-    List<T> versionHistory(NanoId id);
+    List<T> findVersions(NanoId id);
 
-    T currentVersion(NanoId id);
+    Optional<T> findActive(NanoId id);
 
-    T versionById(Locator locator);
+    T find(Locator locator);
 
-    Optional<T> versionAt(NanoId id, Instant timestamp);
+    Optional<T> findAt(NanoId id, Instant timestamp);
 }
