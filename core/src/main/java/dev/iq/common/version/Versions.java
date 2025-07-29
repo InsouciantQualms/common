@@ -61,16 +61,4 @@ public final class Versions {
         return !created.isAfter(timestamp)
                 && (expired.isEmpty() || expired.get().isAfter(timestamp));
     }
-
-    /** Compares two identifiable items for equality based on their locators. */
-    public static boolean equals(final Versioned source, final Versioned target) {
-
-        return source.locator().equals(target.locator());
-    }
-
-    /** Computes hash code for an identifiable item based on its locator. */
-    public static int hashCode(final Versioned target) {
-
-        return target.locator().hashCode();
-    }
 }

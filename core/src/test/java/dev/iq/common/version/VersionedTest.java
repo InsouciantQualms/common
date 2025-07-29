@@ -91,7 +91,7 @@ class VersionedTest {
         Versioned v1 = new RecordVersioned(locator1, now, Optional.empty());
         Versioned v2 = new RecordVersioned(locator2, now.plusSeconds(10), Optional.of(now.plusSeconds(20)));
 
-        assertTrue(Versions.equals(v1, v2));
+        assertTrue(Locateable.equals(v1, v2));
     }
 
     @Test
@@ -103,7 +103,7 @@ class VersionedTest {
         Versioned v1 = new RecordVersioned(locator, now, Optional.empty());
         Versioned v2 = new RecordVersioned(locator, now.plusSeconds(10), Optional.of(now.plusSeconds(20)));
 
-        assertEquals(Versions.hashCode(v1), Versions.hashCode(v2));
+        assertEquals(Locateable.hashCode(v1), Locateable.hashCode(v2));
     }
 
     @Test
@@ -115,7 +115,7 @@ class VersionedTest {
         Versioned v2 = new RecordVersioned(new Locator(id, 2), now, Optional.empty());
 
         assertNotEquals(v1.locator(), v2.locator());
-        assertFalse(Versions.equals(v1, v2));
+        assertFalse(Locateable.equals(v1, v2));
     }
 
     @Test
