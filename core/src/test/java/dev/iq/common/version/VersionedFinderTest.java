@@ -14,15 +14,15 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class FinderTest {
+class VersionedFinderTest {
 
-    private TestFinder finder;
+    private TestVersionedFinder finder;
     private NanoId id1;
     private NanoId id2;
 
     @BeforeEach
     void before() {
-        finder = new TestFinder();
+        finder = new TestVersionedFinder();
         id1 = NanoId.generate();
         id2 = NanoId.generate();
     }
@@ -169,7 +169,7 @@ class FinderTest {
         }
     }
 
-    private static class TestFinder implements Finder<TestVersioned> {
+    private static class TestVersionedFinder implements VersionedFinder<TestVersioned> {
         private final List<TestVersioned> items = new ArrayList<>();
 
         void add(TestVersioned item) {

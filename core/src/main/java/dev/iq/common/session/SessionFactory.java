@@ -1,4 +1,4 @@
-package dev.iq.common.persist;
+package dev.iq.common.session;
 
 /** Factory for creating graph sessions. */
 @FunctionalInterface

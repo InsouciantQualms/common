@@ -1,4 +1,4 @@
-package dev.iq.common.persist;
+package dev.iq.common.session;
 
 /** Represents a transactional session for graph operations. */
 public interface Session extends AutoCloseable {
@@ -8,8 +8,4 @@ public interface Session extends AutoCloseable {
 
     /** Rolls back the current transaction. */
     void rollback();
-
-    /** {@inheritDoc} */
-    @Override
-    void close();
 }

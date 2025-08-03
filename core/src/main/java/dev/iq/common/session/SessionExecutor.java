@@ -1,4 +1,4 @@
-package dev.iq.common.persist;
+package dev.iq.common.session;
 
 import dev.iq.common.error.IoException;
 import dev.iq.common.fp.Fn0;

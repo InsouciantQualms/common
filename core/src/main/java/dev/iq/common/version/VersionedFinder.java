@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 /** Interface to locate elements and components contained in a graph. */
-public interface Finder<T extends Versioned> {
+public interface VersionedFinder<T extends Versioned> {
 
     List<T> findVersions(NanoId id);
 

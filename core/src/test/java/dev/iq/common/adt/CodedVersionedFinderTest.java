@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the CodedFinder utility class. */
-final class CodedFinderTest {
+final class CodedVersionedFinderTest {
 
     @Test
     public void testFindRequired() {
