@@ -17,10 +17,10 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /** Tests for BytesPipe covering byte array operations with input and output streams. */
-public final class BytesPipeTest {
+final class BytesPipeTest {
 
     @Test
-    public void testReadFromInputStream() {
+    void testReadFromInputStream() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -32,7 +32,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testReadFromEmptyInputStream() {
+    void testReadFromEmptyInputStream() {
 
         final var pipe = new BytesPipe();
         final var inputStream = new ByteArrayInputStream(new byte[0]);
@@ -43,7 +43,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testWriteToOutputStream() {
+    void testWriteToOutputStream() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -55,7 +55,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testWriteEmptyByteArray() {
+    void testWriteEmptyByteArray() {
 
         final var pipe = new BytesPipe();
         final var testData = new byte[0];
@@ -67,7 +67,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testGoWithDefaultBufferSize() {
+    void testGoWithDefaultBufferSize() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -81,7 +81,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testGoWithCustomBufferSize() {
+    void testGoWithCustomBufferSize() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -95,9 +95,8 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testGoWithLargeData() {
+    void testGoWithLargeData() {
 
-        final var pipe = new BytesPipe();
         final var testData = new byte[10000];
         for (var i = 0; i < testData.length; i++) {
             testData[i] = (byte) (i % 256);
@@ -105,6 +104,7 @@ public final class BytesPipeTest {
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
 
+        final var pipe = new BytesPipe();
         final var bytesProcessed = pipe.go(inputStream, outputStream, 512);
 
         assertEquals(testData.length, bytesProcessed);
@@ -112,7 +112,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testGoWithEmptyStream() {
+    void testGoWithEmptyStream() {
 
         final var pipe = new BytesPipe();
         final var inputStream = new ByteArrayInputStream(new byte[0]);
@@ -125,7 +125,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testGoWithSmallBufferSize() {
+    void testGoWithSmallBufferSize() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -139,7 +139,7 @@ public final class BytesPipeTest {
     }
 
     @Test
-    public void testStreamNotClosed() {
+    void testStreamNotClosed() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -155,7 +155,7 @@ public final class BytesPipeTest {
     private static final class TestInputStream extends ByteArrayInputStream {
         private boolean closed = false;
 
-        TestInputStream(final byte[] buf) {
+        private TestInputStream(final byte... buf) {
             super(buf);
         }
 
@@ -165,7 +165,7 @@ public final class BytesPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }
@@ -179,7 +179,7 @@ public final class BytesPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }

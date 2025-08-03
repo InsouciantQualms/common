@@ -18,10 +18,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 /** Tests for UriResourceHelper covering classpath URI resolution and require functionality. */
-public final class UriResourceHelperTest {
+final class UriResourceHelperTest {
 
     @Test
-    public void testResolveUriFromClasspathWithExistingResource() {
+    void testResolveUriFromClasspathWithExistingResource() {
 
         // Try to find a class file that should exist
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
@@ -34,7 +34,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testResolveUriFromClasspathWithNonExistingResource() {
+    void testResolveUriFromClasspathWithNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
         final var result = UriResourceHelper.resolveUriFromClasspath(path);
@@ -43,7 +43,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testResolveUriFromClasspathWithCaller() {
+    void testResolveUriFromClasspathWithCaller() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path, UriResourceHelper.class);
@@ -55,7 +55,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testResolveUriFromClasspathWithCallerAndNonExistingResource() {
+    void testResolveUriFromClasspathWithCallerAndNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
         final var result = UriResourceHelper.resolveUriFromClasspath(path, UriResourceHelper.class);
@@ -64,7 +64,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testResolveUriFromClasspathWithDifferentCaller() {
+    void testResolveUriFromClasspathWithDifferentCaller() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path, UriResourceHelperTest.class);
@@ -76,7 +76,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireUriFromClasspathWithExistingResource() {
+    void testRequireUriFromClasspathWithExistingResource() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.requireUriFromClasspath(path);
@@ -88,7 +88,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireUriFromClasspathWithNonExistingResource() {
+    void testRequireUriFromClasspathWithNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
 
@@ -96,7 +96,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireUriFromClasspathWithCallerAndExistingResource() {
+    void testRequireUriFromClasspathWithCallerAndExistingResource() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.requireUriFromClasspath(path, UriResourceHelper.class);
@@ -108,7 +108,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireUriFromClasspathWithCallerAndNonExistingResource() {
+    void testRequireUriFromClasspathWithCallerAndNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
 
@@ -118,7 +118,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireUriFromClasspathWithDifferentCaller() {
+    void testRequireUriFromClasspathWithDifferentCaller() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.requireUriFromClasspath(path, UriResourceHelperTest.class);
@@ -130,7 +130,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testExceptionMessageForMissingResource() {
+    void testExceptionMessageForMissingResource() {
 
         final var path = "/missing/resource.txt";
 
@@ -141,7 +141,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testExceptionMessageForMissingResourceWithCaller() {
+    void testExceptionMessageForMissingResourceWithCaller() {
 
         final var path = "/missing/resource.txt";
 
@@ -153,7 +153,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testConsistencyBetweenResolveAndRequire() {
+    void testConsistencyBetweenResolveAndRequire() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
 
@@ -165,7 +165,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testConsistencyBetweenResolveAndRequireWithCaller() {
+    void testConsistencyBetweenResolveAndRequireWithCaller() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var caller = UriResourceHelper.class;
@@ -178,7 +178,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testConsistencyBetweenCallerAndNonCallerMethods() {
+    void testConsistencyBetweenCallerAndNonCallerMethods() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
 
@@ -194,7 +194,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRelativePathResolution() {
+    void testRelativePathResolution() {
 
         // Test with a relative path that should exist
         final var relativePath = "UriResourceHelper.class";
@@ -207,7 +207,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testUriIsValid() {
+    void testUriIsValid() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
         final var result = UriResourceHelper.resolveUriFromClasspath(path);
@@ -223,7 +223,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testMultipleCallsReturnSameResult() {
+    void testMultipleCallsReturnSameResult() {
 
         final var path = "/dev/iq/common/io/resource/UriResourceHelper.class";
 
@@ -238,7 +238,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testEmptyPathHandling() {
+    void testEmptyPathHandling() {
 
         final var emptyPath = "";
         final var result = UriResourceHelper.resolveUriFromClasspath(emptyPath);
@@ -248,14 +248,14 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testNullPathHandling() {
+    void testNullPathHandling() {
 
         // This should handle null gracefully or throw an appropriate exception
         assertThrows(Exception.class, () -> UriResourceHelper.resolveUriFromClasspath(null));
     }
 
     @Test
-    public void testRequireHelperWithPresentOptional() {
+    void testRequireHelperWithPresentOptional() {
 
         final var value = "test value";
         final var optional = Optional.of(value);
@@ -267,7 +267,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireHelperWithEmptyOptional() {
+    void testRequireHelperWithEmptyOptional() {
 
         final var optional = Optional.<String>empty();
         final var path = "/test/path";
@@ -279,7 +279,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireHelperWithNullPath() {
+    void testRequireHelperWithNullPath() {
 
         final var optional = Optional.of("test value");
 
@@ -289,7 +289,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireHelperWithDifferentTypes() {
+    void testRequireHelperWithDifferentTypes() {
 
         final var intValue = 42;
         final var intOptional = Optional.of(intValue);
@@ -301,7 +301,7 @@ public final class UriResourceHelperTest {
     }
 
     @Test
-    public void testRequireHelperExceptionMessageFormat() {
+    void testRequireHelperExceptionMessageFormat() {
 
         final var path = "/missing/resource.txt";
         final var optional = Optional.<String>empty();

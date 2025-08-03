@@ -21,10 +21,10 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /** Tests for Pipe interface default methods and behavior. */
-public final class PipeTest {
+final class PipeTest {
 
     @Test
-    public void testDefaultGoMethod() {
+    void testDefaultGoMethod() {
 
         final var pipe = new BytesPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -38,7 +38,7 @@ public final class PipeTest {
     }
 
     @Test
-    public void testDefaultGoMethodWithEmptyStream() {
+    void testDefaultGoMethodWithEmptyStream() {
 
         final var pipe = new BytesPipe();
         final var inputStream = new ByteArrayInputStream(new byte[0]);
@@ -51,9 +51,8 @@ public final class PipeTest {
     }
 
     @Test
-    public void testDefaultGoMethodWithLargeData() {
+    void testDefaultGoMethodWithLargeData() {
 
-        final var pipe = new BytesPipe();
         final var testData = new byte[5000];
         for (var i = 0; i < testData.length; i++) {
             testData[i] = (byte) (i % 256);
@@ -61,6 +60,7 @@ public final class PipeTest {
         final var inputStream = new ByteArrayInputStream(testData);
         final var outputStream = new ByteArrayOutputStream();
 
+        final var pipe = new BytesPipe();
         final var bytesProcessed = pipe.go(inputStream, outputStream);
 
         assertEquals(testData.length, bytesProcessed);
@@ -68,7 +68,7 @@ public final class PipeTest {
     }
 
     @Test
-    public void testPipeInterfaceWithStringPipe() {
+    void testPipeInterfaceWithStringPipe() {
 
         final Pipe<String, Reader, Writer> pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -82,7 +82,7 @@ public final class PipeTest {
     }
 
     @Test
-    public void testPipeInterfacePolymorphism() {
+    void testPipeInterfacePolymorphism() {
 
         final Pipe<byte[], InputStream, OutputStream> pipe = new BytesPipe();
         final var testData = "Polymorphism test".getBytes(StandardCharsets.UTF_8);
@@ -99,7 +99,7 @@ public final class PipeTest {
     }
 
     @Test
-    public void testPipeInterfaceWithCustomBufferSize() {
+    void testPipeInterfaceWithCustomBufferSize() {
 
         final Pipe<byte[], InputStream, OutputStream> pipe = new BytesPipe();
         final var testData = "Custom buffer size test".getBytes(StandardCharsets.UTF_8);
@@ -113,7 +113,7 @@ public final class PipeTest {
     }
 
     @Test
-    public void testPipeInterfaceReadAndWrite() {
+    void testPipeInterfaceReadAndWrite() {
 
         final Pipe<byte[], InputStream, OutputStream> pipe = new BytesPipe();
         final var testData = "Read and write test".getBytes(StandardCharsets.UTF_8);

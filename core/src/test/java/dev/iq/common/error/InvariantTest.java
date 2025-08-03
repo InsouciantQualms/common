@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 final class InvariantTest {
 
     @Test
-    public void testRequireTrueWithCondition() {
+    void testRequireTrueWithCondition() {
 
         Invariant.require(true, "This should not be thrown");
     }
 
     @Test
-    public void testRequireWithFalseCondition() {
+    void testRequireWithFalseCondition() {
 
         final var message = "Test failure message";
 
@@ -31,7 +31,7 @@ final class InvariantTest {
     }
 
     @Test
-    public void testRequireWithComplexConditions() {
+    void testRequireWithComplexConditions() {
 
         final var message = "Complex condition failed";
 
@@ -45,7 +45,7 @@ final class InvariantTest {
     }
 
     @Test
-    public void testFail() {
+    void testFail() {
 
         final var message = "This should always fail";
 
@@ -55,7 +55,7 @@ final class InvariantTest {
     }
 
     @Test
-    public void testFailWithDifferentMessages() {
+    void testFailWithDifferentMessages() {
 
         final var message1 = "First failure";
         final var message2 = "Second failure";
@@ -69,7 +69,7 @@ final class InvariantTest {
     }
 
     @Test
-    public void testFailWithNullMessage() {
+    void testFailWithNullMessage() {
 
         final var error = Assertions.assertThrows(AssertionError.class, () -> Invariant.fail(null));
 
@@ -78,7 +78,7 @@ final class InvariantTest {
     }
 
     @Test
-    public void testFailWithEmptyMessage() {
+    void testFailWithEmptyMessage() {
 
         final var message = "";
 
@@ -88,7 +88,7 @@ final class InvariantTest {
     }
 
     @Test
-    public void testRequireTrueVsAssertExceptionTypes() {
+    void testRequireTrueVsAssertExceptionTypes() {
 
         final var message = "Test message";
 

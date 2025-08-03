@@ -21,10 +21,10 @@ import java.util.function.Consumer;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Proc1 functional interface covering consumer functionality. */
-public final class Proc1Test {
+final class Proc1Test {
 
     @Test
-    public void testAsTryWithSuccessfulConsumer() {
+    void testAsTryWithSuccessfulConsumer() {
 
         final var result = new AtomicReference<String>();
         final var consumer = (Proc1<String>) result::set;
@@ -38,7 +38,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsTryWithExceptionThrowingConsumer() {
+    void testAsTryWithExceptionThrowingConsumer() {
 
         final var consumer = (Proc1<String>) (s) -> {
             throw new IOException("Test exception");
@@ -50,7 +50,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsTryWithNullInput() {
+    void testAsTryWithNullInput() {
 
         final var result = new AtomicReference<String>();
         final var consumer = (Proc1<String>) result::set;
@@ -61,7 +61,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoWithSuccessfulConsumer() {
+    void testAsIoWithSuccessfulConsumer() {
 
         final var result = new AtomicReference<String>();
         final var consumer = (Proc1<String>) result::set;
@@ -75,7 +75,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoWithExceptionThrowingConsumer() {
+    void testAsIoWithExceptionThrowingConsumer() {
 
         final var consumer = (Proc1<String>) (s) -> {
             throw new IOException("Test exception");
@@ -87,7 +87,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoWithNullInput() {
+    void testAsIoWithNullInput() {
 
         final var result = new AtomicReference<String>();
         final var consumer = (Proc1<String>) result::set;
@@ -98,7 +98,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsTryExceptionWrapping() {
+    void testAsTryExceptionWrapping() {
 
         final var consumer = (Proc1<String>) (s) -> {
             throw new RuntimeException("Original exception");
@@ -112,7 +112,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoExceptionWrapping() {
+    void testAsIoExceptionWrapping() {
 
         final var consumer = (Proc1<String>) (s) -> {
             throw new RuntimeException("Original exception");
@@ -126,7 +126,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testDirectProc1Usage() {
+    void testDirectProc1Usage() {
 
         final var result = new AtomicReference<String>();
         final var proc1 = new Proc1<String>() {
@@ -141,7 +141,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testDirectProc1WithException() {
+    void testDirectProc1WithException() {
 
         final var proc1 = new Proc1<String>() {
             @Override
@@ -154,7 +154,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsTryWithDifferentTypes() {
+    void testAsTryWithDifferentTypes() {
 
         final var stringResult = new AtomicReference<String>();
         final var intResult = new AtomicReference<Integer>();
@@ -173,7 +173,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoWithDifferentTypes() {
+    void testAsIoWithDifferentTypes() {
 
         final var stringResult = new AtomicReference<String>();
         final var intResult = new AtomicReference<Integer>();
@@ -192,7 +192,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsTryWithDifferentExceptionTypes() {
+    void testAsTryWithDifferentExceptionTypes() {
 
         final var ioConsumer = (Proc1<String>) (s) -> {
             throw new IOException("IO exception");
@@ -216,7 +216,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoWithDifferentExceptionTypes() {
+    void testAsIoWithDifferentExceptionTypes() {
 
         final var ioConsumer = (Proc1<String>) (s) -> {
             throw new IOException("IO exception");
@@ -240,7 +240,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsTryWithComplexOperation() {
+    void testAsTryWithComplexOperation() {
 
         final var stringBuilder = new StringBuilder();
         final var consumer =
@@ -253,7 +253,7 @@ public final class Proc1Test {
     }
 
     @Test
-    public void testAsIoWithComplexOperation() {
+    void testAsIoWithComplexOperation() {
 
         final var stringBuilder = new StringBuilder();
         final var consumer =

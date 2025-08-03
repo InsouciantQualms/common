@@ -20,10 +20,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /** Tests for Tee covering multi-stream output operations. */
-public final class TeeTest {
+final class TeeTest {
 
     @Test
-    public void testWriteSingleByteToMultipleStreams() throws IOException {
+    void testWriteSingleByteToMultipleStreams() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -36,7 +36,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteMultipleSingleBytesToMultipleStreams() throws IOException {
+    void testWriteMultipleSingleBytesToMultipleStreams() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -51,7 +51,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteBufferToMultipleStreams() throws IOException {
+    void testWriteBufferToMultipleStreams() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -65,7 +65,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLengthToMultipleStreams() throws IOException {
+    void testWriteBufferWithOffsetAndLengthToMultipleStreams() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -79,7 +79,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteToSingleStream() throws IOException {
+    void testWriteToSingleStream() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var tee = new Tee(stream1);
@@ -90,7 +90,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteToThreeStreams() throws IOException {
+    void testWriteToThreeStreams() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -106,7 +106,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteToNoStreams() {
+    void testWriteToNoStreams() {
 
         final var tee = new Tee();
 
@@ -116,7 +116,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testFlushMultipleStreams() throws IOException {
+    void testFlushMultipleStreams() throws IOException {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
@@ -130,7 +130,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testCloseMultipleStreams() throws IOException {
+    void testCloseMultipleStreams() throws IOException {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
@@ -143,7 +143,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testMixedWriteOperations() throws IOException {
+    void testMixedWriteOperations() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -159,7 +159,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteEmptyBuffer() throws IOException {
+    void testWriteEmptyBuffer() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -173,7 +173,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteBufferWithZeroLength() throws IOException {
+    void testWriteBufferWithZeroLength() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -187,7 +187,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteLargeData() throws IOException {
+    void testWriteLargeData() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -202,7 +202,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteBinaryData() throws IOException {
+    void testWriteBinaryData() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -216,7 +216,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testExceptionInOneStreamDoesNotAffectOthers() {
+    void testExceptionInOneStreamDoesNotAffectOthers() {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new FailingOutputStream();
@@ -232,7 +232,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testCloseWithExceptionsInMultipleStreams() {
+    void testCloseWithExceptionsInMultipleStreams() {
 
         final var stream1 = new FailingOutputStream();
         final var stream2 = new FailingOutputStream();
@@ -245,7 +245,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testCloseWithExceptionInOneStream() {
+    void testCloseWithExceptionInOneStream() {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new FailingOutputStream();
@@ -259,7 +259,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testCloseWithNoExceptions() {
+    void testCloseWithNoExceptions() {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
@@ -272,7 +272,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testFlushWithExceptionInOneStream() {
+    void testFlushWithExceptionInOneStream() {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new FailingOutputStream();
@@ -284,7 +284,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteAfterClose() throws IOException {
+    void testWriteAfterClose() throws IOException {
 
         final var stream1 = new TestOutputStream();
         final var stream2 = new TestOutputStream();
@@ -297,7 +297,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testDifferentStreamTypes() throws IOException {
+    void testDifferentStreamTypes() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new NullOutputStream();
@@ -311,7 +311,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testSequentialWriteOrder() throws IOException {
+    void testSequentialWriteOrder() throws IOException {
 
         final var stream1 = new OrderTrackingOutputStream();
         final var stream2 = new OrderTrackingOutputStream();
@@ -325,7 +325,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteNegativeValue() throws IOException {
+    void testWriteNegativeValue() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -340,7 +340,7 @@ public final class TeeTest {
     }
 
     @Test
-    public void testWriteLargeValue() throws IOException {
+    void testWriteLargeValue() throws IOException {
 
         final var stream1 = new ByteArrayOutputStream();
         final var stream2 = new ByteArrayOutputStream();
@@ -370,11 +370,11 @@ public final class TeeTest {
             super.close();
         }
 
-        public boolean wasFlushed() {
+        private boolean wasFlushed() {
             return flushed;
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }
@@ -396,6 +396,7 @@ public final class TeeTest {
         }
     }
 
+    @SuppressWarnings("StringBufferField")
     private static final class OrderTrackingOutputStream extends OutputStream {
         private final StringBuilder data = new StringBuilder();
 
@@ -404,7 +405,7 @@ public final class TeeTest {
             data.append((char) b);
         }
 
-        public String getData() {
+        private String getData() {
             return data.toString();
         }
     }

@@ -22,13 +22,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 /** Tests for LoggingInputStream covering data logging to files during reading. */
-public final class LoggingInputStreamTest {
+final class LoggingInputStreamTest {
 
     @TempDir
     private Path tempDir;
 
     @Test
-    public void testReadSingleByteLogging() throws IOException {
+    void testReadSingleByteLogging() throws IOException {
 
         final var logFile = tempDir.resolve("single_byte.log");
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
@@ -47,7 +47,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadMultipleSingleBytesLogging() throws IOException {
+    void testReadMultipleSingleBytesLogging() throws IOException {
 
         final var logFile = tempDir.resolve("multiple_bytes.log");
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
@@ -66,14 +66,14 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadBufferLogging() throws IOException {
+    void testReadBufferLogging() throws IOException {
 
         final var logFile = tempDir.resolve("buffer.log");
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var buffer = new byte[10];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+            final var buffer = new byte[10];
             final var bytesRead = loggingStream.read(buffer);
 
             assertEquals(10, bytesRead);
@@ -92,14 +92,14 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetAndLengthLogging() throws IOException {
+    void testReadBufferWithOffsetAndLengthLogging() throws IOException {
 
         final var logFile = tempDir.resolve("buffer_offset.log");
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var buffer = new byte[10];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+            final var buffer = new byte[10];
             final var bytesRead = loggingStream.read(buffer, 2, 5);
 
             assertEquals(5, bytesRead);
@@ -118,7 +118,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadEofDoesNotLog() throws IOException {
+    void testReadEofDoesNotLog() throws IOException {
 
         final var logFile = tempDir.resolve("eof.log");
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
@@ -142,14 +142,14 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadBufferEofDoesNotLog() throws IOException {
+    void testReadBufferEofDoesNotLog() throws IOException {
 
         final var logFile = tempDir.resolve("buffer_eof.log");
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var buffer = new byte[10];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+            final var buffer = new byte[10];
             assertEquals(2, loggingStream.read(buffer));
             assertEquals(-1, loggingStream.read(buffer)); // EOF
         }
@@ -166,7 +166,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadEmptyStreamLogging() throws IOException {
+    void testReadEmptyStreamLogging() throws IOException {
 
         final var logFile = tempDir.resolve("empty.log");
         final var inputStream = new ByteArrayInputStream(new byte[0]);
@@ -181,13 +181,13 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadEmptyBufferLogging() throws IOException {
+    void testReadEmptyBufferLogging() throws IOException {
 
         final var logFile = tempDir.resolve("empty_buffer.log");
         final var inputStream = new ByteArrayInputStream(new byte[0]);
-        final var buffer = new byte[10];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+            final var buffer = new byte[10];
             assertEquals(-1, loggingStream.read(buffer));
         }
 
@@ -197,15 +197,15 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testMixedReadOperationsLogging() throws IOException {
+    void testMixedReadOperationsLogging() throws IOException {
 
         final var logFile = tempDir.resolve("mixed.log");
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var buffer = new byte[5];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             assertEquals('H', loggingStream.read());
+            final var buffer = new byte[5];
             assertEquals(4, loggingStream.read(buffer, 0, 4));
             assertEquals(',', loggingStream.read());
         }
@@ -222,17 +222,17 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testLargeDataLogging() throws IOException {
+    void testLargeDataLogging() throws IOException {
 
         final var logFile = tempDir.resolve("large.log");
         final var data = new byte[10000];
         Arrays.fill(data, (byte) 'A');
         final var inputStream = new ByteArrayInputStream(data);
-        final var buffer = new byte[1000];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
             var totalRead = 0;
             int bytesRead;
+            final var buffer = new byte[1000];
             while ((bytesRead = loggingStream.read(buffer)) != -1) {
                 totalRead += bytesRead;
             }
@@ -250,7 +250,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testLogFileCreation() throws IOException {
+    void testLogFileCreation() throws IOException {
 
         final var logFile = tempDir.resolve("creation.log");
         final var data = "Test".getBytes(StandardCharsets.UTF_8);
@@ -266,7 +266,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testLogFileFlushOnClose() throws IOException {
+    void testLogFileFlushOnClose() throws IOException {
 
         final var logFile = tempDir.resolve("flush.log");
         final var data = "Test".getBytes(StandardCharsets.UTF_8);
@@ -284,7 +284,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testInvalidLogFilePathThrowsException() {
+    void testInvalidLogFilePathThrowsException() {
 
         final var invalidPath = "/invalid/path/that/does/not/exist/log.txt";
         final var data = "Test".getBytes(StandardCharsets.UTF_8);
@@ -294,7 +294,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testReadAfterClose() throws IOException {
+    void testReadAfterClose() throws IOException {
 
         final var logFile = tempDir.resolve("closed.log");
         final var data = "Test".getBytes(StandardCharsets.UTF_8);
@@ -309,14 +309,14 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testLogFileContainsExactDataRead() throws IOException {
+    void testLogFileContainsExactDataRead() throws IOException {
 
         final var logFile = tempDir.resolve("exact.log");
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
-        final var buffer = new byte[5];
 
         try (var loggingStream = new LoggingInputStream(logFile.toString(), inputStream)) {
+            final var buffer = new byte[5];
             final var bytesRead = loggingStream.read(buffer);
             assertEquals(5, bytesRead);
         }
@@ -332,7 +332,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testBinaryDataLogging() throws IOException {
+    void testBinaryDataLogging() throws IOException {
 
         final var logFile = tempDir.resolve("binary.log");
         final var data = new byte[] {0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
@@ -353,7 +353,7 @@ public final class LoggingInputStreamTest {
     }
 
     @Test
-    public void testMultipleStreamsToSameLogFile() throws IOException {
+    void testMultipleStreamsToSameLogFile() throws IOException {
 
         final var logFile = tempDir.resolve("multiple.log");
         final var data1 = "Hello".getBytes(StandardCharsets.UTF_8);

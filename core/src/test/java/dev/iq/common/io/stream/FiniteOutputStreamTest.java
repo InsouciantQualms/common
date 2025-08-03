@@ -17,10 +17,10 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /** Tests for FiniteOutputStream covering finite writing with byte limits. */
-public final class FiniteOutputStreamTest {
+final class FiniteOutputStreamTest {
 
     @Test
-    public void testWriteSingleByteWithinLimit() throws IOException {
+    void testWriteSingleByteWithinLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 10);
@@ -31,7 +31,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteSingleByteAtLimit() throws IOException {
+    void testWriteSingleByteAtLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 1);
@@ -42,7 +42,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteSingleByteExceedsLimit() throws IOException {
+    void testWriteSingleByteExceedsLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 1);
@@ -53,7 +53,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteSingleByteZeroLimit() {
+    void testWriteSingleByteZeroLimit() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
@@ -62,7 +62,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithinLimit() throws IOException {
+    void testWriteBufferWithinLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 20);
@@ -74,7 +74,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferAtLimit() throws IOException {
+    void testWriteBufferAtLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
@@ -86,7 +86,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferExceedsLimit() throws IOException {
+    void testWriteBufferExceedsLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
@@ -98,7 +98,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferZeroLimit() {
+    void testWriteBufferZeroLimit() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
@@ -108,7 +108,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLengthWithinLimit() throws IOException {
+    void testWriteBufferWithOffsetAndLengthWithinLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 20);
@@ -120,7 +120,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLengthAtLimit() throws IOException {
+    void testWriteBufferWithOffsetAndLengthAtLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 3);
@@ -132,7 +132,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLengthExceedsLimit() throws IOException {
+    void testWriteBufferWithOffsetAndLengthExceedsLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
@@ -144,7 +144,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLengthZeroLimit() {
+    void testWriteBufferWithOffsetAndLengthZeroLimit() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
@@ -154,7 +154,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testMultipleWritesWithinLimit() throws IOException {
+    void testMultipleWritesWithinLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 10);
@@ -167,7 +167,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testMultipleWritesExceedLimit() throws IOException {
+    void testMultipleWritesExceedLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);
@@ -179,7 +179,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteEmptyBuffer() throws IOException {
+    void testWriteEmptyBuffer() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
@@ -191,7 +191,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteEmptyBufferWithOffset() throws IOException {
+    void testWriteEmptyBufferWithOffset() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
@@ -203,7 +203,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testExceptionMessageForSingleByte() {
+    void testExceptionMessageForSingleByte() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
@@ -213,7 +213,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testExceptionMessageForBuffer() {
+    void testExceptionMessageForBuffer() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
@@ -224,7 +224,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testExceptionMessageForBufferWithOffset() {
+    void testExceptionMessageForBufferWithOffset() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 0);
@@ -235,7 +235,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testLargeLimitValue() throws IOException {
+    void testLargeLimitValue() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, Long.MAX_VALUE);
@@ -247,7 +247,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testNegativeLimitValue() {
+    void testNegativeLimitValue() {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, -1);
@@ -256,7 +256,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testMixedWriteOperations() throws IOException {
+    void testMixedWriteOperations() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 10);
@@ -269,7 +269,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testMixedWriteOperationsExceedLimit() throws IOException {
+    void testMixedWriteOperationsExceedLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
@@ -281,7 +281,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testPartialWriteWhenLimitReached() throws IOException {
+    void testPartialWriteWhenLimitReached() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 3);
@@ -293,7 +293,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testPartialWriteWithOffsetWhenLimitReached() throws IOException {
+    void testPartialWriteWithOffsetWhenLimitReached() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 3);
@@ -305,7 +305,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testFlushAndCloseOperations() throws IOException {
+    void testFlushAndCloseOperations() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 5);
@@ -319,7 +319,7 @@ public final class FiniteOutputStreamTest {
     }
 
     @Test
-    public void testWriteAfterReachingLimit() throws IOException {
+    void testWriteAfterReachingLimit() throws IOException {
 
         final var outputStream = new ByteArrayOutputStream();
         final var finiteStream = new FiniteOutputStream(outputStream, 2);

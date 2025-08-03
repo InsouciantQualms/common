@@ -21,7 +21,7 @@ final class BytesPipe implements Pipe<byte[], InputStream, OutputStream> {
 
     /** {@inheritDoc} */
     @Override
-    public byte[] read(InputStream in) {
+    public byte[] read(final InputStream in) {
 
         return Io.withReturn(() -> {
             try (var out = new ByteArrayOutputStream()) {
@@ -33,7 +33,7 @@ final class BytesPipe implements Pipe<byte[], InputStream, OutputStream> {
 
     /** {@inheritDoc} */
     @Override
-    public void write(byte[] target, OutputStream out) {
+    public void write(final byte[] target, final OutputStream out) {
 
         Io.withVoid(() -> {
             try (var byteIn = new ByteArrayInputStream(target)) {
@@ -45,7 +45,7 @@ final class BytesPipe implements Pipe<byte[], InputStream, OutputStream> {
     /** {@inheritDoc} */
     @Override
     @SuppressWarnings("ReassignedVariable")
-    public long go(InputStream in, OutputStream out, int bufferSize) {
+    public long go(final InputStream in, final OutputStream out, final int bufferSize) {
 
         return Io.withReturn(() -> {
             var total = 0L;

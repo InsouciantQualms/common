@@ -38,7 +38,7 @@ final class ReversePipe implements Pipe<byte[], Consumer<OutputStream>, Function
 
     /** {@inheritDoc} */
     @Override
-    public byte[] read(Consumer<OutputStream> in) {
+    public byte[] read(final Consumer<OutputStream> in) {
 
         return Io.withReturn(() -> {
             try (var byteOut = new ByteArrayOutputStream()) {
@@ -50,14 +50,14 @@ final class ReversePipe implements Pipe<byte[], Consumer<OutputStream>, Function
 
     /** {@inheritDoc} */
     @Override
-    public void write(byte[] value, Function<InputStream, Long> out) {
+    public void write(final byte[] value, final Function<InputStream, Long> out) {
 
         go(o -> delegate.write(value, o), out);
     }
 
     /** {@inheritDoc} */
     @Override
-    public long go(Consumer<OutputStream> in, Function<InputStream, Long> out, int bufferSize) {
+    public long go(final Consumer<OutputStream> in, final Function<InputStream, Long> out, final int bufferSize) {
 
         final var writer = new Thread(() -> in.accept(pipedOut));
         try {

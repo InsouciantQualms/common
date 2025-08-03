@@ -23,7 +23,7 @@ final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn
 
     /** {@inheritDoc} */
     @Override
-    public String read(Fn0<? extends Reader> reader) {
+    public String read(final Fn0<? extends Reader> reader) {
 
         return Io.withReturn(() -> {
             try (var stream = reader.get()) {
@@ -34,7 +34,7 @@ final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn
 
     /** {@inheritDoc} */
     @Override
-    public void write(String target, Fn0<? extends Writer> writer) {
+    public void write(final String target, final Fn0<? extends Writer> writer) {
 
         Io.withVoid(() -> {
             try (var stream = writer.get()) {
@@ -45,7 +45,7 @@ final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn
 
     /** {@inheritDoc} */
     @Override
-    public long go(Fn0<? extends Reader> reader, Fn0<? extends Writer> writer, int bufferSize) {
+    public long go(final Fn0<? extends Reader> reader, final Fn0<? extends Writer> writer, final int bufferSize) {
 
         return Io.withReturn(() -> {
             try (var r = reader.get();

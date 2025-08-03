@@ -17,10 +17,10 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Typed class covering type reference functionality. */
-public final class TypedTest {
+final class TypedTest {
 
     @Test
-    public void testTyped1Creation() {
+    void testTyped1Creation() {
 
         final var typed = Typed.of("test", String.class);
 
@@ -30,7 +30,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped1WithNull() {
+    void testTyped1WithNull() {
 
         final var typed = Typed.of(null, String.class);
 
@@ -40,7 +40,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped1WithInteger() {
+    void testTyped1WithInteger() {
 
         final var typed = Typed.of(42, Integer.class);
 
@@ -50,13 +50,13 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped1WithNullClassThrows() {
+    void testTyped1WithNullClassThrows() {
 
         assertThrows(NullPointerException.class, () -> Typed.of("test", null));
     }
 
     @Test
-    public void testTyped2Creation() {
+    void testTyped2Creation() {
 
         final var typed = Typed.of("hello", 123, String.class, Integer.class);
 
@@ -68,7 +68,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped2WithNulls() {
+    void testTyped2WithNulls() {
 
         final var typed = Typed.of(null, null, String.class, Integer.class);
 
@@ -80,7 +80,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped2WithNullClassThrows() {
+    void testTyped2WithNullClassThrows() {
 
         assertThrows(NullPointerException.class, () -> Typed.of("hello", 123, null, Integer.class));
 
@@ -88,7 +88,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped3Creation() {
+    void testTyped3Creation() {
 
         final var typed = Typed.of("hello", 123, true, String.class, Integer.class, Boolean.class);
 
@@ -102,7 +102,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped3WithNulls() {
+    void testTyped3WithNulls() {
 
         final var typed = Typed.of(null, null, null, String.class, Integer.class, Boolean.class);
 
@@ -116,7 +116,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped3WithNullClassThrows() {
+    void testTyped3WithNullClassThrows() {
 
         assertThrows(
                 NullPointerException.class, () -> Typed.of("hello", 123, true, null, Integer.class, Boolean.class));
@@ -127,7 +127,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped1GetMethods() {
+    void testTyped1GetMethods() {
 
         final var typed = Typed.of("test", String.class);
 
@@ -136,7 +136,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped2GetMethods() {
+    void testTyped2GetMethods() {
 
         final var typed = Typed.of("hello", 123, String.class, Integer.class);
 
@@ -147,7 +147,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTyped3GetMethods() {
+    void testTyped3GetMethods() {
 
         final var typed = Typed.of("hello", 123, true, String.class, Integer.class, Boolean.class);
 
@@ -160,7 +160,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTypedWithDifferentTypes() {
+    void testTypedWithDifferentTypes() {
 
         final var typed1 = Typed.of(42.0, Double.class);
         final var typed2 = Typed.of("test", true, String.class, Boolean.class);
@@ -175,7 +175,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTypedWithComplexTypes() {
+    void testTypedWithComplexTypes() {
 
         final var list = List.of("a", "b");
         final var set = Set.of(1, 2);
@@ -189,7 +189,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTypedFactoryMethods() {
+    void testTypedFactoryMethods() {
 
         final var typed1 = Typed.of("single", String.class);
         final var typed2 = Typed.of("first", "second", String.class, String.class);
@@ -208,7 +208,7 @@ public final class TypedTest {
     }
 
     @Test
-    public void testTypedTypeInformationExists() {
+    void testTypedTypeInformationExists() {
 
         final var typed1 = Typed.of("test", String.class);
         final var typed2 = Typed.of("hello", 123, String.class, Integer.class);

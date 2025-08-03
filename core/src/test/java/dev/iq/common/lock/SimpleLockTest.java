@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
  * Tests for the SimpleLock covering withReturn and withVoid methods for both reentrant and
  * non-reentrant locks.
  */
-public final class SimpleLockTest {
+final class SimpleLockTest {
 
     @Test
-    public void testReentrantLockWithReturn() {
+    void testReentrantLockWithReturn() {
 
         final var lock = SimpleLock.reentrant();
 
@@ -34,7 +34,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testReentrantLockWithVoid() {
+    void testReentrantLockWithVoid() {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
@@ -45,7 +45,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testNonReentrantLockWithReturn() {
+    void testNonReentrantLockWithReturn() {
 
         final var lock = SimpleLock.nonReentrant();
 
@@ -55,7 +55,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testNonReentrantLockWithVoid() {
+    void testNonReentrantLockWithVoid() {
 
         final var lock = SimpleLock.nonReentrant();
         final var counter = new AtomicInteger(0);
@@ -66,7 +66,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testWithReturnMutualExclusion() throws InterruptedException {
+    void testWithReturnMutualExclusion() throws InterruptedException {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
@@ -98,7 +98,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testWithVoidMutualExclusion() throws InterruptedException {
+    void testWithVoidMutualExclusion() throws InterruptedException {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
@@ -128,7 +128,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testReentrantLockAllowsRecursion() {
+    void testReentrantLockAllowsRecursion() {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
@@ -146,7 +146,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testWithReturnHandlesException() {
+    void testWithReturnHandlesException() {
 
         final var lock = SimpleLock.reentrant();
 
@@ -158,7 +158,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testWithVoidHandlesException() {
+    void testWithVoidHandlesException() {
 
         final var lock = SimpleLock.reentrant();
 
@@ -170,7 +170,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testLockIsReleasedAfterException() {
+    void testLockIsReleasedAfterException() {
 
         final var lock = SimpleLock.reentrant();
 
@@ -186,7 +186,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testWithReturnNullValue() {
+    void testWithReturnNullValue() {
 
         final var lock = SimpleLock.reentrant();
 
@@ -196,7 +196,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testComplexReturnTypes() {
+    void testComplexReturnTypes() {
 
         final var lock = SimpleLock.reentrant();
 
@@ -208,7 +208,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testConcurrentAccess() throws InterruptedException {
+    void testConcurrentAccess() throws InterruptedException {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
@@ -232,7 +232,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testMixedWithReturnAndWithVoid() {
+    void testMixedWithReturnAndWithVoid() {
 
         final var lock = SimpleLock.reentrant();
         final var counter = new AtomicInteger(0);
@@ -248,7 +248,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testNonReentrantLockBasicFunctionality() {
+    void testNonReentrantLockBasicFunctionality() {
 
         final var lock = SimpleLock.nonReentrant();
         final var counter = new AtomicInteger(0);
@@ -266,7 +266,7 @@ public final class SimpleLockTest {
     }
 
     @Test
-    public void testMultipleLockInstances() {
+    void testMultipleLockInstances() {
 
         final var lock1 = SimpleLock.reentrant();
         final var lock2 = SimpleLock.reentrant();

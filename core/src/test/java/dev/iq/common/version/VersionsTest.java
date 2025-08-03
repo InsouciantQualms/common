@@ -2,6 +2,7 @@ package dev.iq.common.version;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class VersionsTest {
+final class VersionsTest {
 
     private NanoId id1;
     private NanoId id2;
@@ -28,15 +29,15 @@ class VersionsTest {
 
     @Test
     void findActive_returnsLatestActiveVersion() {
-        var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now().minusSeconds(60), Optional.empty());
-        var v2 = new VersionedFixture(
+        final var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now().minusSeconds(60), Optional.empty());
+        final var v2 = new VersionedFixture(
                 new Locator(id1, 2),
                 Instant.now().minusSeconds(30),
                 Optional.of(Instant.now().minusSeconds(10)));
-        var v3 = new VersionedFixture(new Locator(id1, 3), Instant.now().minusSeconds(5), Optional.empty());
+        final var v3 = new VersionedFixture(new Locator(id1, 3), Instant.now().minusSeconds(5), Optional.empty());
         items.addAll(List.of(v1, v2, v3));
 
-        Optional<VersionedFixture> result = Versions.findActive(id1, items);
+        final var result = Versions.findActive(id1, items);
 
         assertTrue(result.isPresent());
         assertEquals(3, result.get().locator().version());
@@ -44,40 +45,42 @@ class VersionsTest {
 
     @Test
     void findActive_returnsEmptyWhenNoActiveVersions() {
-        var v1 = new VersionedFixture(
+        final var v1 = new VersionedFixture(
                 new Locator(id1, 1),
                 Instant.now().minusSeconds(60),
                 Optional.of(Instant.now().minusSeconds(30)));
-        var v2 = new VersionedFixture(
+        final var v2 = new VersionedFixture(
                 new Locator(id1, 2),
                 Instant.now().minusSeconds(30),
                 Optional.of(Instant.now().minusSeconds(10)));
         items.addAll(List.of(v1, v2));
 
-        Optional<VersionedFixture> result = Versions.findActive(id1, items);
+        final var result = Versions.findActive(id1, items);
 
         assertFalse(result.isPresent());
     }
 
     @Test
     void findActive_returnsEmptyForNonExistentId() {
-        var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
+        final var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
         items.add(v1);
 
-        Optional<VersionedFixture> result = Versions.findActive(id2, items);
+        final var result = Versions.findActive(id2, items);
 
         assertFalse(result.isPresent());
     }
 
     @Test
     void findAt_returnsVersionActiveAtTimestamp() {
-        Instant base = Instant.now();
-        var v1 = new VersionedFixture(new Locator(id1, 1), base.minusSeconds(100), Optional.of(base.minusSeconds(80)));
-        var v2 = new VersionedFixture(new Locator(id1, 2), base.minusSeconds(80), Optional.of(base.minusSeconds(40)));
-        var v3 = new VersionedFixture(new Locator(id1, 3), base.minusSeconds(40), Optional.empty());
+        final var base = Instant.now();
+        final var v1 =
+                new VersionedFixture(new Locator(id1, 1), base.minusSeconds(100), Optional.of(base.minusSeconds(80)));
+        final var v2 =
+                new VersionedFixture(new Locator(id1, 2), base.minusSeconds(80), Optional.of(base.minusSeconds(40)));
+        final var v3 = new VersionedFixture(new Locator(id1, 3), base.minusSeconds(40), Optional.empty());
         items.addAll(List.of(v1, v2, v3));
 
-        Optional<VersionedFixture> result = Versions.findAt(id1, base.minusSeconds(60), items);
+        final var result = Versions.findAt(id1, base.minusSeconds(60), items);
 
         assertTrue(result.isPresent());
         assertEquals(2, result.get().locator().version());
@@ -85,24 +88,24 @@ class VersionsTest {
 
     @Test
     void findAt_returnsEmptyWhenNoVersionActiveAtTimestamp() {
-        Instant base = Instant.now();
-        var v1 = new VersionedFixture(new Locator(id1, 1), base.minusSeconds(50), Optional.empty());
+        final var base = Instant.now();
+        final var v1 = new VersionedFixture(new Locator(id1, 1), base.minusSeconds(50), Optional.empty());
         items.add(v1);
 
-        Optional<VersionedFixture> result = Versions.findAt(id1, base.minusSeconds(100), items);
+        final var result = Versions.findAt(id1, base.minusSeconds(100), items);
 
         assertFalse(result.isPresent());
     }
 
     @Test
     void findAllVersions_returnsAllVersionsSorted() {
-        var v3 = new VersionedFixture(new Locator(id1, 3), Instant.now(), Optional.empty());
-        var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
-        var v2 = new VersionedFixture(new Locator(id1, 2), Instant.now(), Optional.empty());
-        var other = new VersionedFixture(new Locator(id2, 1), Instant.now(), Optional.empty());
+        final var v3 = new VersionedFixture(new Locator(id1, 3), Instant.now(), Optional.empty());
+        final var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
+        final var v2 = new VersionedFixture(new Locator(id1, 2), Instant.now(), Optional.empty());
+        final var other = new VersionedFixture(new Locator(id2, 1), Instant.now(), Optional.empty());
         items.addAll(List.of(v3, v1, v2, other));
 
-        List<VersionedFixture> result = Versions.findAllVersions(id1, items);
+        final var result = Versions.findAllVersions(id1, items);
 
         assertEquals(3, result.size());
         assertEquals(1, result.get(0).locator().version());
@@ -112,22 +115,22 @@ class VersionsTest {
 
     @Test
     void findAllVersions_returnsEmptyListForNonExistentId() {
-        var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
+        final var v1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
         items.add(v1);
 
-        List<VersionedFixture> result = Versions.findAllVersions(id2, items);
+        final var result = Versions.findAllVersions(id2, items);
 
         assertTrue(result.isEmpty());
     }
 
     @Test
     void allActive_returnsOnlyActiveVersions() {
-        var active1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
-        var expired = new VersionedFixture(new Locator(id1, 2), Instant.now(), Optional.of(Instant.now()));
-        var active2 = new VersionedFixture(new Locator(id2, 1), Instant.now(), Optional.empty());
+        final var active1 = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
+        final var expired = new VersionedFixture(new Locator(id1, 2), Instant.now(), Optional.of(Instant.now()));
+        final var active2 = new VersionedFixture(new Locator(id2, 1), Instant.now(), Optional.empty());
         items.addAll(List.of(active1, expired, active2));
 
-        List<VersionedFixture> result = Versions.allActive(items);
+        final var result = Versions.allActive(items);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(active1));
@@ -137,16 +140,16 @@ class VersionsTest {
 
     @Test
     void validateForExpiry_returnsElementWhenPresent() {
-        var element = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
+        final var element = new VersionedFixture(new Locator(id1, 1), Instant.now(), Optional.empty());
 
-        VersionedFixture result = Versions.validateForExpiry(Optional.of(element), id1, "TestElement");
+        final var result = Versions.validateForExpiry(Optional.of(element), id1, "TestElement");
 
-        assertEquals(element, result);
+        assertSame(element, result);
     }
 
     @Test
     void validateForExpiry_throwsWhenElementNotPresent() {
-        IllegalArgumentException exception = assertThrows(
+        final var exception = assertThrows(
                 IllegalArgumentException.class, () -> Versions.validateForExpiry(Optional.empty(), id1, "TestElement"));
 
         assertEquals("TestElement not found: " + id1, exception.getMessage());
@@ -154,9 +157,10 @@ class VersionsTest {
 
     @Test
     void isActiveAt_returnsTrueWhenActiveAtTimestamp() {
-        Instant base = Instant.now();
-        var v1 = new VersionedFixture(new Locator(id1, 1), base.minusSeconds(100), Optional.empty());
-        var v2 = new VersionedFixture(new Locator(id1, 2), base.minusSeconds(100), Optional.of(base.minusSeconds(50)));
+        final var base = Instant.now();
+        final var v1 = new VersionedFixture(new Locator(id1, 1), base.minusSeconds(100), Optional.empty());
+        final var v2 =
+                new VersionedFixture(new Locator(id1, 2), base.minusSeconds(100), Optional.of(base.minusSeconds(50)));
 
         assertTrue(Versions.isActiveAt(base.minusSeconds(60), v1));
         assertTrue(Versions.isActiveAt(base.minusSeconds(80), v2));
@@ -164,9 +168,9 @@ class VersionsTest {
 
     @Test
     void isActiveAt_returnsFalseWhenNotActiveAtTimestamp() {
-        Instant base = Instant.now();
-        var notYetCreated = new VersionedFixture(new Locator(id1, 1), base.plusSeconds(10), Optional.empty());
-        var expired =
+        final var base = Instant.now();
+        final var notYetCreated = new VersionedFixture(new Locator(id1, 1), base.plusSeconds(10), Optional.empty());
+        final var expired =
                 new VersionedFixture(new Locator(id1, 2), base.minusSeconds(100), Optional.of(base.minusSeconds(50)));
 
         assertFalse(Versions.isActiveAt(base, notYetCreated));
@@ -175,9 +179,9 @@ class VersionsTest {
 
     @Test
     void isActiveAt_handlesBoundaryConditions() {
-        Instant created = Instant.parse("2024-01-01T12:00:00Z");
-        Instant expired = Instant.parse("2024-01-01T14:00:00Z");
-        var versioned = new VersionedFixture(new Locator(id1, 1), created, Optional.of(expired));
+        final var created = Instant.parse("2024-01-01T12:00:00Z");
+        final var expired = Instant.parse("2024-01-01T14:00:00Z");
+        final var versioned = new VersionedFixture(new Locator(id1, 1), created, Optional.of(expired));
 
         assertTrue(Versions.isActiveAt(created, versioned));
         assertFalse(Versions.isActiveAt(expired, versioned));
@@ -187,19 +191,19 @@ class VersionsTest {
 
     @Test
     void findActive_handlesEmptyCollection() {
-        Optional<VersionedFixture> result = Versions.findActive(id1, Collections.emptyList());
+        final Optional<VersionedFixture> result = Versions.findActive(id1, Collections.emptyList());
         assertFalse(result.isPresent());
     }
 
     @Test
     void findAt_handlesEmptyCollection() {
-        Optional<VersionedFixture> result = Versions.findAt(id1, Instant.now(), Collections.emptyList());
+        final Optional<VersionedFixture> result = Versions.findAt(id1, Instant.now(), Collections.emptyList());
         assertFalse(result.isPresent());
     }
 
     @Test
     void allActive_handlesEmptyCollection() {
-        List<VersionedFixture> result = Versions.allActive(Collections.emptyList());
+        final List<VersionedFixture> result = Versions.allActive(Collections.emptyList());
         assertTrue(result.isEmpty());
     }
 }

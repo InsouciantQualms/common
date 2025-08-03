@@ -50,7 +50,7 @@ public abstract class Either<A, B> {
      * Represents the left projection of an Either, typically an error condition. This class is
      * immutable and thread-safe.
      */
-    public static class Left<A, B> extends Either<A, B> {
+    public static final class Left<A, B> extends Either<A, B> {
 
         /** Value. */
         private final A value;
@@ -58,7 +58,7 @@ public abstract class Either<A, B> {
         /** Creates a left projection with the specified value. */
         private Left(final A a) {
 
-            this.value = a;
+            value = a;
         }
 
         /** {@inheritDoc} */
@@ -87,7 +87,7 @@ public abstract class Either<A, B> {
      * Represents the right projection of an Either, typically a successful execution result. This
      * class is immutable and thread-safe.
      */
-    public static class Right<A, B> extends Either<A, B> {
+    public static final class Right<A, B> extends Either<A, B> {
 
         /** Value. */
         private final B value;
@@ -95,7 +95,7 @@ public abstract class Either<A, B> {
         /** Creates a right projection with the specified value. */
         private Right(final B b) {
 
-            this.value = b;
+            value = b;
         }
 
         /** {@inheritDoc} */

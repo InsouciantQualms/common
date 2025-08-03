@@ -22,16 +22,16 @@ import org.junit.jupiter.api.Test;
  * Tests for the Streams utility class covering conversions from various collection types to
  * streams.
  */
-public final class StreamsTest {
+final class StreamsTest {
 
     @Test
-    public void testOfWithBytes() {
+    void testOfWithBytes() {
 
         final var bytes = new byte[] {1, 2, 3, 4, 5};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertEquals(5, result.size());
         assertEquals(Byte.valueOf((byte) 1), result.get(0));
         assertEquals(Byte.valueOf((byte) 2), result.get(1));
@@ -41,36 +41,36 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testOfWithEmptyByteArray() {
+    void testOfWithEmptyByteArray() {
 
         final var bytes = new byte[0];
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testOfWithSingleByte() {
+    void testOfWithSingleByte() {
 
         final var bytes = new byte[] {42};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertEquals(1, result.size());
         assertEquals(Byte.valueOf((byte) 42), result.getFirst());
     }
 
     @Test
-    public void testOfWithNegativeBytes() {
+    void testOfWithNegativeBytes() {
 
         final var bytes = new byte[] {-1, -2, -3};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertEquals(3, result.size());
         assertEquals(Byte.valueOf((byte) -1), result.get(0));
         assertEquals(Byte.valueOf((byte) -2), result.get(1));
@@ -78,7 +78,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromEnumeration() {
+    void testFromEnumeration() {
 
         final var vector = new Vector<String>();
         vector.add("first");
@@ -94,19 +94,19 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromEmptyEnumeration() {
+    void testFromEmptyEnumeration() {
 
         final var vector = new Vector<String>();
         final var enumeration = vector.elements();
         final var stream = Streams.from(enumeration);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testFromEnumerationWithNulls() {
+    void testFromEnumerationWithNulls() {
 
         final var vector = new Vector<String>();
         vector.add("first");
@@ -126,7 +126,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromIterator() {
+    void testFromIterator() {
 
         final var list = List.of("alpha", "beta", "gamma");
         final var iterator = list.iterator();
@@ -138,19 +138,19 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromEmptyIterator() {
+    void testFromEmptyIterator() {
 
         final var emptyList = List.<String>of();
         final var iterator = emptyList.iterator();
         final var stream = Streams.from(iterator);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testFromIteratorWithNulls() {
+    void testFromIteratorWithNulls() {
 
         final var list = new ArrayList<String>();
         list.add("first");
@@ -169,7 +169,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromIterable() {
+    void testFromIterable() {
 
         final var iterable = List.of("one", "two", "three");
         final var stream = Streams.from(iterable);
@@ -180,18 +180,18 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromEmptyIterable() {
+    void testFromEmptyIterable() {
 
         final var iterable = List.<String>of();
         final var stream = Streams.from(iterable);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void testFromIterableWithNulls() {
+    void testFromIterableWithNulls() {
 
         final var iterable = new ArrayList<String>();
         iterable.add("first");
@@ -209,7 +209,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testFromSet() {
+    void testFromSet() {
 
         final var set = Set.of("apple", "banana", "cherry");
         final var stream = Streams.from(set);
@@ -220,13 +220,13 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testStreamOperationsOnByteStream() {
+    void testStreamOperationsOnByteStream() {
 
         final var bytes = new byte[] {1, 2, 3, 4, 5};
         final var stream = Streams.of(bytes);
 
         final var result =
-                stream.filter(b -> (b % 2) == 1).map(b -> (byte) (b * 2)).collect(Collectors.toList());
+                stream.filter(b -> (b % 2) == 1).map(b -> (byte) (b * 2)).toList();
 
         assertEquals(3, result.size());
         assertEquals(Byte.valueOf((byte) 2), result.get(0));
@@ -235,7 +235,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testStreamOperationsOnIterableStream() {
+    void testStreamOperationsOnIterableStream() {
 
         final var iterable = List.of("apple", "banana", "cherry", "date");
         final var stream = Streams.from(iterable);
@@ -249,7 +249,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testStreamOperationsOnEnumerationStream() {
+    void testStreamOperationsOnEnumerationStream() {
 
         final var vector = new Vector<Integer>();
         vector.add(1);
@@ -267,7 +267,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testStreamIsNotParallel() {
+    void testStreamIsNotParallel() {
 
         final var iterable = List.of("test1", "test2", "test3");
         final var stream = Streams.from(iterable);
@@ -277,13 +277,13 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testByteStreamWithMaxAndMinValues() {
+    void testByteStreamWithMaxAndMinValues() {
 
         final var bytes = new byte[] {Byte.MIN_VALUE, 0, Byte.MAX_VALUE};
         final var stream = Streams.of(bytes);
 
         assertNotNull(stream);
-        final var result = stream.collect(Collectors.toList());
+        final var result = stream.toList();
         assertEquals(3, result.size());
         assertEquals(Byte.valueOf(Byte.MIN_VALUE), result.get(0));
         assertEquals(Byte.valueOf((byte) 0), result.get(1));
@@ -291,7 +291,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testChainedConversions() {
+    void testChainedConversions() {
 
         final var vector = new Vector<String>();
         vector.add("first");
@@ -310,7 +310,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testLargeByteArray() {
+    void testLargeByteArray() {
 
         final var bytes = new byte[1000];
         for (var i = 0; i < bytes.length; i++) {
@@ -325,7 +325,7 @@ public final class StreamsTest {
     }
 
     @Test
-    public void testCustomObjectsInStream() {
+    void testCustomObjectsInStream() {
 
         final var people = List.of(new Person("Alice", 25), new Person("Bob", 30), new Person("Charlie", 35));
 

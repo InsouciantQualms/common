@@ -15,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Locator record covering versioned location functionality. */
-public final class LocatorTest {
+final class LocatorTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
 
         final var nanoId = new NanoId("test-id");
         final var version = 5;
@@ -29,7 +29,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testGenerate() {
+    void testGenerate() {
 
         final var locator = Locator.generate();
 
@@ -39,7 +39,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testFirst() {
+    void testFirst() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = Locator.first(nanoId);
@@ -49,7 +49,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testIncrement() {
+    void testIncrement() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, 1);
@@ -61,7 +61,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testIncrementMultiple() {
+    void testIncrementMultiple() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, 1);
@@ -79,31 +79,31 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testRecordEquality() {
+    void testRecordEquality() {
 
         final var nanoId = new NanoId("test-id");
         final var locator1 = new Locator(nanoId, 1);
         final var locator2 = new Locator(nanoId, 1);
-        final var locator3 = new Locator(nanoId, 2);
 
         assertEquals(locator1, locator2);
+        final var locator3 = new Locator(nanoId, 2);
         assertNotEquals(locator1, locator3);
     }
 
     @Test
-    public void testRecordHashCode() {
+    void testRecordHashCode() {
 
         final var nanoId = new NanoId("test-id");
         final var locator1 = new Locator(nanoId, 1);
         final var locator2 = new Locator(nanoId, 1);
-        final var locator3 = new Locator(nanoId, 2);
 
         assertEquals(locator1.hashCode(), locator2.hashCode());
+        final var locator3 = new Locator(nanoId, 2);
         assertNotEquals(locator1.hashCode(), locator3.hashCode());
     }
 
     @Test
-    public void testRecordToString() {
+    void testRecordToString() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, 42);
@@ -115,7 +115,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testVersionIncrement() {
+    void testVersionIncrement() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, 10);
@@ -126,7 +126,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testFirstVersion() {
+    void testFirstVersion() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = Locator.first(nanoId);
@@ -136,7 +136,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testGenerateUniqueness() {
+    void testGenerateUniqueness() {
 
         final var locator1 = Locator.generate();
         final var locator2 = Locator.generate();
@@ -147,7 +147,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testImmutability() {
+    void testImmutability() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, 1);
@@ -163,7 +163,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testIncrementFromZero() {
+    void testIncrementFromZero() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, 0);
@@ -174,7 +174,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testIncrementFromNegative() {
+    void testIncrementFromNegative() {
 
         final var nanoId = new NanoId("test-id");
         final var locator = new Locator(nanoId, -1);
@@ -185,7 +185,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testEqualsWithDifferentIds() {
+    void testEqualsWithDifferentIds() {
 
         final var nanoId1 = new NanoId("test-id-1");
         final var nanoId2 = new NanoId("test-id-2");
@@ -196,7 +196,7 @@ public final class LocatorTest {
     }
 
     @Test
-    public void testNullId() {
+    void testNullId() {
 
         final var locator = new Locator(null, 1);
 

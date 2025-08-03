@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the HttpException class covering HTTP error functionality. */
-public final class HttpExceptionTest {
+final class HttpExceptionTest {
 
     @Test
-    public void testConstructorWithStatusAndBody() {
+    void testConstructorWithStatusAndBody() {
 
         final var exception = new HttpException(404, "Not Found");
 
@@ -26,7 +26,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullBody() {
+    void testConstructorWithNullBody() {
 
         final var exception = new HttpException(500, null);
 
@@ -35,7 +35,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testConstructorWithEmptyBody() {
+    void testConstructorWithEmptyBody() {
 
         final var exception = new HttpException(400, "");
 
@@ -44,7 +44,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testGetStatusCode() {
+    void testGetStatusCode() {
 
         final var exception = new HttpException(200, "OK");
 
@@ -52,7 +52,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testGetBody() {
+    void testGetBody() {
 
         final var exception = new HttpException(403, "Forbidden");
 
@@ -60,7 +60,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testGetMessageWithValidBody() {
+    void testGetMessageWithValidBody() {
 
         final var exception = new HttpException(401, "Unauthorized");
 
@@ -68,7 +68,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testGetMessageWithNullBody() {
+    void testGetMessageWithNullBody() {
 
         final var exception = new HttpException(500, null);
 
@@ -76,7 +76,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testGetMessageWithEmptyBody() {
+    void testGetMessageWithEmptyBody() {
 
         final var exception = new HttpException(204, "");
 
@@ -84,7 +84,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testGetMessageWithLongBody() {
+    void testGetMessageWithLongBody() {
 
         final var longBody =
                 "This is a very long error message that contains multiple words and sentences to test the formatting.";
@@ -94,7 +94,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testExceptionInheritance() {
+    void testExceptionInheritance() {
 
         final var exception = new HttpException(404, "Not Found");
 
@@ -104,7 +104,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testThrowingException() {
+    void testThrowingException() {
 
         final var exception = new HttpException(500, "Internal Server Error");
 
@@ -114,7 +114,8 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testCatchingException() {
+    @SuppressWarnings("ThrowCaughtLocally")
+    void testCatchingException() {
 
         try {
             throw new HttpException(400, "Bad Request");
@@ -126,7 +127,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testDifferentStatusCodes() {
+    void testDifferentStatusCodes() {
 
         final var clientError = new HttpException(400, "Bad Request");
         final var serverError = new HttpException(500, "Internal Server Error");
@@ -138,7 +139,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testBodyWithSpecialCharacters() {
+    void testBodyWithSpecialCharacters() {
 
         final var body = "Error: Invalid JSON {\"error\": \"parsing failed\"}";
         final var exception = new HttpException(400, body);
@@ -148,7 +149,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testBodyWithNewlines() {
+    void testBodyWithNewlines() {
 
         final var body = "Error line 1\nError line 2\nError line 3";
         final var exception = new HttpException(500, body);
@@ -158,7 +159,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testStatusCodeBoundaries() {
+    void testStatusCodeBoundaries() {
 
         final var minCode = new HttpException(100, "Continue");
         final var maxCode = new HttpException(599, "Network Error");
@@ -168,7 +169,7 @@ public final class HttpExceptionTest {
     }
 
     @Test
-    public void testExceptionEquality() {
+    void testExceptionEquality() {
 
         final var exception1 = new HttpException(404, "Not Found");
         final var exception2 = new HttpException(404, "Not Found");

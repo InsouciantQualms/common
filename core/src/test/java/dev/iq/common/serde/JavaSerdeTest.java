@@ -27,13 +27,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 /** Tests for the JavaSerde class covering Java serialization functionality. */
-public final class JavaSerdeTest {
+final class JavaSerdeTest {
 
     @TempDir
     private Path tempDir;
 
     @Test
-    public void testSerializeAndDeserializeString() {
+    void testSerializeAndDeserializeString() {
 
         final var testString = "Hello, World!";
         final var testPath = tempDir.resolve("test.ser");
@@ -46,7 +46,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeInteger() {
+    void testSerializeAndDeserializeInteger() {
 
         final var testInteger = 42;
         final var testPath = tempDir.resolve("test.ser");
@@ -59,7 +59,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeList() {
+    void testSerializeAndDeserializeList() {
 
         final var testList = new ArrayList<String>();
         testList.add("item1");
@@ -76,7 +76,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeMap() {
+    void testSerializeAndDeserializeMap() {
 
         final var testMap = new HashMap<String, String>();
         testMap.put("key1", "value1");
@@ -92,7 +92,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeCustomObject() {
+    void testSerializeAndDeserializeCustomObject() {
 
         final var testObject = new TestSerializable("name", 123);
         final var testPath = tempDir.resolve("test.ser");
@@ -101,12 +101,12 @@ public final class JavaSerdeTest {
 
         final var result = JavaSerde.deserialize(testPath, TestSerializable.class);
 
-        assertEquals(testObject.getName(), result.getName());
-        assertEquals(testObject.getValue(), result.getValue());
+        assertEquals(testObject.name(), result.name());
+        assertEquals(testObject.value(), result.value());
     }
 
     @Test
-    public void testSerializeToOutputStream() {
+    void testSerializeToOutputStream() {
 
         final var testString = "Stream test";
         final var outputStream = new ByteArrayOutputStream();
@@ -118,7 +118,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testDeserializeFromInputStream() {
+    void testDeserializeFromInputStream() {
 
         final var testString = "Stream test";
         final var outputStream = new ByteArrayOutputStream();
@@ -132,7 +132,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeNullValue() {
+    void testSerializeNullValue() {
 
         final var testPath = tempDir.resolve("test.ser");
 
@@ -144,7 +144,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeEmptyString() {
+    void testSerializeEmptyString() {
 
         final var testString = "";
         final var testPath = tempDir.resolve("test.ser");
@@ -157,7 +157,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeEmptyList() {
+    void testSerializeEmptyList() {
 
         final var testList = new ArrayList<String>();
         final var testPath = tempDir.resolve("test.ser");
@@ -171,7 +171,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testDeserializeNonExistentFile() {
+    void testDeserializeNonExistentFile() {
 
         final var nonExistentPath = tempDir.resolve("nonexistent.ser");
 
@@ -179,7 +179,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testDeserializeWithWrongType() {
+    void testDeserializeWithWrongType() {
 
         final var testString = "Hello";
         final var testPath = tempDir.resolve("test.ser");
@@ -190,7 +190,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeToReadOnlyDirectory() {
+    void testSerializeToReadOnlyDirectory() {
 
         final var readOnlyPath = tempDir.resolve("readonly");
         readOnlyPath.toFile().mkdirs();
@@ -202,7 +202,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testSerializeWithClosedOutputStream() {
+    void testSerializeWithClosedOutputStream() {
 
         final var outputStream = new ByteArrayOutputStream();
         try {
@@ -216,7 +216,7 @@ public final class JavaSerdeTest {
     }
 
     @Test
-    public void testRoundTripSerialization() {
+    void testRoundTripSerialization() {
 
         final var testObject = new TestSerializable("test", 456);
         final var testPath = tempDir.resolve("roundtrip.ser");
@@ -224,12 +224,12 @@ public final class JavaSerdeTest {
         JavaSerde.serialize(testObject, testPath);
         final var result = JavaSerde.deserialize(testPath, TestSerializable.class);
 
-        assertEquals(testObject.getName(), result.getName());
-        assertEquals(testObject.getValue(), result.getValue());
+        assertEquals(testObject.name(), result.name());
+        assertEquals(testObject.value(), result.value());
     }
 
     @Test
-    public void testSerializeComplexObject() {
+    void testSerializeComplexObject() {
 
         final var innerList = List.of("a", "b", "c");
         final var innerMap = Map.of("key1", "value1", "key2", "value2");
@@ -240,43 +240,11 @@ public final class JavaSerdeTest {
         JavaSerde.serialize(complexObject, testPath);
         final var result = JavaSerde.deserialize(testPath, ComplexSerializable.class);
 
-        assertEquals(complexObject.getList(), result.getList());
-        assertEquals(complexObject.getMap(), result.getMap());
+        assertEquals(complexObject.list(), result.list());
+        assertEquals(complexObject.map(), result.map());
     }
 
-    private static final class TestSerializable implements Serializable {
-        private final String name;
-        private final int value;
+    private record TestSerializable(String name, int value) implements Serializable {}
 
-        TestSerializable(final String name, final int value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        String getName() {
-            return name;
-        }
-
-        int getValue() {
-            return value;
-        }
-    }
-
-    private static final class ComplexSerializable implements Serializable {
-        private final List<String> list;
-        private final Map<String, String> map;
-
-        ComplexSerializable(final List<String> list, final Map<String, String> map) {
-            this.list = list;
-            this.map = map;
-        }
-
-        List<String> getList() {
-            return list;
-        }
-
-        Map<String, String> getMap() {
-            return map;
-        }
-    }
+    private record ComplexSerializable(List<String> list, Map<String, String> map) implements Serializable {}
 }

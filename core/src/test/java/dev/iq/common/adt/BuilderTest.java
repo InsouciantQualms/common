@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public final class BuilderTest {
 
     @Test
-    public void testBuildWithString() {
+    void testBuildWithString() {
 
         final var builder = new TestStringBuilder("test");
         final var result = builder.build();
@@ -27,7 +27,7 @@ public final class BuilderTest {
     }
 
     @Test
-    public void testBuildWithInteger() {
+    void testBuildWithInteger() {
 
         final var builder = new TestIntegerBuilder(42);
         final var result = builder.build();
@@ -37,7 +37,7 @@ public final class BuilderTest {
     }
 
     @Test
-    public void testBuildWithNull() {
+    void testBuildWithNull() {
 
         final var builder = new TestStringBuilder(null);
         final var result = builder.build();
@@ -46,7 +46,7 @@ public final class BuilderTest {
     }
 
     @Test
-    public void testBuildWithComplexObject() {
+    void testBuildWithComplexObject() {
 
         final var data = new TestData("name", 123);
         final var builder = new TestObjectBuilder(data);
@@ -54,12 +54,12 @@ public final class BuilderTest {
 
         assertNotNull(result);
         assertEquals(data, result);
-        assertEquals("name", result.getName());
-        assertEquals(123, result.getValue());
+        assertEquals("name", result.name());
+        assertEquals(123, result.value());
     }
 
     @Test
-    public void testBuildConsistency() {
+    void testBuildConsistency() {
 
         final var builder = new TestStringBuilder("consistent");
         final var result1 = builder.build();
@@ -69,7 +69,7 @@ public final class BuilderTest {
     }
 
     @Test
-    public void testBuildWithEmptyString() {
+    void testBuildWithEmptyString() {
 
         final var builder = new TestStringBuilder("");
         final var result = builder.build();
@@ -78,12 +78,7 @@ public final class BuilderTest {
         assertEquals("", result);
     }
 
-    private static final class TestStringBuilder implements Builder<String> {
-        private final String value;
-
-        TestStringBuilder(final String value) {
-            this.value = value;
-        }
+    private record TestStringBuilder(String value) implements Builder<String> {
 
         @Override
         public String build() {
@@ -91,12 +86,7 @@ public final class BuilderTest {
         }
     }
 
-    private static final class TestIntegerBuilder implements Builder<Integer> {
-        private final Integer value;
-
-        TestIntegerBuilder(final Integer value) {
-            this.value = value;
-        }
+    private record TestIntegerBuilder(Integer value) implements Builder<Integer> {
 
         @Override
         public Integer build() {
@@ -104,12 +94,7 @@ public final class BuilderTest {
         }
     }
 
-    private static final class TestObjectBuilder implements Builder<TestData> {
-        private final TestData data;
-
-        TestObjectBuilder(final TestData data) {
-            this.data = data;
-        }
+    private record TestObjectBuilder(TestData data) implements Builder<TestData> {
 
         @Override
         public TestData build() {
@@ -117,22 +102,7 @@ public final class BuilderTest {
         }
     }
 
-    private static final class TestData {
-        private final String name;
-        private final int value;
-
-        TestData(final String name, final int value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        String getName() {
-            return name;
-        }
-
-        int getValue() {
-            return value;
-        }
+    private record TestData(String name, int value) {
 
         @Override
         public boolean equals(final Object obj) {
@@ -148,7 +118,7 @@ public final class BuilderTest {
 
         @Override
         public int hashCode() {
-            return (((name != null) ? name.hashCode() : 0) * 31) + value;
+            return Objects.hash(name, value);
         }
     }
 }

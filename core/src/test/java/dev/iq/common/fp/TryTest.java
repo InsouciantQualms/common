@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /** Tests the various methods of the Try type. */
-public final class TryTest {
+final class TryTest {
 
     /** Helper method to always throw an exception. */
     private static void throwException() throws IntrospectionException {
@@ -45,7 +45,7 @@ public final class TryTest {
 
     /** Tests runnable methods. */
     @Test
-    public void testVoid() {
+    void testVoid() {
 
         Assertions.assertThrows(UnexpectedException.class, () -> Try.withVoid(TryTest::throwException));
         Assertions.assertDoesNotThrow(
@@ -54,7 +54,7 @@ public final class TryTest {
 
     /** Tests function methods. */
     @Test
-    public void testReturn() {
+    void testReturn() {
 
         Assertions.assertThrows(UnexpectedException.class, () -> Try.withReturn(() -> throwReturnException("message")));
         Assertions.assertEquals(42, Try.withReturn(() -> throwReturnException("message"), e -> 42));

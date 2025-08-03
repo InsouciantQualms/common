@@ -17,10 +17,10 @@ import java.net.URI;
 import org.junit.jupiter.api.Test;
 
 /** Tests for CodeSourceHelper covering code source location and JAR detection. */
-public final class CodeSourceHelperTest {
+final class CodeSourceHelperTest {
 
     @Test
-    public void testLocateCodeSource() {
+    void testLocateCodeSource() {
 
         final var uri = CodeSourceHelper.locateCodeSource(CodeSourceHelperTest.class);
 
@@ -31,7 +31,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testLocateCodeSourceWithDifferentClass() {
+    void testLocateCodeSourceWithDifferentClass() {
 
         final var uri = CodeSourceHelper.locateCodeSource(CodeSourceHelper.class);
 
@@ -42,7 +42,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testIsJarForTestClass() {
+    void testIsJarForTestClass() {
 
         final var isJar = CodeSourceHelper.isJar(CodeSourceHelperTest.class);
 
@@ -52,7 +52,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testIsJarForCodeSourceHelper() {
+    void testIsJarForCodeSourceHelper() {
 
         final var isJar = CodeSourceHelper.isJar(CodeSourceHelper.class);
 
@@ -61,7 +61,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testIsJarForThisHelper() {
+    void testIsJarForThisHelper() {
 
         final var isJar = CodeSourceHelper.isJar(CodeSourceHelper.class);
 
@@ -69,7 +69,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testResolveStream() {
+    void testResolveStream() {
 
         final var stream = CodeSourceHelper.resolveStream(CodeSourceHelperTest.class);
 
@@ -80,7 +80,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testResolveStreamWithDifferentClass() {
+    void testResolveStreamWithDifferentClass() {
 
         final var stream = CodeSourceHelper.resolveStream(CodeSourceHelper.class);
 
@@ -91,7 +91,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testResolveStreamWithCodeSourceHelper() {
+    void testResolveStreamWithCodeSourceHelper() {
 
         final var stream = CodeSourceHelper.resolveStream(CodeSourceHelper.class);
 
@@ -102,7 +102,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testConsistentBehaviorBetweenMethods() {
+    void testConsistentBehaviorBetweenMethods() {
 
         final var testClass = CodeSourceHelperTest.class;
         final var uri = CodeSourceHelper.locateCodeSource(testClass);
@@ -118,7 +118,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testCodeSourceLocationIsNotEmpty() {
+    void testCodeSourceLocationIsNotEmpty() {
 
         final var classes = new Class<?>[] {CodeSourceHelperTest.class, CodeSourceHelper.class};
 
@@ -130,7 +130,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testStreamCanBeRead() {
+    void testStreamCanBeRead() {
 
         final var stream = CodeSourceHelper.resolveStream(CodeSourceHelperTest.class);
 
@@ -140,13 +140,13 @@ public final class CodeSourceHelperTest {
         assertDoesNotThrow(() -> {
             final var firstByte = stream.read();
             // The stream should contain data (not -1 for EOF immediately)
-            assertTrue(firstByte >= -1); // -1 is EOF, any other value is valid
+            assertTrue(true); // -1 is EOF, any other value is valid
             stream.close();
         });
     }
 
     @Test
-    public void testMultipleCallsReturnSameResult() {
+    void testMultipleCallsReturnSameResult() {
 
         final var testClass = CodeSourceHelperTest.class;
 
@@ -162,7 +162,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testDifferentClassesHaveDifferentOrSameSources() {
+    void testDifferentClassesHaveDifferentOrSameSources() {
 
         final var testClassUri = CodeSourceHelper.locateCodeSource(CodeSourceHelperTest.class);
         final var helperClassUri = CodeSourceHelper.locateCodeSource(CodeSourceHelper.class);
@@ -177,7 +177,7 @@ public final class CodeSourceHelperTest {
     }
 
     @Test
-    public void testUriIsValid() {
+    void testUriIsValid() {
 
         final var uri = CodeSourceHelper.locateCodeSource(CodeSourceHelperTest.class);
 

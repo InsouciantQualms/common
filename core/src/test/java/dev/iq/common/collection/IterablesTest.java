@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for the Iterables utility class covering immutable collection operations and conversions.
  */
-public final class IterablesTest {
+final class IterablesTest {
 
     @Test
-    public void testImmutableWithList() {
+    void testImmutableWithList() {
 
         final var mutableList = new ArrayList<String>();
         mutableList.add("one");
@@ -45,7 +45,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testImmutableWithSet() {
+    void testImmutableWithSet() {
 
         final var mutableSet = new HashSet<Integer>();
         mutableSet.add(1);
@@ -62,7 +62,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testImmutableWithEmptyCollection() {
+    void testImmutableWithEmptyCollection() {
 
         final var emptyList = new ArrayList<String>();
         final var immutableIterable = Iterables.immutable(emptyList);
@@ -72,7 +72,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testOfWithMultipleElements() {
+    void testOfWithMultipleElements() {
 
         final var iterable = Iterables.of("first", "second", "third");
 
@@ -81,7 +81,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testOfWithSingleElement() {
+    void testOfWithSingleElement() {
 
         final var iterable = Iterables.of("single");
 
@@ -90,7 +90,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testOfWithNoElements() {
+    void testOfWithNoElements() {
 
         final var iterable = Iterables.of();
 
@@ -99,14 +99,14 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testOfDoesNotSupportNullElements() {
+    void testOfDoesNotSupportNullElements() {
 
         // Iterables.of() uses List.of() which doesn't allow null values
         assertThrows(NullPointerException.class, () -> Iterables.of("first", null, "third"));
     }
 
     @Test
-    public void testOfWithDifferentTypes() {
+    void testOfWithDifferentTypes() {
 
         final var iterable = Iterables.of(1, 2, 3);
 
@@ -115,7 +115,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testSortWithComparator() {
+    void testSortWithComparator() {
 
         final var original = List.of("zebra", "apple", "banana");
         final var sorted = Iterables.sort(original, String::compareTo);
@@ -128,7 +128,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testSortWithReverseComparator() {
+    void testSortWithReverseComparator() {
 
         final var original = List.of(1, 3, 2, 5, 4);
         final var sorted = Iterables.sort(original, Comparator.reverseOrder());
@@ -138,7 +138,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testSortWithEmptyIterable() {
+    void testSortWithEmptyIterable() {
 
         final var empty = List.<String>of();
         final var sorted = Iterables.sort(empty, String::compareTo);
@@ -148,7 +148,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testSortWithSingleElement() {
+    void testSortWithSingleElement() {
 
         final var single = List.of("only");
         final var sorted = Iterables.sort(single, String::compareTo);
@@ -158,7 +158,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testFromEnumeration() {
+    void testFromEnumeration() {
 
         final var vector = new Vector<String>();
         vector.add("first");
@@ -173,7 +173,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testFromEmptyEnumeration() {
+    void testFromEmptyEnumeration() {
 
         final var vector = new Vector<String>();
         final var enumeration = vector.elements();
@@ -184,7 +184,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testFromIterator() {
+    void testFromIterator() {
 
         final var list = List.of("alpha", "beta", "gamma");
         final var iterator = list.iterator();
@@ -195,7 +195,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testFromEmptyIterator() {
+    void testFromEmptyIterator() {
 
         final var emptyList = List.<String>of();
         final var iterator = emptyList.iterator();
@@ -206,7 +206,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testFromIteratorWithNulls() {
+    void testFromIteratorWithNulls() {
 
         final var list = new ArrayList<String>();
         list.add("first");
@@ -224,7 +224,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testImmutableIsActuallyImmutable() {
+    void testImmutableIsActuallyImmutable() {
 
         final var mutableList = new ArrayList<String>();
         mutableList.add("test");
@@ -240,7 +240,7 @@ public final class IterablesTest {
     }
 
     @Test
-    public void testSortIsImmutable() {
+    void testSortIsImmutable() {
 
         final var original = new ArrayList<String>();
         original.add("c");

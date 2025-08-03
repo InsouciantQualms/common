@@ -22,7 +22,7 @@ final class JsonSerdeTest {
 
     /** Tests serialization. */
     @Test
-    public void testSerialize() {
+    void testSerialize() {
 
         final var test = new Tester("Sascha", 42);
         final var json = JsonSerde.toJson(test);
@@ -31,7 +31,7 @@ final class JsonSerdeTest {
 
     /** Tests deserialization. */
     @Test
-    public void testDeserialize() {
+    void testDeserialize() {
 
         final var test = JsonSerde.fromJson(TEST_JSON, Tester.class);
         Assertions.assertEquals("Sascha", test.name);

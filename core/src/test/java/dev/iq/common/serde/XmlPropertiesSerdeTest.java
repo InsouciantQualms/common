@@ -20,13 +20,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 /** Tests for the XmlPropertiesSerde class covering Properties serialization functionality. */
-public final class XmlPropertiesSerdeTest {
+final class XmlPropertiesSerdeTest {
 
     @TempDir
     private Path tempDir;
 
     @Test
-    public void testSerializeAndDeserializeSimpleMap() {
+    void testSerializeAndDeserializeSimpleMap() {
 
         final var testMap = Map.of(
                 "key1", "value1",
@@ -43,7 +43,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeEmptyMap() {
+    void testSerializeAndDeserializeEmptyMap() {
 
         final var testMap = Map.<String, String>of();
         final var testPath = tempDir.resolve("empty.properties");
@@ -56,7 +56,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeSingleEntry() {
+    void testSerializeAndDeserializeSingleEntry() {
 
         final var testMap = Map.of("singleKey", "singleValue");
         final var testPath = tempDir.resolve("single.properties");
@@ -70,7 +70,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeToOutputStream() {
+    void testSerializeToOutputStream() {
 
         final var testMap = Map.of("key", "value");
         final var outputStream = new ByteArrayOutputStream();
@@ -88,7 +88,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testDeserializeFromInputStream() {
+    void testDeserializeFromInputStream() {
 
         final var testMap = Map.of("streamKey", "streamValue");
         final var outputStream = new ByteArrayOutputStream();
@@ -102,7 +102,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeWithNullValues() {
+    void testSerializeAndDeserializeWithNullValues() {
 
         // Properties doesn't support null values, so we'll test with a map that filters nulls
         final var testMap = new HashMap<String, String>();
@@ -120,7 +120,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeWithEmptyValues() {
+    void testSerializeAndDeserializeWithEmptyValues() {
 
         final var testMap = Map.of(
                 "emptyValue", "",
@@ -137,7 +137,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeWithDotNotation() {
+    void testSerializeAndDeserializeWithDotNotation() {
 
         final var testMap = Map.of(
                 "app.name", "MyApplication",
@@ -155,7 +155,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testXmlFormatOutput() {
+    void testXmlFormatOutput() {
 
         final var testMap = Map.of("test", "value");
         final var outputStream = new ByteArrayOutputStream();
@@ -171,7 +171,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testRoundTripWithStream() {
+    void testRoundTripWithStream() {
 
         final var originalMap = Map.of(
                 "database.url", "jdbc:postgresql://localhost:5432/mydb",
@@ -188,7 +188,7 @@ public final class XmlPropertiesSerdeTest {
     }
 
     @Test
-    public void testSerializeAndDeserializeWithSpecialCharacters() {
+    void testSerializeAndDeserializeWithSpecialCharacters() {
 
         final var testMap = Map.of(
                 "key_with_underscore", "value_with_underscore",

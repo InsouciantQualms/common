@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 final class UnexpectedExceptionTest {
 
     @Test
-    public void testConstructorWithMessage() {
+    void testConstructorWithMessage() {
 
         final var message = "Test unexpected error message";
         final var exception = new UnexpectedException(message);
@@ -26,7 +26,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithMessageAndCause() {
+    void testConstructorWithMessageAndCause() {
 
         final var message = "Test unexpected error with cause";
         final var cause = new NullPointerException("Original NPE");
@@ -38,7 +38,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithCause() {
+    void testConstructorWithCause() {
 
         final var cause = new ArrayIndexOutOfBoundsException("Array index error");
         final var exception = new UnexpectedException(cause);
@@ -50,7 +50,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullMessage() {
+    void testConstructorWithNullMessage() {
 
         final var exception = new UnexpectedException((String) null);
 
@@ -60,7 +60,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithEmptyMessage() {
+    void testConstructorWithEmptyMessage() {
 
         final var message = "";
         final var exception = new UnexpectedException(message);
@@ -71,7 +71,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullCause() {
+    void testConstructorWithNullCause() {
 
         final var exception = new UnexpectedException((Throwable) null);
 
@@ -80,7 +80,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithMessageAndNullCause() {
+    void testConstructorWithMessageAndNullCause() {
 
         final var message = "Test message with null cause";
         final var exception = new UnexpectedException(message, null);
@@ -91,7 +91,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullMessageAndCause() {
+    void testConstructorWithNullMessageAndCause() {
 
         final var cause = new IllegalArgumentException("Invalid argument");
         final var exception = new UnexpectedException(null, cause);
@@ -102,7 +102,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testExceptionChaining() {
+    void testExceptionChaining() {
 
         final var rootCause = new NumberFormatException("Invalid number format");
         final var intermediateCause = new IllegalArgumentException("Invalid argument", rootCause);
@@ -114,7 +114,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testSerializationConstantExists() {
+    void testSerializationConstantExists() {
 
         // Verify that the serialVersionUID field exists and is accessible
         try {
@@ -129,16 +129,16 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testIsRuntimeException() {
+    void testIsRuntimeException() {
 
         final var exception = new UnexpectedException("Test message");
 
         Assertions.assertInstanceOf(RuntimeException.class, exception);
-        Assertions.assertFalse((exception instanceof Exception) && !(exception instanceof RuntimeException));
+        Assertions.assertFalse(!(exception instanceof RuntimeException));
     }
 
     @Test
-    public void testWithTypicalUnexpectedCauses() {
+    void testWithTypicalUnexpectedCauses() {
 
         // Test with various cause types that would typically be unexpected
         final var nullPointerCause = new NullPointerException("Null pointer");
@@ -158,7 +158,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testStackTracePreservation() {
+    void testStackTracePreservation() {
 
         final var originalException = new IllegalStateException("Original illegal state");
         final var unexpectedException = new UnexpectedException("Wrapped unexpected error", originalException);
@@ -173,7 +173,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testDifferentFromIoException() {
+    void testDifferentFromIoException() {
 
         final var message = "Test message";
         final var cause = new RuntimeException("Cause");
@@ -188,7 +188,7 @@ final class UnexpectedExceptionTest {
     }
 
     @Test
-    public void testWithProgrammingErrors() {
+    void testWithProgrammingErrors() {
 
         // Test with typical programming errors that should be unexpected
         final var classNotFoundCause = new ClassNotFoundException("Class not found");

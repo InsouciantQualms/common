@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /** Tests the various methods of the Try type. */
-public final class IoTest {
+final class IoTest {
 
     /**
      * Helper method to always throw an exception.
@@ -49,7 +49,7 @@ public final class IoTest {
 
     /** Tests runnable methods. */
     @Test
-    public void testVoid() {
+    void testVoid() {
 
         Assertions.assertThrows(IoException.class, () -> Io.withVoid(IoTest::throwException));
         Assertions.assertDoesNotThrow(
@@ -58,7 +58,7 @@ public final class IoTest {
 
     /** Tests function methods. */
     @Test
-    public void testReturn() {
+    void testReturn() {
 
         Assertions.assertThrows(IoException.class, () -> Io.withReturn(() -> throwReturnException("message")));
         Assertions.assertEquals(42, Io.withReturn(() -> throwReturnException("message"), e -> 42));

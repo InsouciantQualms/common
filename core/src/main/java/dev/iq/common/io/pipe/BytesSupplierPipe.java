@@ -23,7 +23,7 @@ final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>
 
     /** {@inheritDoc} */
     @Override
-    public byte[] read(Fn0<? extends InputStream> in) {
+    public byte[] read(final Fn0<? extends InputStream> in) {
 
         return Io.withReturn(() -> {
             try (var stream = in.get()) {
@@ -34,7 +34,7 @@ final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>
 
     /** {@inheritDoc} */
     @Override
-    public void write(byte[] target, Fn0<? extends OutputStream> out) {
+    public void write(final byte[] target, final Fn0<? extends OutputStream> out) {
 
         Io.withVoid(() -> {
             try (var stream = out.get()) {
@@ -45,7 +45,7 @@ final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>
 
     /** {@inheritDoc} */
     @Override
-    public long go(Fn0<? extends InputStream> in, Fn0<? extends OutputStream> out, int bufferSize) {
+    public long go(final Fn0<? extends InputStream> in, final Fn0<? extends OutputStream> out, final int bufferSize) {
 
         return Io.withReturn(() -> {
             try (var streamIn = in.get();

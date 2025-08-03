@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for the Iterators utility class covering enumeration conversion and safe element removal.
  */
-public final class IteratorsTest {
+final class IteratorsTest {
 
     @Test
-    public void testFromEnumeration() {
+    void testFromEnumeration() {
 
         final var vector = new Vector<String>();
         vector.add("first");
@@ -47,7 +47,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testFromEmptyEnumeration() {
+    void testFromEmptyEnumeration() {
 
         final var vector = new Vector<String>();
         final var enumeration = vector.elements();
@@ -58,7 +58,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testFromEnumerationWithNulls() {
+    void testFromEnumerationWithNulls() {
 
         final var vector = new Vector<String>();
         vector.add("first");
@@ -79,7 +79,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testFromEnumerationNoSuchElement() {
+    void testFromEnumerationNoSuchElement() {
 
         final var vector = new Vector<String>();
         final var enumeration = vector.elements();
@@ -90,7 +90,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveWithMatchingElements() {
+    void testRemoveWithMatchingElements() {
 
         final var list = new ArrayList<String>();
         list.add("apple");
@@ -106,7 +106,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveWithNoMatchingElements() {
+    void testRemoveWithNoMatchingElements() {
 
         final var list = new ArrayList<String>();
         list.add("apple");
@@ -121,7 +121,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveAllElements() {
+    void testRemoveAllElements() {
 
         final var list = new ArrayList<String>();
         list.add("apple");
@@ -136,7 +136,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveWithEmptyIterator() {
+    void testRemoveWithEmptyIterator() {
 
         final var list = new ArrayList<String>();
         final var iterator = list.iterator();
@@ -147,7 +147,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveWithNullElements() {
+    void testRemoveWithNullElements() {
 
         final var list = new ArrayList<String>();
         list.add("apple");
@@ -163,7 +163,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveWithComplexPredicate() {
+    void testRemoveWithComplexPredicate() {
 
         final var list = new ArrayList<Integer>();
         list.add(1);
@@ -181,7 +181,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveIteratorNotSupported() {
+    void testRemoveIteratorNotSupported() {
 
         final var list = List.of("apple", "banana", "cherry");
         final var iterator = list.iterator();
@@ -191,7 +191,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveWithCustomObjects() {
+    void testRemoveWithCustomObjects() {
 
         final var list = new ArrayList<Person>();
         list.add(new Person("Alice", 25));
@@ -209,7 +209,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemovePredicateOrder() {
+    void testRemovePredicateOrder() {
 
         final var list = new ArrayList<String>();
         list.add("a");
@@ -225,7 +225,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testFromEnumerationConsistency() {
+    void testFromEnumerationConsistency() {
 
         final var vector = new Vector<String>();
         vector.add("test");
@@ -240,7 +240,7 @@ public final class IteratorsTest {
     }
 
     @Test
-    public void testRemoveCountAccuracy() {
+    void testRemoveCountAccuracy() {
 
         final var list = new ArrayList<String>();
         for (var i = 0; i < 100; i++) {

@@ -32,12 +32,7 @@ public abstract class SimpleRunnable implements Runnable {
         alive = false;
     }
 
-    /**
-     * Convenience method to sleep during polling to not overload the CPU or the OS with native
-     * calls to check status.
-     *
-     * @return boolean True to continue, false if interrupted
-     */
+    /**Convenience method to sleep during polling to not overload the CPU or the OS with calls to check status. */
     protected static boolean sleep(final long millis) {
 
         try {

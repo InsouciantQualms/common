@@ -44,7 +44,9 @@ public final class CodedFinder {
      * @param values Array to search
      * @return Optional Resulting value if found
      */
-    public static <C, T extends Coded<C>> Optional<T> find(final C code, final T[] values) {
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <C, T extends Coded<C>> Optional<T> find(final C code, final T... values) {
 
         return find(code, Arrays.asList(values));
     }
@@ -86,7 +88,9 @@ public final class CodedFinder {
      * @param values Array to search
      * @return Optional Resulting value if found
      */
-    public static <C, T extends Coded<C>> T require(final C code, final T[] values) {
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <C, T extends Coded<C>> T require(final C code, final T... values) {
 
         return find(code, values).orElseThrow(toException(code));
     }

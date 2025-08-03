@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public final class CodedTest {
 
     @Test
-    public void testGetCodeWithString() {
+    void testGetCodeWithString() {
 
         final var coded = new TestStringCoded("TEST_CODE");
         final var result = coded.code();
@@ -27,7 +27,7 @@ public final class CodedTest {
     }
 
     @Test
-    public void testGetCodeWithInteger() {
+    void testGetCodeWithInteger() {
 
         final var coded = new TestIntegerCoded(42);
         final var result = coded.code();
@@ -37,7 +37,7 @@ public final class CodedTest {
     }
 
     @Test
-    public void testGetCodeWithNull() {
+    void testGetCodeWithNull() {
 
         final var coded = new TestStringCoded(null);
         final var result = coded.code();
@@ -46,7 +46,7 @@ public final class CodedTest {
     }
 
     @Test
-    public void testGetCodeWithEnum() {
+    void testGetCodeWithEnum() {
 
         final var coded = new TestEnumCoded(TestEnum.VALUE1);
         final var result = coded.code();
@@ -56,7 +56,7 @@ public final class CodedTest {
     }
 
     @Test
-    public void testGetCodeConsistency() {
+    void testGetCodeConsistency() {
 
         final var coded = new TestStringCoded("CONSISTENT");
         final var result1 = coded.code();
@@ -67,7 +67,7 @@ public final class CodedTest {
     }
 
     @Test
-    public void testGetCodeWithEmptyString() {
+    void testGetCodeWithEmptyString() {
 
         final var coded = new TestStringCoded("");
         final var result = coded.code();
@@ -77,55 +77,22 @@ public final class CodedTest {
     }
 
     @Test
-    public void testGetCodeWithDifferentTypes() {
+    void testGetCodeWithDifferentTypes() {
 
         final var stringCoded = new TestStringCoded("abc");
-        final var intCoded = new TestIntegerCoded(123);
         final var enumCoded = new TestEnumCoded(TestEnum.VALUE2);
 
         assertEquals("abc", stringCoded.code());
+        final var intCoded = new TestIntegerCoded(123);
         assertEquals(123, intCoded.code());
         assertEquals(TestEnum.VALUE2, enumCoded.code());
     }
 
-    private static final class TestStringCoded implements Coded<String> {
-        private final String code;
+    private record TestStringCoded(String code) implements Coded<String> {}
 
-        TestStringCoded(final String code) {
-            this.code = code;
-        }
+    private record TestIntegerCoded(Integer code) implements Coded<Integer> {}
 
-        @Override
-        public String code() {
-            return code;
-        }
-    }
-
-    private static final class TestIntegerCoded implements Coded<Integer> {
-        private final Integer code;
-
-        TestIntegerCoded(final Integer code) {
-            this.code = code;
-        }
-
-        @Override
-        public Integer code() {
-            return code;
-        }
-    }
-
-    private static final class TestEnumCoded implements Coded<TestEnum> {
-        private final TestEnum code;
-
-        TestEnumCoded(final TestEnum code) {
-            this.code = code;
-        }
-
-        @Override
-        public TestEnum code() {
-            return code;
-        }
-    }
+    private record TestEnumCoded(TestEnum code) implements Coded<TestEnum> {}
 
     private enum TestEnum {
         VALUE1,

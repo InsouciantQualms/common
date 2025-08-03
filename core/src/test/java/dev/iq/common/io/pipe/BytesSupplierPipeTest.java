@@ -18,10 +18,10 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /** Tests for BytesSupplierPipe covering lazy evaluation of stream suppliers. */
-public final class BytesSupplierPipeTest {
+final class BytesSupplierPipeTest {
 
     @Test
-    public void testReadFromSupplierInputStream() {
+    void testReadFromSupplierInputStream() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -33,7 +33,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testReadFromEmptySupplierInputStream() {
+    void testReadFromEmptySupplierInputStream() {
 
         final var pipe = new BytesSupplierPipe();
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(new byte[0]);
@@ -44,7 +44,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testWriteToSupplierOutputStream() {
+    void testWriteToSupplierOutputStream() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -57,7 +57,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testWriteEmptyByteArrayToSupplier() {
+    void testWriteEmptyByteArrayToSupplier() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = new byte[0];
@@ -70,7 +70,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithSuppliers() {
+    void testGoWithSuppliers() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -85,7 +85,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithSuppliersAndCustomBufferSize() {
+    void testGoWithSuppliersAndCustomBufferSize() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -100,7 +100,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithLargeDataAndSuppliers() {
+    void testGoWithLargeDataAndSuppliers() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = new byte[10000];
@@ -118,7 +118,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithEmptyStreamSuppliers() {
+    void testGoWithEmptyStreamSuppliers() {
 
         final var pipe = new BytesSupplierPipe();
         final Fn0<ByteArrayInputStream> inputStreamSupplier = () -> new ByteArrayInputStream(new byte[0]);
@@ -132,7 +132,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testStreamClosedBySupplier() {
+    void testStreamClosedBySupplier() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -148,7 +148,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testLazyEvaluationOfInputSupplier() {
+    void testLazyEvaluationOfInputSupplier() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -168,7 +168,7 @@ public final class BytesSupplierPipeTest {
     }
 
     @Test
-    public void testLazyEvaluationOfOutputSupplier() {
+    void testLazyEvaluationOfOutputSupplier() {
 
         final var pipe = new BytesSupplierPipe();
         final var testData = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -191,7 +191,7 @@ public final class BytesSupplierPipeTest {
     private static final class TestInputStream extends ByteArrayInputStream {
         private boolean closed = false;
 
-        TestInputStream(final byte[] buf) {
+        private TestInputStream(final byte... buf) {
             super(buf);
         }
 
@@ -201,7 +201,7 @@ public final class BytesSupplierPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }
@@ -215,7 +215,7 @@ public final class BytesSupplierPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }

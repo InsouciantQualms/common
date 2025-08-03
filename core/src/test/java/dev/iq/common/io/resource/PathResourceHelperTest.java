@@ -18,14 +18,14 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 
 /** Tests for PathResourceHelper covering classpath path resolution. */
-public final class PathResourceHelperTest {
+final class PathResourceHelperTest {
 
     @Test
-    public void testResolvePathFromClasspathWithExistingResource() {
+    void testResolvePathFromClasspathWithExistingResource() {
 
         // Try to find a class file that should exist
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result = PathResourceHelper.resolvePathFromClasspath(path);
             assertTrue(result.isPresent());
             assertInstanceOf(Path.class, result.get());
@@ -36,7 +36,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testResolvePathFromClasspathWithNonExistingResource() {
+    void testResolvePathFromClasspathWithNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
         final var result = PathResourceHelper.resolvePathFromClasspath(path);
@@ -45,10 +45,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testResolvePathFromClasspathWithCaller() {
+    void testResolvePathFromClasspathWithCaller() {
 
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result = PathResourceHelper.resolvePathFromClasspath(path, PathResourceHelper.class);
             assertTrue(result.isPresent());
             assertInstanceOf(Path.class, result.get());
@@ -59,7 +59,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testResolvePathFromClasspathWithCallerAndNonExistingResource() {
+    void testResolvePathFromClasspathWithCallerAndNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
         final var result = PathResourceHelper.resolvePathFromClasspath(path, PathResourceHelper.class);
@@ -68,10 +68,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testResolvePathFromClasspathWithDifferentCaller() {
+    void testResolvePathFromClasspathWithDifferentCaller() {
 
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result = PathResourceHelper.resolvePathFromClasspath(path, PathResourceHelperTest.class);
             assertTrue(result.isPresent());
             assertInstanceOf(Path.class, result.get());
@@ -82,10 +82,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testRequirePathFromClasspathWithExistingResource() {
+    void testRequirePathFromClasspathWithExistingResource() {
 
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result = PathResourceHelper.requirePathFromClasspath(path);
             assertNotNull(result);
             assertInstanceOf(Path.class, result);
@@ -96,7 +96,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testRequirePathFromClasspathWithNonExistingResource() {
+    void testRequirePathFromClasspathWithNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
 
@@ -104,10 +104,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testRequirePathFromClasspathWithCallerAndExistingResource() {
+    void testRequirePathFromClasspathWithCallerAndExistingResource() {
 
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result = PathResourceHelper.requirePathFromClasspath(path, PathResourceHelper.class);
             assertNotNull(result);
             assertInstanceOf(Path.class, result);
@@ -118,7 +118,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testRequirePathFromClasspathWithCallerAndNonExistingResource() {
+    void testRequirePathFromClasspathWithCallerAndNonExistingResource() {
 
         final var path = "/non/existing/resource.txt";
 
@@ -128,10 +128,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testRequirePathFromClasspathWithDifferentCaller() {
+    void testRequirePathFromClasspathWithDifferentCaller() {
 
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result = PathResourceHelper.requirePathFromClasspath(path, PathResourceHelperTest.class);
             assertNotNull(result);
             assertInstanceOf(Path.class, result);
@@ -142,7 +142,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testExceptionMessageForMissingResource() {
+    void testExceptionMessageForMissingResource() {
 
         final var path = "/missing/resource.txt";
 
@@ -153,7 +153,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testExceptionMessageForMissingResourceWithCaller() {
+    void testExceptionMessageForMissingResourceWithCaller() {
 
         final var path = "/missing/resource.txt";
 
@@ -165,11 +165,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testConsistencyBetweenResolveAndRequire() {
-
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
+    void testConsistencyBetweenResolveAndRequire() {
 
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var resolvedPath = PathResourceHelper.resolvePathFromClasspath(path);
             final var requiredPath = PathResourceHelper.requirePathFromClasspath(path);
 
@@ -182,12 +181,11 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testConsistencyBetweenResolveAndRequireWithCaller() {
-
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
-        final var caller = PathResourceHelper.class;
+    void testConsistencyBetweenResolveAndRequireWithCaller() {
 
         try {
+            final var caller = PathResourceHelper.class;
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var resolvedPath = PathResourceHelper.resolvePathFromClasspath(path, caller);
             final var requiredPath = PathResourceHelper.requirePathFromClasspath(path, caller);
 
@@ -200,11 +198,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testConsistencyBetweenCallerAndNonCallerMethods() {
-
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
+    void testConsistencyBetweenCallerAndNonCallerMethods() {
 
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var pathWithoutCaller = PathResourceHelper.resolvePathFromClasspath(path);
             final var pathWithCaller = PathResourceHelper.resolvePathFromClasspath(path, CodeSourceHelper.class);
 
@@ -221,11 +218,11 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testRelativePathResolution() {
+    void testRelativePathResolution() {
 
         // Test with a relative path that should exist
-        final var relativePath = "PathResourceHelper.class";
         try {
+            final var relativePath = "PathResourceHelper.class";
             final var result = PathResourceHelper.resolvePathFromClasspath(relativePath, PathResourceHelper.class);
             assertTrue(result.isPresent());
             assertInstanceOf(Path.class, result.get());
@@ -236,11 +233,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testMultipleCallsReturnSameResult() {
-
-        final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
+    void testMultipleCallsReturnSameResult() {
 
         try {
+            final var path = "/dev/iq/common/io/resource/PathResourceHelper.class";
             final var result1 = PathResourceHelper.resolvePathFromClasspath(path);
             final var result2 = PathResourceHelper.resolvePathFromClasspath(path);
 
@@ -256,10 +252,10 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testEmptyPathHandling() {
+    void testEmptyPathHandling() {
 
-        final var emptyPath = "";
         try {
+            final var emptyPath = "";
             final var result = PathResourceHelper.resolvePathFromClasspath(emptyPath);
 
             // Empty path may resolve to root classpath directory
@@ -271,7 +267,7 @@ public final class PathResourceHelperTest {
     }
 
     @Test
-    public void testNullPathHandling() {
+    void testNullPathHandling() {
 
         // This should handle null gracefully or throw an appropriate exception
         assertThrows(Exception.class, () -> PathResourceHelper.resolvePathFromClasspath(null));

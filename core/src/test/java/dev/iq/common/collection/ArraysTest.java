@@ -14,10 +14,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Arrays utility class covering array class conversion functionality. */
-public final class ArraysTest {
+final class ArraysTest {
 
     @Test
-    public void testToArrayWithString() {
+    void testToArrayWithString() {
 
         final var stringClass = String.class;
         final var arrayClass = Arrays.toArray(stringClass);
@@ -29,7 +29,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithInteger() {
+    void testToArrayWithInteger() {
 
         final var integerClass = Integer.class;
         final var arrayClass = Arrays.toArray(integerClass);
@@ -41,7 +41,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithPrimitiveInt() {
+    void testToArrayWithPrimitiveInt() {
 
         final var intClass = int.class;
         final var arrayClass = Arrays.toArray(intClass);
@@ -53,7 +53,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithPrimitiveBoolean() {
+    void testToArrayWithPrimitiveBoolean() {
 
         final var booleanClass = boolean.class;
         final var arrayClass = Arrays.toArray(booleanClass);
@@ -65,7 +65,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithPrimitiveDouble() {
+    void testToArrayWithPrimitiveDouble() {
 
         final var doubleClass = double.class;
         final var arrayClass = Arrays.toArray(doubleClass);
@@ -77,7 +77,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithCustomClass() {
+    void testToArrayWithCustomClass() {
 
         final var customClass = TestClass.class;
         final var arrayClass = Arrays.toArray(customClass);
@@ -89,7 +89,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithObjectClass() {
+    void testToArrayWithObjectClass() {
 
         final var objectClass = Object.class;
         final var arrayClass = Arrays.toArray(objectClass);
@@ -101,7 +101,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithInterfaceClass() {
+    void testToArrayWithInterfaceClass() {
 
         final var runnableClass = Runnable.class;
         final var arrayClass = Arrays.toArray(runnableClass);
@@ -113,7 +113,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithGenericClass() {
+    void testToArrayWithGenericClass() {
 
         final var listClass = List.class;
         final var arrayClass = Arrays.toArray(listClass);
@@ -125,7 +125,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayConsistency() {
+    void testToArrayConsistency() {
 
         final var stringClass = String.class;
         final var arrayClass1 = Arrays.toArray(stringClass);
@@ -136,7 +136,7 @@ public final class ArraysTest {
     }
 
     @Test
-    public void testToArrayWithAllPrimitives() {
+    void testToArrayWithAllPrimitives() {
 
         final var byteClass = Arrays.toArray(byte.class);
         final var shortClass = Arrays.toArray(short.class);

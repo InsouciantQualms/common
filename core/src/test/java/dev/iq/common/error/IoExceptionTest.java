@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 final class IoExceptionTest {
 
     @Test
-    public void testConstructorWithMessage() {
+    void testConstructorWithMessage() {
 
         final var message = "Test IO error message";
         final var exception = new IoException(message);
@@ -26,7 +26,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithMessageAndCause() {
+    void testConstructorWithMessageAndCause() {
 
         final var message = "Test IO error with cause";
         final var cause = new IOException("Original IO error");
@@ -38,7 +38,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithCause() {
+    void testConstructorWithCause() {
 
         final var cause = new SQLException("Database connection failed");
         final var exception = new IoException(cause);
@@ -50,7 +50,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullMessage() {
+    void testConstructorWithNullMessage() {
 
         final var exception = new IoException((String) null);
 
@@ -60,7 +60,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithEmptyMessage() {
+    void testConstructorWithEmptyMessage() {
 
         final var message = "";
         final var exception = new IoException(message);
@@ -71,7 +71,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullCause() {
+    void testConstructorWithNullCause() {
 
         final var exception = new IoException((Throwable) null);
 
@@ -80,7 +80,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithMessageAndNullCause() {
+    void testConstructorWithMessageAndNullCause() {
 
         final var message = "Test message with null cause";
         final var exception = new IoException(message, null);
@@ -91,7 +91,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testConstructorWithNullMessageAndCause() {
+    void testConstructorWithNullMessageAndCause() {
 
         final var cause = new IOException("IO error");
         final var exception = new IoException(null, cause);
@@ -102,7 +102,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testExceptionChaining() {
+    void testExceptionChaining() {
 
         final var rootCause = new IOException("Root cause");
         final var intermediateCause = new SQLException("Intermediate cause", rootCause);
@@ -114,7 +114,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testSerializationConstantExists() {
+    void testSerializationConstantExists() {
 
         // Verify that the serialVersionUID field exists and is accessible
         try {
@@ -129,16 +129,16 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testIsRuntimeException() {
+    void testIsRuntimeException() {
 
         final var exception = new IoException("Test message");
 
         Assertions.assertInstanceOf(RuntimeException.class, exception);
-        Assertions.assertFalse((exception instanceof Exception) && !(exception instanceof RuntimeException));
+        Assertions.assertFalse(!(exception instanceof RuntimeException));
     }
 
     @Test
-    public void testWithDifferentCauseTypes() {
+    void testWithDifferentCauseTypes() {
 
         // Test with various cause types that might be used in IO operations
         final var ioCause = new IOException("IO failure");
@@ -155,7 +155,7 @@ final class IoExceptionTest {
     }
 
     @Test
-    public void testStackTracePreservation() {
+    void testStackTracePreservation() {
 
         final var originalException = new IOException("Original IO error");
         final var ioException = new IoException("Wrapped IO error", originalException);

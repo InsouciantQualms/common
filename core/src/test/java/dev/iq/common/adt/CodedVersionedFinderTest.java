@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 final class CodedVersionedFinderTest {
 
     @Test
-    public void testFindRequired() {
+    void testFindRequired() {
 
         final var found = CodedFinder.require("NJ", CodedEnum.class);
         Assertions.assertEquals(CodedEnum.NEW_JERSEY, found);

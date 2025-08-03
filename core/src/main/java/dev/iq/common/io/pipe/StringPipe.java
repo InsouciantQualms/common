@@ -20,7 +20,7 @@ final class StringPipe implements Pipe<String, Reader, Writer> {
 
     /** {@inheritDoc} */
     @Override
-    public String read(Reader reader) {
+    public String read(final Reader reader) {
 
         return Io.withReturn(() -> {
             try (var writer = new StringWriter()) {
@@ -32,7 +32,7 @@ final class StringPipe implements Pipe<String, Reader, Writer> {
 
     /** {@inheritDoc} */
     @Override
-    public void write(String target, Writer writer) {
+    public void write(final String target, final Writer writer) {
 
         Io.withVoid(() -> {
             try (var reader = new StringReader(target)) {
@@ -44,7 +44,7 @@ final class StringPipe implements Pipe<String, Reader, Writer> {
     /** {@inheritDoc} */
     @Override
     @SuppressWarnings("ReassignedVariable")
-    public long go(Reader reader, Writer writer, int bufferSize) {
+    public long go(final Reader reader, final Writer writer, final int bufferSize) {
 
         return Io.withReturn(() -> {
             var total = 0L;

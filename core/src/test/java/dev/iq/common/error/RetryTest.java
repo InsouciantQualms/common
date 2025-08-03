@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 final class RetryTest {
 
     @Test
-    public void testSimpleRetrySucceedsOnFirstAttempt() {
+    void testSimpleRetrySucceedsOnFirstAttempt() {
 
         final var attemptCount = new AtomicInteger(0);
         // Operation succeeds immediately
@@ -27,7 +27,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetrySucceedsOnSecondAttempt() {
+    void testSimpleRetrySucceedsOnSecondAttempt() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 eventuallySuccessfulOperation = () -> {
@@ -44,7 +44,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetrySucceedsOnLastAttempt() {
+    void testSimpleRetrySucceedsOnLastAttempt() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 lastAttemptSuccessfulOperation = () -> {
@@ -61,7 +61,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetryFailsAfterMaxAttempts() {
+    void testSimpleRetryFailsAfterMaxAttempts() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 alwaysFailingOperation = () -> {
@@ -77,7 +77,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetryWithZeroAttempts() {
+    void testSimpleRetryWithZeroAttempts() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 operation = attemptCount::incrementAndGet;
@@ -90,7 +90,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetryWithSingleAttempt() {
+    void testSimpleRetryWithSingleAttempt() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 failingOperation = () -> {
@@ -106,7 +106,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetryWithDifferentExceptions() {
+    void testSimpleRetryWithDifferentExceptions() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 differentExceptionsOperation = () -> {
@@ -131,7 +131,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetryWithWaitTime() {
+    void testSimpleRetryWithWaitTime() {
 
         final var attemptCount = new AtomicInteger(0);
         final var startTime = System.currentTimeMillis();
@@ -143,16 +143,16 @@ final class RetryTest {
         Assertions.assertThrows(Retry.RetryLimitExceededException.class, () -> Retry.simple(failingOperation, 3, 200));
 
         final var endTime = System.currentTimeMillis();
-        final var totalTime = endTime - startTime;
 
         Assertions.assertEquals(3, attemptCount.get());
         // Should have waited approximately 400ms (200ms between each of the 2 retries)
         // Allow for some timing variance
+        final var totalTime = endTime - startTime;
         Assertions.assertTrue(totalTime >= 300, () -> "Total time should be at least 300ms but was " + totalTime);
     }
 
     @Test
-    public void testRetryLimitExceededExceptionMessage() {
+    void testRetryLimitExceededExceptionMessage() {
 
         final var message = "Custom failure message";
         final var exception = new Retry.RetryLimitExceededException(message);
@@ -162,7 +162,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testRetryLimitExceededExceptionIsRuntimeException() {
+    void testRetryLimitExceededExceptionIsRuntimeException() {
 
         final var exception = new Retry.RetryLimitExceededException("test");
 
@@ -170,7 +170,7 @@ final class RetryTest {
     }
 
     @Test
-    public void testSimpleRetryWithInterruptedException() {
+    void testSimpleRetryWithInterruptedException() {
 
         final var attemptCount = new AtomicInteger(0);
         final Proc0 failingOperation = () -> {

@@ -14,13 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the NanoId record covering unique ID functionality. */
-public final class NanoIdTest {
+final class NanoIdTest {
+
+    private static final Pattern PATTERN = Pattern.compile("[A-Za-z0-9_-]+");
 
     @Test
-    public void testGenerate() {
+    void testGenerate() {
 
         final var nanoId = NanoId.generate();
 
@@ -30,7 +33,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
 
         final var testId = "test-id-123";
         final var nanoId = new NanoId(testId);
@@ -39,7 +42,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testGenerateUniqueness() {
+    void testGenerateUniqueness() {
 
         final var id1 = NanoId.generate();
         final var id2 = NanoId.generate();
@@ -48,7 +51,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testGenerateMultiple() {
+    void testGenerateMultiple() {
 
         final var ids = new HashSet<String>();
         final var count = 1000;
@@ -62,29 +65,29 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testRecordEquality() {
+    void testRecordEquality() {
 
         final var id1 = new NanoId("same-id");
         final var id2 = new NanoId("same-id");
-        final var id3 = new NanoId("different-id");
 
         assertEquals(id1, id2);
+        final var id3 = new NanoId("different-id");
         assertNotEquals(id1, id3);
     }
 
     @Test
-    public void testRecordHashCode() {
+    void testRecordHashCode() {
 
         final var id1 = new NanoId("same-id");
         final var id2 = new NanoId("same-id");
-        final var id3 = new NanoId("different-id");
 
         assertEquals(id1.hashCode(), id2.hashCode());
+        final var id3 = new NanoId("different-id");
         assertNotEquals(id1.hashCode(), id3.hashCode());
     }
 
     @Test
-    public void testRecordToString() {
+    void testRecordToString() {
 
         final var testId = "test-id-456";
         final var nanoId = new NanoId(testId);
@@ -95,7 +98,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testIdLength() {
+    void testIdLength() {
 
         final var nanoId = NanoId.generate();
 
@@ -104,16 +107,16 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testIdCharacters() {
+    void testIdCharacters() {
 
         final var nanoId = NanoId.generate();
         final var id = nanoId.id();
 
-        assertTrue(id.matches("[A-Za-z0-9_-]+"));
+        assertTrue(PATTERN.matcher(id).matches());
     }
 
     @Test
-    public void testNullId() {
+    void testNullId() {
 
         final var nanoId = new NanoId(null);
 
@@ -121,7 +124,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testEmptyId() {
+    void testEmptyId() {
 
         final var nanoId = new NanoId("");
 
@@ -129,7 +132,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testWithSpecialCharacters() {
+    void testWithSpecialCharacters() {
 
         final var specialId = "test_id-123";
         final var nanoId = new NanoId(specialId);
@@ -138,7 +141,7 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testImmutability() {
+    void testImmutability() {
 
         final var originalId = "original-id";
         final var nanoId = new NanoId(originalId);
@@ -150,15 +153,15 @@ public final class NanoIdTest {
     }
 
     @Test
-    public void testSetUsage() {
+    void testSetUsage() {
 
         final var nanoId1 = new NanoId("id1");
-        final var nanoId2 = new NanoId("id2");
-        final var nanoId3 = new NanoId("id1");
 
         final var set = new HashSet<NanoId>();
         set.add(nanoId1);
+        final var nanoId2 = new NanoId("id2");
         set.add(nanoId2);
+        final var nanoId3 = new NanoId("id1");
         set.add(nanoId3);
 
         assertEquals(2, set.size());

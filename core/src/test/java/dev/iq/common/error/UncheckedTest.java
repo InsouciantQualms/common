@@ -9,7 +9,7 @@ final class UncheckedTest {
 
     /** Ensures that a checked exception can be erased to an unchecked one. */
     @Test
-    public void testUnchecked() {
+    void testUnchecked() {
 
         Assertions.assertThrows(IOException.class, () -> {
             try {

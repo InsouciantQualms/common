@@ -28,7 +28,7 @@ final class HttpJsonClientIntegrationTest {
 
     /** Tests that status codes are properly validated. */
     @Test
-    public void testSimpleGet() {
+    void testSimpleGet() {
 
         try {
             final var statusCode = HttpJsonClient.getNoReply(URI.create(TEST_STATUS_CODE + "status/200"), HEADERS);
@@ -53,7 +53,7 @@ final class HttpJsonClientIntegrationTest {
 
     /** Tests issuing a GET and receiving JSON. */
     @Test
-    public void testSimpleJsonGet() {
+    void testSimpleJsonGet() {
 
         try {
             final var response =
@@ -75,7 +75,7 @@ final class HttpJsonClientIntegrationTest {
 
     /** Tests posting and not processing a reply. */
     @Test
-    public void testSimpleJsonPostNoResponse() {
+    void testSimpleJsonPostNoResponse() {
 
         try {
             final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);
@@ -93,7 +93,7 @@ final class HttpJsonClientIntegrationTest {
 
     /** Tests issuing a POST and receiving JSON. */
     @Test
-    public void testSimpleJsonPostAndResponse() {
+    void testSimpleJsonPostAndResponse() {
 
         try {
             final var request = new PostCreateRequest("lorem ipsum", "intentionally left blank", 13);

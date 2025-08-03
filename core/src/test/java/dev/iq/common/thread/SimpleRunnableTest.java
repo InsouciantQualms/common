@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public final class SimpleRunnableTest {
 
     @Test
-    public void testRunWithTrueReturn() throws InterruptedException {
+    void testRunWithTrueReturn() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -36,7 +36,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testRunWithFalseReturn() throws InterruptedException {
+    void testRunWithFalseReturn() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -52,7 +52,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testKill9StopsExecution() throws InterruptedException {
+    void testKill9StopsExecution() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -72,7 +72,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testInterruptStopsExecution() throws InterruptedException {
+    void testInterruptStopsExecution() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -92,7 +92,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testSleepWithValidDuration() {
+    void testSleepWithValidDuration() {
 
         final var startTime = System.currentTimeMillis();
         final var result = SimpleRunnable.sleep(100);
@@ -103,7 +103,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testSleepWithInterruption() throws InterruptedException {
+    void testSleepWithInterruption() throws InterruptedException {
 
         final var result = new AtomicBoolean(false);
         final var runnable = new Thread(() -> result.set(SimpleRunnable.sleep(1000)));
@@ -117,7 +117,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testSleepWithZeroDuration() {
+    void testSleepWithZeroDuration() {
 
         final var result = SimpleRunnable.sleep(0);
 
@@ -125,7 +125,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testMultipleKill9Calls() throws InterruptedException {
+    void testMultipleKill9Calls() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -147,7 +147,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testGoMethodCalledRepeatedly() throws InterruptedException {
+    void testGoMethodCalledRepeatedly() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -163,7 +163,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testExceptionInGoMethod() throws InterruptedException {
+    void testExceptionInGoMethod() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -182,18 +182,17 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testThreadStateAfterKill9() throws InterruptedException {
+    @SuppressWarnings("BusyWait")
+    void testThreadStateAfterKill9() throws InterruptedException {
 
         final var started = new AtomicBoolean(false);
+        final var stopped = new AtomicBoolean(false);
         final var runnable = new TestSimpleRunnable(() -> {
-            started.set(true);
-            try {
-                Thread.sleep(100);
-            } catch (final InterruptedException e) {
-                Thread.currentThread().interrupt();
-                return false;
+            if (!started.get()) {
+                started.set(true);
             }
-            return true;
+            SimpleRunnable.sleep(50);
+            return !stopped.get();
         });
         final var thread = new Thread(runnable);
 
@@ -207,24 +206,17 @@ public final class SimpleRunnableTest {
         assertTrue(thread.isAlive());
 
         runnable.kill9();
+        stopped.set(true);
 
-        // Give the thread time to stop, but don't rely on exact timing
-        for (var i = 0; i < 50; i++) {
-            if (!thread.isAlive()) {
-                break;
-            }
-            Thread.sleep(100);
-        }
+        // Wait for thread to stop
+        thread.join(2000);
 
-        // The thread should eventually stop, but timing can vary
-        thread.join(1000);
-
-        // Just verify that kill9 was called - thread state can vary based on timing
-        assertTrue(true); // Test passes if we get here without hanging
+        // Kill9 should have stopped the thread
+        assertFalse(thread.isAlive());
     }
 
     @Test
-    public void testRunWithComplexLogic() throws InterruptedException {
+    void testRunWithComplexLogic() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -243,7 +235,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testConcurrentAccess() throws InterruptedException {
+    void testConcurrentAccess() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable1 = new TestSimpleRunnable(() -> {
@@ -270,13 +262,13 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testSleepWithNegativeDuration() {
+    void testSleepWithNegativeDuration() {
 
         assertThrows(IllegalArgumentException.class, () -> SimpleRunnable.sleep(-100));
     }
 
     @Test
-    public void testBasicThreadExecution() throws InterruptedException {
+    void testBasicThreadExecution() throws InterruptedException {
 
         final var executed = new AtomicBoolean(false);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -292,7 +284,7 @@ public final class SimpleRunnableTest {
     }
 
     @Test
-    public void testMultipleExecutions() throws InterruptedException {
+    void testMultipleExecutions() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -310,7 +302,7 @@ public final class SimpleRunnableTest {
     private static final class TestSimpleRunnable extends SimpleRunnable {
         private final Supplier<Boolean> goSupplier;
 
-        TestSimpleRunnable(final Supplier<Boolean> goSupplier) {
+        private TestSimpleRunnable(final Supplier<Boolean> goSupplier) {
             this.goSupplier = goSupplier;
         }
 

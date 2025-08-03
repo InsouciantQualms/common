@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 final class TypeSafeBuilderTest {
 
-    static FirstNameBuilder person() {
+    private static FirstNameBuilder person() {
 
         return firstName -> lastName -> age -> new Person(firstName, lastName, age);
     }
 
     @Test
-    public void testBuilder() {
+    void testBuilder() {
 
         final var person = person().firstName("Sascha").lastName("Goldsmith").age(30);
         Assertions.assertNotNull(person);

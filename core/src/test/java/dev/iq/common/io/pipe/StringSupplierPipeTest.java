@@ -16,10 +16,10 @@ import java.io.StringWriter;
 import org.junit.jupiter.api.Test;
 
 /** Tests for StringSupplierPipe covering lazy evaluation of reader and writer suppliers. */
-public final class StringSupplierPipeTest {
+final class StringSupplierPipeTest {
 
     @Test
-    public void testReadFromSupplierReader() {
+    void testReadFromSupplierReader() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
@@ -31,7 +31,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testReadFromEmptySupplierReader() {
+    void testReadFromEmptySupplierReader() {
 
         final var pipe = new StringSupplierPipe();
         final Fn0<StringReader> readerSupplier = () -> new StringReader("");
@@ -42,7 +42,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testWriteToSupplierWriter() {
+    void testWriteToSupplierWriter() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
@@ -55,7 +55,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testWriteEmptyStringToSupplier() {
+    void testWriteEmptyStringToSupplier() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "";
@@ -68,7 +68,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithSuppliers() {
+    void testGoWithSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
@@ -83,7 +83,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithSuppliersAndCustomBufferSize() {
+    void testGoWithSuppliersAndCustomBufferSize() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
@@ -98,7 +98,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithLargeDataAndSuppliers() {
+    void testGoWithLargeDataAndSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "A".repeat(10000);
@@ -113,7 +113,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithEmptyStringSuppliers() {
+    void testGoWithEmptyStringSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final Fn0<StringReader> readerSupplier = () -> new StringReader("");
@@ -127,7 +127,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testStreamClosedBySupplier() {
+    void testStreamClosedBySupplier() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
@@ -143,7 +143,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testLazyEvaluationOfReaderSupplier() {
+    void testLazyEvaluationOfReaderSupplier() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello, World!";
@@ -163,10 +163,9 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testLazyEvaluationOfWriterSupplier() {
+    void testLazyEvaluationOfWriterSupplier() {
 
         final var pipe = new StringSupplierPipe();
-        final var testData = "Hello, World!";
         final var callCounter = new int[1];
         final var writer = new StringWriter();
         final Fn0<StringWriter> writerSupplier = () -> {
@@ -177,6 +176,7 @@ public final class StringSupplierPipeTest {
         // Supplier should not be called until write is invoked
         assertEquals(0, callCounter[0]);
 
+        final var testData = "Hello, World!";
         pipe.write(testData, writerSupplier);
 
         assertEquals(1, callCounter[0]);
@@ -184,7 +184,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithMultilineStringSuppliers() {
+    void testGoWithMultilineStringSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Line 1\nLine 2\nLine 3";
@@ -199,7 +199,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithUnicodeCharactersSuppliers() {
+    void testGoWithUnicodeCharactersSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Hello 世界 🌍";
@@ -214,7 +214,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testReadAndWriteRoundTripWithSuppliers() {
+    void testReadAndWriteRoundTripWithSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Round trip test data";
@@ -232,7 +232,7 @@ public final class StringSupplierPipeTest {
     }
 
     @Test
-    public void testGoWithSpecialCharactersSuppliers() {
+    void testGoWithSpecialCharactersSuppliers() {
 
         final var pipe = new StringSupplierPipe();
         final var testData = "Special chars: !@#$%^&*()_+-=[]{}|;':\",./<>?";
@@ -249,7 +249,7 @@ public final class StringSupplierPipeTest {
     private static final class TestReader extends StringReader {
         private boolean closed = false;
 
-        TestReader(final String s) {
+        private TestReader(final String s) {
             super(s);
         }
 
@@ -259,7 +259,7 @@ public final class StringSupplierPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }
@@ -273,7 +273,7 @@ public final class StringSupplierPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }

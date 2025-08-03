@@ -10,14 +10,14 @@ import java.time.Instant;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-class VersionedTest {
+final class VersionedTest {
 
     @Test
     void minimalImplementation_satisfiesContract() {
-        Instant created = Instant.now();
-        Locator locator = new Locator(NanoId.generate(), 1);
+        final var created = Instant.now();
+        final var locator = new Locator(NanoId.generate(), 1);
 
-        Versioned minimal = new Versioned() {
+        final var minimal = new Versioned() {
             @Override
             public Locator locator() {
                 return locator;
@@ -41,11 +41,11 @@ class VersionedTest {
 
     @Test
     void expiredVersion_maintainsContract() {
-        Instant created = Instant.now().minusSeconds(100);
-        Instant expired = Instant.now().minusSeconds(50);
-        Locator locator = new Locator(NanoId.generate(), 1);
+        final var created = Instant.now().minusSeconds(100);
+        final var expired = Instant.now().minusSeconds(50);
+        final var locator = new Locator(NanoId.generate(), 1);
 
-        Versioned expiredVersion = new Versioned() {
+        final var expiredVersion = new Versioned() {
             @Override
             public Locator locator() {
                 return locator;
@@ -70,11 +70,11 @@ class VersionedTest {
 
     @Test
     void recordImplementation_worksCorrectly() {
-        Instant created = Instant.now();
-        Locator locator = new Locator(NanoId.generate(), 42);
-        Optional<Instant> expired = Optional.of(created.plusSeconds(3600));
+        final var created = Instant.now();
+        final var locator = new Locator(NanoId.generate(), 42);
+        final var expired = Optional.of(created.plusSeconds(3600));
 
-        RecordVersioned versioned = new RecordVersioned(locator, created, expired);
+        final var versioned = new RecordVersioned(locator, created, expired);
 
         assertEquals(locator, versioned.locator());
         assertEquals(created, versioned.created());
@@ -83,44 +83,44 @@ class VersionedTest {
 
     @Test
     void versionedEquality_basedOnLocator() {
-        NanoId id = NanoId.generate();
-        Locator locator1 = new Locator(id, 1);
-        Locator locator2 = new Locator(id, 1);
-        Instant now = Instant.now();
+        final var id = NanoId.generate();
+        final var locator1 = new Locator(id, 1);
+        final var locator2 = new Locator(id, 1);
+        final var now = Instant.now();
 
-        Versioned v1 = new RecordVersioned(locator1, now, Optional.empty());
-        Versioned v2 = new RecordVersioned(locator2, now.plusSeconds(10), Optional.of(now.plusSeconds(20)));
+        final Locateable v1 = new RecordVersioned(locator1, now, Optional.empty());
+        final Locateable v2 = new RecordVersioned(locator2, now.plusSeconds(10), Optional.of(now.plusSeconds(20)));
 
-        assertTrue(Locateable.equals(v1, v2));
+        assertTrue(Locators.equals(v1, v2));
     }
 
     @Test
     void versionedHashCode_consistentWithEquals() {
-        NanoId id = NanoId.generate();
-        Locator locator = new Locator(id, 1);
-        Instant now = Instant.now();
+        final var id = NanoId.generate();
+        final var locator = new Locator(id, 1);
+        final var now = Instant.now();
 
-        Versioned v1 = new RecordVersioned(locator, now, Optional.empty());
-        Versioned v2 = new RecordVersioned(locator, now.plusSeconds(10), Optional.of(now.plusSeconds(20)));
+        final Locateable v1 = new RecordVersioned(locator, now, Optional.empty());
+        final Locateable v2 = new RecordVersioned(locator, now.plusSeconds(10), Optional.of(now.plusSeconds(20)));
 
-        assertEquals(Locateable.hashCode(v1), Locateable.hashCode(v2));
+        assertEquals(Locators.hashCode(v1), Locators.hashCode(v2));
     }
 
     @Test
     void differentVersions_haveDifferentLocators() {
-        NanoId id = NanoId.generate();
-        Instant now = Instant.now();
+        final var id = NanoId.generate();
+        final var now = Instant.now();
 
-        Versioned v1 = new RecordVersioned(new Locator(id, 1), now, Optional.empty());
-        Versioned v2 = new RecordVersioned(new Locator(id, 2), now, Optional.empty());
+        final Locateable v1 = new RecordVersioned(new Locator(id, 1), now, Optional.empty());
+        final Locateable v2 = new RecordVersioned(new Locator(id, 2), now, Optional.empty());
 
         assertNotEquals(v1.locator(), v2.locator());
-        assertFalse(Locateable.equals(v1, v2));
+        assertFalse(Locators.equals(v1, v2));
     }
 
     @Test
     void nullExpired_handledProperly() {
-        RecordVersioned v1 = new RecordVersioned(new Locator(NanoId.generate(), 1), Instant.now(), null);
+        final var v1 = new RecordVersioned(new Locator(NanoId.generate(), 1), Instant.now(), null);
 
         assertNull(v1.expired());
     }

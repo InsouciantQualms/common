@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Proc0 functional interface covering runnable functionality. */
-public final class Proc0Test {
+final class Proc0Test {
 
     @Test
-    public void testRunAsTryWithSuccessfulRunnable() {
+    void testRunAsTryWithSuccessfulRunnable() {
 
         final var executed = new AtomicBoolean(false);
         final var runnable = (Proc0) () -> executed.set(true);
@@ -33,7 +33,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsTryWithExceptionThrowingRunnable() {
+    void testRunAsTryWithExceptionThrowingRunnable() {
 
         final var runnable = (Proc0) () -> {
             throw new IOException("Test exception");
@@ -43,7 +43,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsTryWithMultipleOperations() {
+    void testRunAsTryWithMultipleOperations() {
 
         final var counter = new AtomicInteger(0);
         final var runnable = (Proc0) () -> {
@@ -57,7 +57,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoWithSuccessfulRunnable() {
+    void testRunAsIoWithSuccessfulRunnable() {
 
         final var executed = new AtomicBoolean(false);
         final var runnable = (Proc0) () -> executed.set(true);
@@ -67,7 +67,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoWithExceptionThrowingRunnable() {
+    void testRunAsIoWithExceptionThrowingRunnable() {
 
         final var runnable = (Proc0) () -> {
             throw new IOException("Test exception");
@@ -77,7 +77,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoWithMultipleOperations() {
+    void testRunAsIoWithMultipleOperations() {
 
         final var counter = new AtomicInteger(0);
         final var runnable = (Proc0) () -> {
@@ -91,7 +91,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsTryExceptionWrapping() {
+    void testRunAsTryExceptionWrapping() {
 
         final var runnable = (Proc0) () -> {
             throw new RuntimeException("Original exception");
@@ -104,7 +104,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoExceptionWrapping() {
+    void testRunAsIoExceptionWrapping() {
 
         final var runnable = (Proc0) () -> {
             throw new RuntimeException("Original exception");
@@ -117,7 +117,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testDirectProc0Usage() {
+    void testDirectProc0Usage() {
 
         final var executed = new AtomicBoolean(false);
         final var proc0 = new Proc0() {
@@ -132,7 +132,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testDirectProc0WithException() {
+    void testDirectProc0WithException() {
 
         final var proc0 = new Proc0() {
             @Override
@@ -145,7 +145,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsTryWithDifferentExceptionTypes() {
+    void testRunAsTryWithDifferentExceptionTypes() {
 
         final var ioRunnable = (Proc0) () -> {
             throw new IOException("IO exception");
@@ -165,7 +165,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoWithDifferentExceptionTypes() {
+    void testRunAsIoWithDifferentExceptionTypes() {
 
         final var ioRunnable = (Proc0) () -> {
             throw new IOException("IO exception");
@@ -185,7 +185,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsTryWithComplexOperation() {
+    void testRunAsTryWithComplexOperation() {
 
         final var sb = new StringBuilder();
         final var runnable = (Proc0) () -> {
@@ -199,7 +199,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoWithComplexOperation() {
+    void testRunAsIoWithComplexOperation() {
 
         final var sb = new StringBuilder();
         final var runnable = (Proc0) () -> {
@@ -213,7 +213,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsTryNoSideEffectsOnException() {
+    void testRunAsTryNoSideEffectsOnException() {
 
         final var counter = new AtomicInteger(0);
         final var runnable = (Proc0) () -> {
@@ -226,7 +226,7 @@ public final class Proc0Test {
     }
 
     @Test
-    public void testRunAsIoNoSideEffectsOnException() {
+    void testRunAsIoNoSideEffectsOnException() {
 
         final var counter = new AtomicInteger(0);
         final var runnable = (Proc0) () -> {

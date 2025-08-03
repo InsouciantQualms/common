@@ -22,10 +22,10 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Fn1 functional interface covering function functionality. */
-public final class Fn1Test {
+final class Fn1Test {
 
     @Test
-    public void testAsTryWithSuccessfulFunction() {
+    void testAsTryWithSuccessfulFunction() {
 
         final var function = (Fn1<String, Integer>) String::length;
         final var result = Fn1.asTry(function);
@@ -36,7 +36,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsTryWithExceptionThrowingFunction() {
+    void testAsTryWithExceptionThrowingFunction() {
 
         final var function = (Fn1<String, Integer>) (s) -> {
             throw new IOException("Test exception");
@@ -48,7 +48,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsTryWithNullInput() {
+    void testAsTryWithNullInput() {
 
         final var function = (Fn1<String, Integer>) (s) -> (s == null) ? 0 : s.length();
         final var result = Fn1.asTry(function);
@@ -58,7 +58,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsTryWithNullReturn() {
+    void testAsTryWithNullReturn() {
 
         final var function = (Fn1<String, String>) (s) -> null;
         final var result = Fn1.asTry(function);
@@ -68,7 +68,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoWithSuccessfulFunction() {
+    void testAsIoWithSuccessfulFunction() {
 
         final var function = (Fn1<String, Integer>) String::length;
         final var result = Fn1.asIo(function);
@@ -79,7 +79,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoWithExceptionThrowingFunction() {
+    void testAsIoWithExceptionThrowingFunction() {
 
         final var function = (Fn1<String, Integer>) (s) -> {
             throw new IOException("Test exception");
@@ -91,7 +91,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoWithNullInput() {
+    void testAsIoWithNullInput() {
 
         final var function = (Fn1<String, Integer>) (s) -> (s == null) ? 0 : s.length();
         final var result = Fn1.asIo(function);
@@ -101,7 +101,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoWithNullReturn() {
+    void testAsIoWithNullReturn() {
 
         final var function = (Fn1<String, String>) (s) -> null;
         final var result = Fn1.asIo(function);
@@ -111,7 +111,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsTryExceptionWrapping() {
+    void testAsTryExceptionWrapping() {
 
         final var function = (Fn1<String, Integer>) (s) -> {
             throw new RuntimeException("Original exception");
@@ -125,7 +125,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoExceptionWrapping() {
+    void testAsIoExceptionWrapping() {
 
         final var function = (Fn1<String, Integer>) (s) -> {
             throw new RuntimeException("Original exception");
@@ -139,7 +139,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testDirectFn1Usage() {
+    void testDirectFn1Usage() {
 
         final var fn1 = new Fn1<String, Integer>() {
             @Override
@@ -155,7 +155,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testDirectFn1WithException() {
+    void testDirectFn1WithException() {
 
         final var fn1 = new Fn1<String, Integer>() {
             @Override
@@ -168,7 +168,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsTryWithDifferentTypes() {
+    void testAsTryWithDifferentTypes() {
 
         final var intToString = (Fn1<Integer, String>) Object::toString;
         final var stringToBoolean = (Fn1<String, Boolean>) Boolean::parseBoolean;
@@ -182,7 +182,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoWithDifferentTypes() {
+    void testAsIoWithDifferentTypes() {
 
         final var intToString = (Fn1<Integer, String>) Object::toString;
         final var stringToBoolean = (Fn1<String, Boolean>) Boolean::parseBoolean;
@@ -196,7 +196,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsTryWithDifferentExceptionTypes() {
+    void testAsTryWithDifferentExceptionTypes() {
 
         final var ioFunction = (Fn1<String, Integer>) (s) -> {
             throw new IOException("IO exception");
@@ -220,7 +220,7 @@ public final class Fn1Test {
     }
 
     @Test
-    public void testAsIoWithDifferentExceptionTypes() {
+    void testAsIoWithDifferentExceptionTypes() {
 
         final var ioFunction = (Fn1<String, Integer>) (s) -> {
             throw new IOException("IO exception");

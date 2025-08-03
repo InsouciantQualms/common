@@ -24,7 +24,7 @@ public final class Io {
      * Execute the specified function and return either any errors that occurred (left) or the
      * result of successfuly processing (right).
      */
-    public static <T> Either<Exception, T> withEither(final Fn0<T> fx) {
+    public static <T> Either<Exception, T> withEither(final Fn0<? extends T> fx) {
 
         return Try.withEither(fx);
     }

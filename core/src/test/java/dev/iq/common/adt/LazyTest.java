@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for the Lazy type covering lazy evaluation, thread safety, and recursive call protection.
  */
-public final class LazyTest {
+final class LazyTest {
 
     @Test
-    public void testLazyEvaluation() {
+    void testLazyEvaluation() {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.of(() -> {
@@ -46,7 +46,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testMemoization() {
+    void testMemoization() {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.of(() -> {
@@ -68,7 +68,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testThreadSafety() throws InterruptedException {
+    void testThreadSafety() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.of(() -> {
@@ -104,7 +104,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testRecursiveCallPrevention() {
+    void testRecursiveCallPrevention() {
 
         final var recursiveLazy = new RecursiveLazy();
 
@@ -117,7 +117,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testExceptionHandling() {
+    void testExceptionHandling() {
 
         final var lazy = Lazy.of(() -> {
             throw new RuntimeException("Test exception");
@@ -129,7 +129,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testExceptionMemoization() {
+    void testExceptionMemoization() {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.of(() -> {
@@ -146,7 +146,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testFailFastExceptionHandling() {
+    void testFailFastExceptionHandling() {
 
         final var lazy = Lazy.ofFailFast(() -> {
             throw new RuntimeException("Test exception");
@@ -158,7 +158,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testFailFastExceptionMemoization() {
+    void testFailFastExceptionMemoization() {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.ofFailFast(() -> {
@@ -188,7 +188,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testNullValue() {
+    void testNullValue() {
 
         final var lazy = Lazy.of(() -> null);
 
@@ -198,7 +198,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testComplexObject() {
+    void testComplexObject() {
 
         final var lazy = Lazy.of(() -> new TestObject("test", 42));
 
@@ -216,7 +216,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testMultipleLazyInstances() {
+    void testMultipleLazyInstances() {
 
         final var counter1 = new AtomicInteger(0);
         final var counter2 = new AtomicInteger(0);
@@ -241,7 +241,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testLazyChaining() {
+    void testLazyChaining() {
 
         final var lazy1 = Lazy.of(() -> "base");
         final var lazy2 = Lazy.of(() -> lazy1.get() + "_extended");
@@ -252,7 +252,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testFailFastSuccessfulEvaluation() {
+    void testFailFastSuccessfulEvaluation() {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.ofFailFast(() -> {
@@ -276,7 +276,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testFailFastWithNullValue() {
+    void testFailFastWithNullValue() {
 
         final var lazy = Lazy.ofFailFast(() -> null);
 
@@ -287,7 +287,7 @@ public final class LazyTest {
     }
 
     @Test
-    public void testFailFastThreadSafety() throws InterruptedException {
+    void testFailFastThreadSafety() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var lazy = Lazy.ofFailFast(() -> {
@@ -306,7 +306,7 @@ public final class LazyTest {
             executor.submit(() -> {
                 try {
                     lazy.get();
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     exceptions.incrementAndGet();
                 } finally {
                     latch.countDown();
@@ -329,7 +329,7 @@ public final class LazyTest {
     private static final class RecursiveLazy {
         private final Lazy<String> lazy;
 
-        RecursiveLazy() {
+        private RecursiveLazy() {
             lazy = Lazy.of(this::getValue);
         }
 
@@ -337,8 +337,8 @@ public final class LazyTest {
             return lazy.get();
         }
 
-        public String get() {
-            return lazy.get();
+        private void get() {
+            lazy.get();
         }
     }
 }

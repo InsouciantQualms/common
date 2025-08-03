@@ -19,21 +19,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the NonReentrantLock covering basic locking, fairness, and non-reentrant behavior. */
-public final class NonReentrantLockTest {
+@SuppressWarnings({"LockAcquiredButNotSafelyReleased", "resource"})
+final class NonReentrantLockTest {
 
     @Test
-    public void testBasicLockUnlock() {
+    void testBasicLockUnlock() {
 
         final var lock = new NonReentrantLock();
 
         lock.lock();
-        assertTrue(true); // We got the lock
         lock.unlock();
-        assertTrue(true); // We released the lock
+        assertTrue(true); // Test passes if no exceptions thrown
     }
 
     @Test
-    public void testTryLock() {
+    void testTryLock() {
 
         final var lock = new NonReentrantLock();
 
@@ -45,7 +45,7 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testTryLockWithTimeout() throws InterruptedException {
+    void testTryLockWithTimeout() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
 
@@ -57,17 +57,17 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testLockInterruptibly() throws InterruptedException {
+    void testLockInterruptibly() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
 
         lock.lockInterruptibly();
-        assertTrue(true); // We got the lock
         lock.unlock();
+        assertTrue(true); // Test passes if no exceptions thrown
     }
 
     @Test
-    public void testMutualExclusion() throws InterruptedException {
+    void testMutualExclusion() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
         final var counter = new AtomicInteger(0);
@@ -98,10 +98,9 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testFairness() throws InterruptedException {
+    void testFairness() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
-        final var results = new int[3];
         final var latch = new CountDownLatch(3);
         final var executor = Executors.newFixedThreadPool(3);
 
@@ -109,6 +108,7 @@ public final class NonReentrantLockTest {
         lock.lock();
 
         // Start three threads that will wait for the lock
+        final var results = new int[3];
         for (var i = 0; i < 3; i++) {
             final var index = i;
             executor.submit(() -> {
@@ -138,7 +138,7 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testTryLockFailsWhenLocked() {
+    void testTryLockFailsWhenLocked() {
 
         final var lock = new NonReentrantLock();
 
@@ -148,7 +148,7 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testTryLockWithTimeoutFailsWhenLocked() throws InterruptedException {
+    void testTryLockWithTimeoutFailsWhenLocked() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
 
@@ -158,7 +158,7 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testLockInterruptiblyCanBeInterrupted() throws InterruptedException {
+    void testLockInterruptiblyCanBeInterrupted() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
         final var latch = new CountDownLatch(1);
@@ -186,7 +186,7 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testNewConditionThrowsUnsupportedOperation() {
+    void testNewConditionThrowsUnsupportedOperation() {
 
         final var lock = new NonReentrantLock();
 
@@ -195,7 +195,7 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testMultipleUnlockDoesNotBreakLock() {
+    void testMultipleUnlockDoesNotBreakLock() {
 
         final var lock = new NonReentrantLock();
 
@@ -209,7 +209,8 @@ public final class NonReentrantLockTest {
     }
 
     @Test
-    public void testConcurrentAccess() throws InterruptedException {
+    @SuppressWarnings("OverlyNestedMethod")
+    void testConcurrentAccess() throws InterruptedException {
 
         final var lock = new NonReentrantLock();
         final var counter = new AtomicInteger(0);

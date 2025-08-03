@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public final class ListenerTest {
 
     @Test
-    public void testListenerNotifyReturnValue() {
+    void testListenerNotifyReturnValue() {
 
         final var listener = new TestListener();
 
@@ -29,7 +29,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerReceivesEvent() {
+    void testListenerReceivesEvent() {
 
         final var events = new ArrayList<String>();
         final Listener<String> listener = event -> {
@@ -46,7 +46,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerWithDifferentTypes() {
+    void testListenerWithDifferentTypes() {
 
         final var intListener = new TypedListener<Integer>();
         final var stringListener = new TypedListener<String>();
@@ -59,7 +59,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerChaining() {
+    void testListenerChaining() {
 
         final var events = new ArrayList<String>();
         final Listener<String> listener1 = event -> {
@@ -81,7 +81,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerHandlesNull() {
+    void testListenerHandlesNull() {
 
         final var nullListener = new TypedListener<String>();
 
@@ -90,7 +90,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerAsLambda() {
+    void testListenerAsLambda() {
 
         final var handled = new boolean[1];
         final Listener<String> listener = event -> {
@@ -106,7 +106,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerWithComplexEvent() {
+    void testListenerWithComplexEvent() {
 
         final var eventListener = new TypedListener<TestEvent>();
         final var event = new TestEvent("test", 42);
@@ -118,7 +118,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testMultipleListenersForSameEvent() {
+    void testMultipleListenersForSameEvent() {
 
         final var results = new ArrayList<String>();
         final var listeners = List.of(
@@ -144,7 +144,7 @@ public final class ListenerTest {
     }
 
     @Test
-    public void testListenerWithException() {
+    void testListenerWithException() {
 
         final Listener<String> listener = event -> {
             if ("error".equals(event)) {

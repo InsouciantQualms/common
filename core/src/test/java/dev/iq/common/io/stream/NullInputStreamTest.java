@@ -17,10 +17,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /** Tests for NullInputStream covering null stream behavior that always returns zero. */
-public final class NullInputStreamTest {
+final class NullInputStreamTest {
 
     @Test
-    public void testReadSingleByteReturnsZero() {
+    void testReadSingleByteReturnsZero() {
 
         final var nullStream = new NullInputStream();
 
@@ -30,7 +30,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadMultipleSingleBytesReturnsZero() {
+    void testReadMultipleSingleBytesReturnsZero() {
 
         final var nullStream = new NullInputStream();
 
@@ -40,7 +40,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadBufferReturnsDataSize() throws IOException {
+    void testReadBufferReturnsDataSize() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -54,7 +54,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetReturnsRequestedLength() throws IOException {
+    void testReadBufferWithOffsetReturnsRequestedLength() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -68,7 +68,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadBufferModifiesBuffer() throws IOException {
+    void testReadBufferModifiesBuffer() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -82,7 +82,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetModifiesBuffer() throws IOException {
+    void testReadBufferWithOffsetModifiesBuffer() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -98,7 +98,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadEmptyBuffer() throws IOException {
+    void testReadEmptyBuffer() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[0];
@@ -109,7 +109,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithZeroLength() throws IOException {
+    void testReadBufferWithZeroLength() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -120,7 +120,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithLargeBuffer() throws IOException {
+    void testReadBufferWithLargeBuffer() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10000];
@@ -134,7 +134,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testAvailableReturnsZero() throws IOException {
+    void testAvailableReturnsZero() throws IOException {
 
         final var nullStream = new NullInputStream();
 
@@ -144,7 +144,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testMarkSupported() {
+    void testMarkSupported() {
 
         final var nullStream = new NullInputStream();
 
@@ -154,7 +154,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testMarkDoesNotThrow() {
+    void testMarkDoesNotThrow() {
 
         final var nullStream = new NullInputStream();
 
@@ -162,7 +162,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testResetThrowsException() {
+    void testResetThrowsException() {
 
         final var nullStream = new NullInputStream();
 
@@ -170,7 +170,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testSkipReturnsRequestedAmount() throws IOException {
+    void testSkipReturnsRequestedAmount() throws IOException {
 
         final var nullStream = new NullInputStream();
 
@@ -180,7 +180,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testCloseDoesNotThrow() {
+    void testCloseDoesNotThrow() {
 
         final var nullStream = new NullInputStream();
 
@@ -188,7 +188,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadAfterCloseStillReturnsZero() throws IOException {
+    void testReadAfterCloseStillReturnsZero() throws IOException {
 
         final var nullStream = new NullInputStream();
 
@@ -200,7 +200,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testConsistentBehaviorAcrossOperations() throws IOException {
+    void testConsistentBehaviorAcrossOperations() throws IOException {
 
         final var nullStream = new NullInputStream();
 
@@ -216,7 +216,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testNeverReturnsEof() {
+    void testNeverReturnsEof() {
 
         final var nullStream = new NullInputStream();
 
@@ -227,7 +227,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testInfiniteReadability() throws IOException {
+    void testInfiniteReadability() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[1];
@@ -239,7 +239,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testNullBufferHandling() {
+    void testNullBufferHandling() {
 
         final var nullStream = new NullInputStream();
 
@@ -249,7 +249,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testInvalidOffsetAndLength() {
+    void testInvalidOffsetAndLength() {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -262,7 +262,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testReadWithValidOffsetAndLength() throws IOException {
+    void testReadWithValidOffsetAndLength() throws IOException {
 
         final var nullStream = new NullInputStream();
         final var buffer = new byte[10];
@@ -274,7 +274,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testMultipleInstancesIndependent() {
+    void testMultipleInstancesIndependent() {
 
         final var nullStream1 = new NullInputStream();
         final var nullStream2 = new NullInputStream();
@@ -287,7 +287,7 @@ public final class NullInputStreamTest {
     }
 
     @Test
-    public void testStreamBehaviorMatchesDocumentation() throws IOException {
+    void testStreamBehaviorMatchesDocumentation() throws IOException {
 
         final var nullStream = new NullInputStream();
 

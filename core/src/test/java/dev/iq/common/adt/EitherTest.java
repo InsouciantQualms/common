@@ -14,10 +14,10 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Either monad implementation covering left and right projections. */
-public final class EitherTest {
+final class EitherTest {
 
     @Test
-    public void testLeftProjection() {
+    void testLeftProjection() {
 
         final var either = Either.<String, Integer>left("error");
 
@@ -26,7 +26,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testRightProjection() {
+    void testRightProjection() {
 
         final var either = Either.<String, Integer>right(42);
 
@@ -35,7 +35,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testEitherWithLeftValue() {
+    void testEitherWithLeftValue() {
 
         final var either = Either.<String, Integer>left("error");
         final Function<String, String> leftFunction = s -> "Left: " + s;
@@ -47,7 +47,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testEitherWithRightValue() {
+    void testEitherWithRightValue() {
 
         final var either = Either.<String, Integer>right(42);
         final Function<String, String> leftFunction = s -> "Left: " + s;
@@ -59,7 +59,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testEitherWithNullValues() {
+    void testEitherWithNullValues() {
 
         final var leftEither = Either.<String, Integer>left(null);
         final var rightEither = Either.<String, Integer>right(null);
@@ -75,7 +75,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testEitherWithDifferentTypes() {
+    void testEitherWithDifferentTypes() {
 
         final var stringNumberEither = Either.<String, Double>right(3.14);
         final var booleanListEither = Either.<Boolean, String>left(true);
@@ -84,14 +84,14 @@ public final class EitherTest {
         assertTrue(booleanListEither.isLeft());
 
         final var stringResult = stringNumberEither.either(String::length, Double::intValue);
-        final var booleanResult = booleanListEither.either(b -> b ? "true" : "false", s -> s);
+        final var booleanResult = booleanListEither.either(b -> b ? "true" : "false", Function.identity());
 
         assertEquals(3, stringResult);
         assertEquals("true", booleanResult);
     }
 
     @Test
-    public void testEitherFunctionReturnsCorrectType() {
+    void testEitherFunctionReturnsCorrectType() {
 
         final var leftEither = Either.<String, Integer>left("test");
         final var rightEither = Either.<String, Integer>right(100);
@@ -104,7 +104,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testEitherWithComplexTransformations() {
+    void testEitherWithComplexTransformations() {
 
         final var either = Either.<Exception, String>right("hello world");
 
@@ -115,7 +115,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void testEitherLeftProjectionWithException() {
+    void testEitherLeftProjectionWithException() {
 
         final var exception = new IllegalArgumentException("Invalid input");
         final var either = Either.<Exception, String>left(exception);

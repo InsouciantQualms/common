@@ -17,10 +17,10 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /** Tests for NullOutputStream covering null stream behavior that consumes all writes. */
-public final class NullOutputStreamTest {
+final class NullOutputStreamTest {
 
     @Test
-    public void testWriteSingleByte() {
+    void testWriteSingleByte() {
 
         final var nullStream = new NullOutputStream();
 
@@ -28,7 +28,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteMultipleSingleBytes() {
+    void testWriteMultipleSingleBytes() {
 
         final var nullStream = new NullOutputStream();
 
@@ -42,7 +42,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteBuffer() {
+    void testWriteBuffer() {
 
         final var nullStream = new NullOutputStream();
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -51,7 +51,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithOffsetAndLength() {
+    void testWriteBufferWithOffsetAndLength() {
 
         final var nullStream = new NullOutputStream();
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -60,7 +60,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteEmptyBuffer() {
+    void testWriteEmptyBuffer() {
 
         final var nullStream = new NullOutputStream();
         final var data = new byte[0];
@@ -69,7 +69,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferWithZeroLength() {
+    void testWriteBufferWithZeroLength() {
 
         final var nullStream = new NullOutputStream();
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
@@ -78,17 +78,17 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteLargeBuffer() {
+    void testWriteLargeBuffer() {
 
-        final var nullStream = new NullOutputStream();
         final var data = new byte[10000];
         Arrays.fill(data, (byte) 'A');
 
+        final var nullStream = new NullOutputStream();
         assertDoesNotThrow(() -> nullStream.write(data));
     }
 
     @Test
-    public void testWriteBinaryData() {
+    void testWriteBinaryData() {
 
         final var nullStream = new NullOutputStream();
         final var data = new byte[] {0x00, 0x01, 0x02, (byte) 0xFF, 0x7F, (byte) 0x80};
@@ -97,7 +97,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testFlushDoesNotThrow() {
+    void testFlushDoesNotThrow() {
 
         final var nullStream = new NullOutputStream();
 
@@ -105,7 +105,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testCloseDoesNotThrow() {
+    void testCloseDoesNotThrow() {
 
         final var nullStream = new NullOutputStream();
 
@@ -113,7 +113,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteAfterClose() throws IOException {
+    void testWriteAfterClose() throws IOException {
 
         final var nullStream = new NullOutputStream();
 
@@ -124,7 +124,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferAfterClose() throws IOException {
+    void testWriteBufferAfterClose() throws IOException {
 
         final var nullStream = new NullOutputStream();
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
@@ -136,7 +136,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteNegativeValue() {
+    void testWriteNegativeValue() {
 
         final var nullStream = new NullOutputStream();
 
@@ -145,7 +145,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteLargeValue() {
+    void testWriteLargeValue() {
 
         final var nullStream = new NullOutputStream();
 
@@ -154,7 +154,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteAllByteValues() {
+    void testWriteAllByteValues() {
 
         final var nullStream = new NullOutputStream();
 
@@ -166,7 +166,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteNullBuffer() {
+    void testWriteNullBuffer() {
 
         final var nullStream = new NullOutputStream();
 
@@ -176,7 +176,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteInvalidOffsetAndLength() {
+    void testWriteInvalidOffsetAndLength() {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[10];
@@ -189,20 +189,20 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteWithValidOffsetAndLength() {
+    void testWriteWithValidOffsetAndLength() {
 
-        final var nullStream = new NullOutputStream();
         final var buffer = new byte[10];
         Arrays.fill(buffer, (byte) 'A');
 
         // Valid offset and length combinations
+        final var nullStream = new NullOutputStream();
         assertDoesNotThrow(() -> nullStream.write(buffer, 0, 10));
         assertDoesNotThrow(() -> nullStream.write(buffer, 5, 5));
         assertDoesNotThrow(() -> nullStream.write(buffer, 9, 1));
     }
 
     @Test
-    public void testMixedWriteOperations() {
+    void testMixedWriteOperations() {
 
         final var nullStream = new NullOutputStream();
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
@@ -216,14 +216,14 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testPerformanceWithLargeData() {
+    void testPerformanceWithLargeData() {
 
-        final var nullStream = new NullOutputStream();
         final var data = new byte[1000000]; // 1MB
         Arrays.fill(data, (byte) 'A');
 
         final var startTime = System.currentTimeMillis();
 
+        final var nullStream = new NullOutputStream();
         assertDoesNotThrow(() -> nullStream.write(data));
 
         final var endTime = System.currentTimeMillis();
@@ -233,7 +233,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testMultipleFlushOperations() {
+    void testMultipleFlushOperations() {
 
         final var nullStream = new NullOutputStream();
 
@@ -245,7 +245,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testMultipleCloseOperations() {
+    void testMultipleCloseOperations() {
 
         final var nullStream = new NullOutputStream();
 
@@ -257,7 +257,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testMultipleInstancesIndependent() {
+    void testMultipleInstancesIndependent() {
 
         final var nullStream1 = new NullOutputStream();
         final var nullStream2 = new NullOutputStream();
@@ -275,7 +275,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testStreamBehaviorMatchesDocumentation() {
+    void testStreamBehaviorMatchesDocumentation() {
 
         final var nullStream = new NullOutputStream();
 
@@ -292,7 +292,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteOperationsHaveNoSideEffects() throws IOException {
+    void testWriteOperationsHaveNoSideEffects() throws IOException {
 
         final var nullStream = new NullOutputStream();
 
@@ -307,7 +307,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteWithEdgeCaseOffsets() {
+    void testWriteWithEdgeCaseOffsets() {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[10];
@@ -320,7 +320,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testWriteBufferBoundaryConditions() {
+    void testWriteBufferBoundaryConditions() {
 
         final var nullStream = new NullOutputStream();
         final var buffer = new byte[1];
@@ -331,7 +331,7 @@ public final class NullOutputStreamTest {
     }
 
     @Test
-    public void testConcurrentWrites() throws InterruptedException {
+    void testConcurrentWrites() throws InterruptedException {
 
         final var nullStream = new NullOutputStream();
         final var threads = new Thread[10];

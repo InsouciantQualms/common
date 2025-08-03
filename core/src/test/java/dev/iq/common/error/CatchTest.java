@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 final class CatchTest {
 
     @Test
-    public void testWithVoidHandlesException() {
+    void testWithVoidHandlesException() {
 
         final var handlerCalled = new AtomicBoolean(false);
         final var exception = new RuntimeException("test exception");
@@ -28,7 +28,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithVoidRethrowsError() {
+    void testWithVoidRethrowsError() {
 
         final var error = new OutOfMemoryError("test error");
         final var handlerCalled = new AtomicBoolean(false);
@@ -44,7 +44,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithVoidHandlesChainedException() {
+    void testWithVoidHandlesChainedException() {
 
         final var originalException = new RuntimeException("original");
         final var chainedException = new IllegalArgumentException("chained");
@@ -57,7 +57,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithReturnHandlesException() {
+    void testWithReturnHandlesException() {
 
         final var exception = new RuntimeException("test exception");
         final var expectedResult = "handled";
@@ -71,7 +71,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithReturnRethrowsError() {
+    void testWithReturnRethrowsError() {
 
         final var error = new OutOfMemoryError("test error");
 
@@ -84,7 +84,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithReturnHandlesChainedException() {
+    void testWithReturnHandlesChainedException() {
 
         final var originalException = new RuntimeException("original");
         final var chainedException = new IllegalArgumentException("chained");
@@ -97,7 +97,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithReturnHandlesRuntimeException() {
+    void testWithReturnHandlesRuntimeException() {
 
         final var runtimeException = new IllegalStateException("runtime");
         final var expectedResult = "handled runtime";
@@ -111,7 +111,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithVoidHandlesRuntimeException() {
+    void testWithVoidHandlesRuntimeException() {
 
         final var runtimeException = new IllegalStateException("runtime");
         final var handlerCalled = new AtomicBoolean(false);
@@ -125,7 +125,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithReturnHandlesCheckedException() {
+    void testWithReturnHandlesCheckedException() {
 
         final var checkedException = new Exception("checked");
         final var expectedResult = "handled checked";
@@ -139,7 +139,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithVoidHandlesCheckedException() {
+    void testWithVoidHandlesCheckedException() {
 
         final var checkedException = new Exception("checked");
         final var handlerCalled = new AtomicBoolean(false);
@@ -153,7 +153,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithReturnConvertsUnknownThrowableToUnexpectedException() {
+    void testWithReturnConvertsUnknownThrowableToUnexpectedException() {
 
         final var unknownThrowable = new CustomThrowable("unknown");
 
@@ -166,7 +166,7 @@ final class CatchTest {
     }
 
     @Test
-    public void testWithVoidConvertsUnknownThrowableToUnexpectedException() {
+    void testWithVoidConvertsUnknownThrowableToUnexpectedException() {
 
         final var unknownThrowable = new CustomThrowable("unknown");
 
@@ -177,10 +177,11 @@ final class CatchTest {
     }
 
     /** Custom throwable class for testing unknown throwable handling. */
+    @SuppressWarnings("ExtendsThrowable")
     private static final class CustomThrowable extends Throwable {
 
         /** Creates a custom throwable with the specified message. */
-        CustomThrowable(final String message) {
+        private CustomThrowable(final String message) {
 
             super(message);
         }

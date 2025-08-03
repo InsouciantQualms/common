@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
 /** Tests for the Log utility class covering all logging levels and lazy evaluation of messages. */
-public final class LogTest {
+final class LogTest {
 
     @Test
-    public void testTraceLogging() {
+    void testTraceLogging() {
 
         final var messageEvaluated = new AtomicInteger(0);
 
@@ -32,7 +32,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testTraceLoggingWithException() {
+    void testTraceLoggingWithException() {
 
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
@@ -50,7 +50,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testDebugLogging() {
+    void testDebugLogging() {
 
         final var messageEvaluated = new AtomicInteger(0);
 
@@ -64,7 +64,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testDebugLoggingWithException() {
+    void testDebugLoggingWithException() {
 
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
@@ -82,7 +82,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testInfoLogging() {
+    void testInfoLogging() {
 
         final var messageEvaluated = new AtomicInteger(0);
 
@@ -96,7 +96,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testInfoLoggingWithException() {
+    void testInfoLoggingWithException() {
 
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
@@ -114,7 +114,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testWarnLogging() {
+    void testWarnLogging() {
 
         final var messageEvaluated = new AtomicInteger(0);
 
@@ -128,7 +128,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testWarnLoggingWithException() {
+    void testWarnLoggingWithException() {
 
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
@@ -146,7 +146,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testErrorLogging() {
+    void testErrorLogging() {
 
         final var messageEvaluated = new AtomicInteger(0);
 
@@ -160,7 +160,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testErrorLoggingWithException() {
+    void testErrorLoggingWithException() {
 
         final var messageEvaluated = new AtomicInteger(0);
         final var exception = new RuntimeException("Test exception");
@@ -178,7 +178,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testLazyEvaluationWhenDisabled() {
+    void testLazyEvaluationWhenDisabled() {
 
         final var messageEvaluated = new AtomicInteger(0);
         final var logger = LoggerFactory.getLogger(LogTest.class);
@@ -195,19 +195,19 @@ public final class LogTest {
     }
 
     @Test
-    public void testNullMessageSupplier() {
+    void testNullMessageSupplier() {
 
         assertThrows(NullPointerException.class, () -> Log.info(LogTest.class, null));
     }
 
     @Test
-    public void testNullCallerClass() {
+    void testNullCallerClass() {
 
         assertThrows(NullPointerException.class, () -> Log.info(null, () -> "message"));
     }
 
     @Test
-    public void testMessageSupplierReturnsNull() {
+    void testMessageSupplierReturnsNull() {
 
         // Should not throw exception even if supplier returns null
         Log.info(LogTest.class, () -> null);
@@ -215,7 +215,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testMessageSupplierThrowsException() {
+    void testMessageSupplierThrowsException() {
 
         // Should propagate exception from supplier
         assertThrows(
@@ -226,7 +226,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testDifferentCallerClasses() {
+    void testDifferentCallerClasses() {
 
         final var messageEvaluated = new AtomicInteger(0);
 
@@ -245,7 +245,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testComplexMessageGeneration() {
+    void testComplexMessageGeneration() {
 
         final var counter = new AtomicInteger(0);
 
@@ -260,7 +260,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testExceptionHandling() {
+    void testExceptionHandling() {
 
         final var testException = new TestException("Test exception message");
 
@@ -271,7 +271,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testNestedExceptions() {
+    void testNestedExceptions() {
 
         final var cause = new RuntimeException("Root cause");
         final var wrapper = new TestException("Wrapper exception", cause);
@@ -283,7 +283,7 @@ public final class LogTest {
     }
 
     @Test
-    public void testConcurrentLogging() throws InterruptedException {
+    void testConcurrentLogging() throws InterruptedException {
 
         final var numThreads = 10;
         final var threads = new Thread[numThreads];
@@ -317,11 +317,11 @@ public final class LogTest {
     /** Custom exception for testing. */
     private static final class TestException extends Exception {
 
-        TestException(final String message) {
+        private TestException(final String message) {
             super(message);
         }
 
-        TestException(final String message, final Throwable cause) {
+        private TestException(final String message, final Throwable cause) {
             super(message, cause);
         }
     }

@@ -11,31 +11,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 /** Tests for ReversePipe covering basic functionality. */
-public final class ReversePipeTest {
+final class ReversePipeTest {
 
     @Test
-    public void testReadWithSimpleOutput() {
+    void testReadWithSimpleOutput() {
 
         final var pipe = new ReversePipe();
         final var testData = "Hello, World!";
 
         final var result = pipe.read(outputStream -> {
             try {
-                outputStream.write(testData.getBytes());
+                outputStream.write(testData.getBytes(StandardCharsets.UTF_8));
                 outputStream.close();
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        assertArrayEquals(testData.getBytes(), result);
+        assertArrayEquals(testData.getBytes(StandardCharsets.UTF_8), result);
     }
 
     @Test
-    public void testReadWithEmptyOutput() {
+    void testReadWithEmptyOutput() {
 
         final var pipe = new ReversePipe();
 
@@ -51,7 +52,7 @@ public final class ReversePipeTest {
     }
 
     @Test
-    public void testPipeCreation() {
+    void testPipeCreation() {
 
         final var pipe = new ReversePipe();
 
@@ -59,7 +60,7 @@ public final class ReversePipeTest {
     }
 
     @Test
-    public void testReadWithMultipleWrites() {
+    void testReadWithMultipleWrites() {
 
         final var pipe = new ReversePipe();
         final var testData1 = "First part ";
@@ -68,32 +69,32 @@ public final class ReversePipeTest {
 
         final var result = pipe.read(outputStream -> {
             try {
-                outputStream.write(testData1.getBytes());
-                outputStream.write(testData2.getBytes());
+                outputStream.write(testData1.getBytes(StandardCharsets.UTF_8));
+                outputStream.write(testData2.getBytes(StandardCharsets.UTF_8));
                 outputStream.close();
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        assertArrayEquals(expectedData.getBytes(), result);
+        assertArrayEquals(expectedData.getBytes(StandardCharsets.UTF_8), result);
     }
 
     @Test
-    public void testReadWithLargeData() {
+    void testReadWithLargeData() {
 
         final var pipe = new ReversePipe();
         final var testData = "x".repeat(1000);
 
         final var result = pipe.read(outputStream -> {
             try {
-                outputStream.write(testData.getBytes());
+                outputStream.write(testData.getBytes(StandardCharsets.UTF_8));
                 outputStream.close();
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         });
 
-        assertArrayEquals(testData.getBytes(), result);
+        assertArrayEquals(testData.getBytes(StandardCharsets.UTF_8), result);
     }
 }

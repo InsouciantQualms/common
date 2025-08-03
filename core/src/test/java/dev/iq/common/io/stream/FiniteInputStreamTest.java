@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /** Tests for FiniteInputStream covering finite reading with byte limits. */
-public final class FiniteInputStreamTest {
+final class FiniteInputStreamTest {
 
     @Test
-    public void testReadSingleByteWithinLimit() throws IOException {
+    void testReadSingleByteWithinLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -33,7 +33,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadSingleByteAtLimit() throws IOException {
+    void testReadSingleByteAtLimit() throws IOException {
 
         final var data = "H".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -45,7 +45,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadSingleByteExceedsLimit() throws IOException {
+    void testReadSingleByteExceedsLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -58,7 +58,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadSingleByteZeroLimit() throws IOException {
+    void testReadSingleByteZeroLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -69,7 +69,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithinLimit() throws IOException {
+    void testReadBufferWithinLimit() throws IOException {
 
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -83,7 +83,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferAtLimit() throws IOException {
+    void testReadBufferAtLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -97,7 +97,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferExceedsLimit() throws IOException {
+    void testReadBufferExceedsLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -111,7 +111,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferZeroLimit() {
+    void testReadBufferZeroLimit() {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -122,7 +122,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetAndLengthWithinLimit() throws IOException {
+    void testReadBufferWithOffsetAndLengthWithinLimit() throws IOException {
 
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -136,7 +136,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetAndLengthAtLimit() throws IOException {
+    void testReadBufferWithOffsetAndLengthAtLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -150,7 +150,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetAndLengthExceedsLimit() throws IOException {
+    void testReadBufferWithOffsetAndLengthExceedsLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -164,7 +164,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferWithOffsetAndLengthZeroLimit() {
+    void testReadBufferWithOffsetAndLengthZeroLimit() {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -175,7 +175,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testDefaultConstructorUsesLobBufferLength() throws IOException {
+    void testDefaultConstructorUsesLobBufferLength() throws IOException {
 
         final var data = new byte[1000];
         Arrays.fill(data, (byte) 'A');
@@ -191,7 +191,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testMultipleReadsWithinLimit() throws IOException {
+    void testMultipleReadsWithinLimit() throws IOException {
 
         final var data = "Hello, World!".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -205,7 +205,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testMultipleReadsExceedLimit() throws IOException {
+    void testMultipleReadsExceedLimit() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -218,7 +218,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadEofFromUnderlyingStream() throws IOException {
+    void testReadEofFromUnderlyingStream() throws IOException {
 
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -230,7 +230,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testReadBufferEofFromUnderlyingStream() throws IOException {
+    void testReadBufferEofFromUnderlyingStream() throws IOException {
 
         final var data = "Hi".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -247,7 +247,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testExceptionMessageForSingleByte() {
+    void testExceptionMessageForSingleByte() {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -258,7 +258,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testExceptionMessageForBuffer() {
+    void testExceptionMessageForBuffer() {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -270,7 +270,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testExceptionMessageForBufferWithOffset() {
+    void testExceptionMessageForBufferWithOffset() {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -282,7 +282,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testLargeLimitValue() throws IOException {
+    void testLargeLimitValue() throws IOException {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);
@@ -296,7 +296,7 @@ public final class FiniteInputStreamTest {
     }
 
     @Test
-    public void testNegativeLimitValue() {
+    void testNegativeLimitValue() {
 
         final var data = "Hello".getBytes(StandardCharsets.UTF_8);
         final var inputStream = new ByteArrayInputStream(data);

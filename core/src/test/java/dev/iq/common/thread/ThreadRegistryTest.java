@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 public final class ThreadRegistryTest {
 
     @Test
-    public void testSingletonInstance() {
+    void testSingletonInstance() {
 
         final var instance1 = ThreadRegistry.INSTANCE;
         final var instance2 = ThreadRegistry.INSTANCE;
@@ -34,7 +34,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testRegisterSimpleRunnable() {
+    void testRegisterSimpleRunnable() {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
@@ -45,7 +45,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testRegisteredThreadName() {
+    void testRegisteredThreadName() {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
@@ -56,7 +56,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testRegisteredThreadGroup() {
+    void testRegisteredThreadGroup() {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
@@ -66,7 +66,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testMultipleRegistrations() {
+    void testMultipleRegistrations() {
 
         final var runnable1 = new TestSimpleRunnable(() -> false);
         final var runnable2 = new TestSimpleRunnable(() -> false);
@@ -81,7 +81,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testRegisterAndStartThread() throws InterruptedException {
+    void testRegisterAndStartThread() throws InterruptedException {
 
         final var executed = new AtomicBoolean(false);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -98,13 +98,13 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testKill9WithNoActiveThreads() {
+    void testKill9WithNoActiveThreads() {
 
         assertDoesNotThrow(ThreadRegistry.INSTANCE::kill9);
     }
 
     @Test
-    public void testKill9WithActiveThread() throws InterruptedException {
+    void testKill9WithActiveThread() throws InterruptedException {
 
         final var counter = new AtomicInteger(0);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -133,7 +133,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testKill9WithMultipleActiveThreads() throws InterruptedException {
+    void testKill9WithMultipleActiveThreads() throws InterruptedException {
 
         final var counter1 = new AtomicInteger(0);
         final var counter2 = new AtomicInteger(0);
@@ -184,13 +184,13 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testRegisterNullRunnable() {
+    void testRegisterNullRunnable() {
 
         assertThrows(NullPointerException.class, () -> ThreadRegistry.INSTANCE.register(null));
     }
 
     @Test
-    public void testThreadGroupConsistency() {
+    void testThreadGroupConsistency() {
 
         final var runnable1 = new TestSimpleRunnable(() -> false);
         final var runnable2 = new TestSimpleRunnable(() -> false);
@@ -210,7 +210,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testKill9GracefulShutdown() throws InterruptedException {
+    void testKill9GracefulShutdown() throws InterruptedException {
 
         final var gracefulShutdown = new AtomicBoolean(false);
         final var runnable = new TestSimpleRunnable(() -> {
@@ -232,7 +232,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testThreadNamingConvention() {
+    void testThreadNamingConvention() {
 
         final var runnable = new TestSimpleRunnable(() -> false);
         final var thread = ThreadRegistry.INSTANCE.register(runnable);
@@ -244,7 +244,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testRegisterAfterKill9() throws InterruptedException {
+    void testRegisterAfterKill9() throws InterruptedException {
 
         final var runnable1 = new TestSimpleRunnable(() -> true);
         final var thread1 = ThreadRegistry.INSTANCE.register(runnable1);
@@ -268,7 +268,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testSynchronizedAccess() throws InterruptedException {
+    void testSynchronizedAccess() throws InterruptedException {
 
         final var registrationComplete = new AtomicBoolean(false);
         final var registrationThread = new Thread(() -> {
@@ -286,7 +286,7 @@ public final class ThreadRegistryTest {
     }
 
     @Test
-    public void testMultipleKill9Calls() {
+    void testMultipleKill9Calls() {
 
         assertDoesNotThrow(() -> {
             ThreadRegistry.INSTANCE.kill9();
@@ -298,7 +298,7 @@ public final class ThreadRegistryTest {
     private static final class TestSimpleRunnable extends SimpleRunnable {
         private final Supplier<Boolean> goSupplier;
 
-        TestSimpleRunnable(final Supplier<Boolean> goSupplier) {
+        private TestSimpleRunnable(final Supplier<Boolean> goSupplier) {
             this.goSupplier = goSupplier;
         }
 

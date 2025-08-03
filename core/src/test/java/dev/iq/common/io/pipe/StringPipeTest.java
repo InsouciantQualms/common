@@ -15,10 +15,10 @@ import java.io.StringWriter;
 import org.junit.jupiter.api.Test;
 
 /** Tests for StringPipe covering string operations with readers and writers. */
-public final class StringPipeTest {
+final class StringPipeTest {
 
     @Test
-    public void testReadFromReader() {
+    void testReadFromReader() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -30,7 +30,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testReadFromEmptyReader() {
+    void testReadFromEmptyReader() {
 
         final var pipe = new StringPipe();
         final var reader = new StringReader("");
@@ -41,7 +41,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testWriteToWriter() {
+    void testWriteToWriter() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -53,7 +53,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testWriteEmptyString() {
+    void testWriteEmptyString() {
 
         final var pipe = new StringPipe();
         final var testData = "";
@@ -65,7 +65,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithDefaultBufferSize() {
+    void testGoWithDefaultBufferSize() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -79,7 +79,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithCustomBufferSize() {
+    void testGoWithCustomBufferSize() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -93,7 +93,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithLargeData() {
+    void testGoWithLargeData() {
 
         final var pipe = new StringPipe();
         final var testData = "A".repeat(10000);
@@ -107,7 +107,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithEmptyString() {
+    void testGoWithEmptyString() {
 
         final var pipe = new StringPipe();
         final var reader = new StringReader("");
@@ -120,7 +120,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithSmallBufferSize() {
+    void testGoWithSmallBufferSize() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -134,7 +134,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithMultilineString() {
+    void testGoWithMultilineString() {
 
         final var pipe = new StringPipe();
         final var testData = "Line 1\nLine 2\nLine 3";
@@ -148,7 +148,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithUnicodeCharacters() {
+    void testGoWithUnicodeCharacters() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello 世界 🌍";
@@ -162,7 +162,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testStreamNotClosed() {
+    void testStreamNotClosed() {
 
         final var pipe = new StringPipe();
         final var testData = "Hello, World!";
@@ -176,7 +176,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testReadAndWriteRoundTrip() {
+    void testReadAndWriteRoundTrip() {
 
         final var pipe = new StringPipe();
         final var testData = "Round trip test data";
@@ -193,7 +193,7 @@ public final class StringPipeTest {
     }
 
     @Test
-    public void testGoWithSpecialCharacters() {
+    void testGoWithSpecialCharacters() {
 
         final var pipe = new StringPipe();
         final var testData = "Special chars: !@#$%^&*()_+-=[]{}|;':\",./<>?";
@@ -209,7 +209,7 @@ public final class StringPipeTest {
     private static final class TestReader extends StringReader {
         private boolean closed = false;
 
-        TestReader(final String s) {
+        private TestReader(final String s) {
             super(s);
         }
 
@@ -219,7 +219,7 @@ public final class StringPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }
@@ -233,7 +233,7 @@ public final class StringPipeTest {
             super.close();
         }
 
-        public boolean wasClosed() {
+        private boolean wasClosed() {
             return closed;
         }
     }

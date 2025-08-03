@@ -18,10 +18,10 @@ import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 /** Tests for the Fn0 functional interface covering supplier functionality. */
-public final class Fn0Test {
+final class Fn0Test {
 
     @Test
-    public void testAsTryWithSuccessfulSupplier() {
+    void testAsTryWithSuccessfulSupplier() {
 
         final var supplier = (Fn0<String>) () -> "success";
         final var result = Fn0.asTry(supplier);
@@ -31,7 +31,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsTryWithExceptionThrowingSupplier() {
+    void testAsTryWithExceptionThrowingSupplier() {
 
         final var supplier = (Fn0<String>) () -> {
             throw new IOException("Test exception");
@@ -41,7 +41,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsTryWithNullReturn() {
+    void testAsTryWithNullReturn() {
 
         final var supplier = (Fn0<String>) () -> null;
         final var result = Fn0.asTry(supplier);
@@ -50,7 +50,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsTryWithIntegerReturn() {
+    void testAsTryWithIntegerReturn() {
 
         final var supplier = (Fn0<Integer>) () -> 42;
         final var result = Fn0.asTry(supplier);
@@ -60,7 +60,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsIoWithSuccessfulSupplier() {
+    void testAsIoWithSuccessfulSupplier() {
 
         final var supplier = (Fn0<String>) () -> "success";
         final var result = Fn0.asIo(supplier);
@@ -70,7 +70,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsIoWithExceptionThrowingSupplier() {
+    void testAsIoWithExceptionThrowingSupplier() {
 
         final var supplier = (Fn0<String>) () -> {
             throw new IOException("Test exception");
@@ -80,7 +80,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsIoWithNullReturn() {
+    void testAsIoWithNullReturn() {
 
         final var supplier = (Fn0<String>) () -> null;
         final var result = Fn0.asIo(supplier);
@@ -89,7 +89,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsIoWithIntegerReturn() {
+    void testAsIoWithIntegerReturn() {
 
         final var supplier = (Fn0<Integer>) () -> 42;
         final var result = Fn0.asIo(supplier);
@@ -99,7 +99,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsTryExceptionWrapping() {
+    void testAsTryExceptionWrapping() {
 
         final var supplier = (Fn0<String>) () -> {
             throw new RuntimeException("Original exception");
@@ -112,7 +112,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsIoExceptionWrapping() {
+    void testAsIoExceptionWrapping() {
 
         final var supplier = (Fn0<String>) () -> {
             throw new RuntimeException("Original exception");
@@ -125,7 +125,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testDirectFn0Usage() {
+    void testDirectFn0Usage() {
 
         final var fn0 = new Fn0<String>() {
             @Override
@@ -141,7 +141,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testDirectFn0WithException() {
+    void testDirectFn0WithException() {
 
         final var fn0 = new Fn0<String>() {
             @Override
@@ -154,7 +154,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsTryWithDifferentExceptionTypes() {
+    void testAsTryWithDifferentExceptionTypes() {
 
         final var ioSupplier = (Fn0<String>) () -> {
             throw new IOException("IO exception");
@@ -174,7 +174,7 @@ public final class Fn0Test {
     }
 
     @Test
-    public void testAsIoWithDifferentExceptionTypes() {
+    void testAsIoWithDifferentExceptionTypes() {
 
         final var ioSupplier = (Fn0<String>) () -> {
             throw new IOException("IO exception");
