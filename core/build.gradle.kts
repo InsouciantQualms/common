@@ -20,7 +20,8 @@ dependencies {
     implementation(libs.log4j.api)
     implementation(libs.log4j.core)
     implementation(libs.log4j.slf4j2)
-    api(libs.jnanoid)
+    implementation(libs.jnanoid)
+    implementation(libs.ulid)
 
     testFixturesApi(project(":test"))
 }
