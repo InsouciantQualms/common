@@ -15,6 +15,9 @@ import java.util.UUID;
 @SuppressWarnings("ClassCanBeRecord")
 public final class Ulid implements Uid, Comparable<Ulid> {
 
+    /** Default length of a Ulid. */
+    static final int DEFAULT_LENGTH = 26;
+
     /** Delegate implementation of Ulid. */
     private final com.github.f4b6a3.ulid.Ulid delegate;
 

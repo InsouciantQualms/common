@@ -12,11 +12,11 @@ public interface VersionedRepository<T extends Versioned> extends VersionedFinde
     T save(T node);
 
     /** Finds an element by its ID returning all versions (active and inactive). */
-    List<T> findAll(NanoId nodeId);
+    List<T> findAll(Uid nodeId);
 
     /** Deletes an element from the repository returning true if it was found. */
-    boolean delete(NanoId nodeId);
+    boolean delete(Uid nodeId);
 
     /** Expires an element at the given timestamp returning true if it was found. */
-    boolean expire(NanoId id, Instant timestamp);
+    boolean expire(Uid id, Instant timestamp);
 }

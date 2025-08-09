@@ -6,6 +6,6 @@ import dev.iq.common.annotation.Stable;
 /**
  * Represents a unique identifier.  Implementations should be immutable and thread safe.
  */
-@FunctionalInterface
 @Stable
+@FunctionalInterface
 public interface Uid extends Coded<String> {}

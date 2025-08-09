@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
 
 final class VersionsTest {
 
-    private NanoId id1;
-    private NanoId id2;
+    private Uid id1;
+    private Uid id2;
     private List<VersionedFixture> items;
 
     @BeforeEach

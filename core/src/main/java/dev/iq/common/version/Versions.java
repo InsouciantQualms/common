@@ -15,7 +15,7 @@ public final class Versions {
     private Versions() {}
 
     /** Finds the active version of an element by ID. */
-    public static <E extends Versioned> Optional<E> findActive(final NanoId id, final Iterable<E> items) {
+    public static <E extends Versioned> Optional<E> findActive(final Uid id, final Iterable<E> items) {
 
         return Streams.from(items)
                 .filter(v -> v.locator().id().equals(id))
@@ -25,7 +25,7 @@ public final class Versions {
 
     /** Finds the version of an element active at a specific timestamp. */
     public static <E extends Versioned> Optional<E> findAt(
-            final NanoId id, final Instant timestamp, final Iterable<E> items) {
+            final Uid id, final Instant timestamp, final Iterable<E> items) {
 
         return Streams.from(items)
                 .filter(v -> v.locator().id().equals(id))
@@ -34,7 +34,7 @@ public final class Versions {
     }
 
     /** Finds all versions of an element by ID. */
-    public static <E extends Versioned> List<E> findAllVersions(final NanoId id, final Iterable<E> items) {
+    public static <E extends Versioned> List<E> findAllVersions(final Uid id, final Iterable<E> items) {
 
         return Streams.from(items)
                 .filter(v -> v.locator().id().equals(id))
@@ -50,7 +50,7 @@ public final class Versions {
 
     /** Validates that an element can be expired. */
     public static <E extends Versioned> E validateForExpiry(
-            final Optional<E> element, final NanoId id, final String elementType) {
+            final Optional<E> element, final Uid id, final String elementType) {
 
         return element.orElseThrow(() -> new IllegalArgumentException(elementType + " not found: " + id));
     }

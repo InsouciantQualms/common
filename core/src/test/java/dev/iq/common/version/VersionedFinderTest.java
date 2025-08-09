@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
 class VersionedFinderTest {
 
     private TestVersionedFinder finder;
-    private NanoId id1;
-    private NanoId id2;
+    private Uid id1;
+    private Uid id2;
 
     @BeforeEach
     final void before() {
@@ -154,12 +154,12 @@ class VersionedFinderTest {
         }
 
         @Override
-        public final List<TestVersioned> findVersions(final NanoId id) {
+        public final List<TestVersioned> findVersions(final Uid id) {
             return Versions.findAllVersions(id, items);
         }
 
         @Override
-        public final Optional<TestVersioned> findActive(final NanoId id) {
+        public final Optional<TestVersioned> findActive(final Uid id) {
             return Versions.findActive(id, items);
         }
 
@@ -172,7 +172,7 @@ class VersionedFinderTest {
         }
 
         @Override
-        public final Optional<TestVersioned> findAt(final NanoId id, final Instant timestamp) {
+        public final Optional<TestVersioned> findAt(final Uid id, final Instant timestamp) {
             return Versions.findAt(id, timestamp, items);
         }
     }

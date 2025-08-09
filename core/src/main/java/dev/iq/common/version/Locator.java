@@ -3,13 +3,13 @@ package dev.iq.common.version;
 import dev.iq.common.annotation.Stable;
 
 /**
- * Uniquely locates a versioned item.  The item itself is identified by its NanoId.  Each item then
+ * Uniquely locates a versioned item.  The item itself is identified by its Uid.  Each item then
  * contains one or more versions, starting at one.  Each new version increments by one.
  *
- * Locators are equal when their NanoId and version are the equal.
+ * Locators are equal when their Uid and version are the equal.
  */
 @Stable
-public record Locator(NanoId id, int version) {
+public record Locator(Uid id, int version) {
 
     /** Starting version number. */
     private static final int FIRST_VERSION = 1;
@@ -20,13 +20,13 @@ public record Locator(NanoId id, int version) {
         return new Locator(NanoId.generate(), FIRST_VERSION);
     }
 
-    /** Create the version version for a given NanoID (starts with version one. */
-    public static Locator first(final NanoId id) {
+    /** Create the first version for a given Uid (starts with version one). */
+    public static Locator first(final Uid id) {
 
         return new Locator(id, FIRST_VERSION);
     }
 
-    /** Increment the current NanoID's version by one. */
+    /** Increment the current Uid's version by one. */
     public Locator increment() {
 
         return new Locator(id, version + 1);
