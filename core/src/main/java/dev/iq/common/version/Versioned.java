@@ -4,7 +4,9 @@ import dev.iq.common.annotation.Stable;
 import java.time.Instant;
 import java.util.Optional;
 
-/** Represents a versioned item that can be located by a unique NanoId and version number. */
+/**
+ * Represents a versioned item that can be located by a unique NanoId and version number.
+ */
 @Stable
 public interface Versioned extends Locateable {
 

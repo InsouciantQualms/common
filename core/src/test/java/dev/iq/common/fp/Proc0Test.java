@@ -218,7 +218,7 @@ final class Proc0Test {
         final var counter = new AtomicInteger(0);
         final var runnable = (Proc0) () -> {
             counter.incrementAndGet();
-            throw new RuntimeException("Exception after increment");
+            throw new RuntimeException("Exception after next");
         };
 
         assertThrows(UnexpectedException.class, () -> Proc0.runAsTry(runnable));
@@ -231,7 +231,7 @@ final class Proc0Test {
         final var counter = new AtomicInteger(0);
         final var runnable = (Proc0) () -> {
             counter.incrementAndGet();
-            throw new RuntimeException("Exception after increment");
+            throw new RuntimeException("Exception after next");
         };
 
         assertThrows(IoException.class, () -> Proc0.runAsIo(runnable));

@@ -10,6 +10,12 @@ public final class UidFactory {
     /** Type contains only static members. */
     private UidFactory() {}
 
+    /** Generates a new Uid. The implementation currently defaults to Ulid. */
+    public static Uid generate() {
+
+        return Ulid.generate();
+    }
+
     /** Attempts to create a Uid from the specified string. */
     public static Uid from(final String target) {
 

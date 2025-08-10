@@ -17,7 +17,7 @@ public record Locator(Uid id, int version) {
     /** Create a new, random locator with version one. */
     public static Locator generate() {
 
-        return new Locator(NanoId.generate(), FIRST_VERSION);
+        return new Locator(UidFactory.generate(), FIRST_VERSION);
     }
 
     /** Create the first version for a given Uid (starts with version one). */
@@ -27,7 +27,7 @@ public record Locator(Uid id, int version) {
     }
 
     /** Increment the current Uid's version by one. */
-    public Locator increment() {
+    public Locator next() {
 
         return new Locator(id, version + 1);
     }

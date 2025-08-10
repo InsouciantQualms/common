@@ -49,11 +49,11 @@ final class LocatorTest {
     }
 
     @Test
-    void testIncrement() {
+    void testNext() {
 
         final var nanoId = NanoId.from("test-id");
         final var locator = new Locator(nanoId, 1);
-        final var incremented = locator.increment();
+        final var incremented = locator.next();
 
         assertEquals(nanoId, incremented.id());
         assertEquals(2, incremented.version());
@@ -61,14 +61,14 @@ final class LocatorTest {
     }
 
     @Test
-    void testIncrementMultiple() {
+    void testNextMultiple() {
 
         final var nanoId = NanoId.from("test-id");
         final var locator = new Locator(nanoId, 1);
 
-        final var v2 = locator.increment();
-        final var v3 = v2.increment();
-        final var v4 = v3.increment();
+        final var v2 = locator.next();
+        final var v3 = v2.next();
+        final var v4 = v3.next();
 
         assertEquals(1, locator.version());
         assertEquals(2, v2.version());
@@ -115,11 +115,11 @@ final class LocatorTest {
     }
 
     @Test
-    void testVersionIncrement() {
+    void testVersionNext() {
 
         final var nanoId = NanoId.from("test-id");
         final var locator = new Locator(nanoId, 10);
-        final var incremented = locator.increment();
+        final var incremented = locator.next();
 
         assertEquals(11, incremented.version());
         assertEquals(nanoId, incremented.id());
@@ -155,7 +155,7 @@ final class LocatorTest {
         final var originalId = locator.id();
         final var originalVersion = locator.version();
 
-        final var incremented = locator.increment();
+        final var incremented = locator.next();
 
         assertEquals(originalId, locator.id());
         assertEquals(originalVersion, locator.version());
@@ -163,22 +163,22 @@ final class LocatorTest {
     }
 
     @Test
-    void testIncrementFromZero() {
+    void testNextFromZero() {
 
         final var nanoId = NanoId.from("test-id");
         final var locator = new Locator(nanoId, 0);
-        final var incremented = locator.increment();
+        final var incremented = locator.next();
 
         assertEquals(0, locator.version());
         assertEquals(1, incremented.version());
     }
 
     @Test
-    void testIncrementFromNegative() {
+    void testNextFromNegative() {
 
         final var nanoId = NanoId.from("test-id");
         final var locator = new Locator(nanoId, -1);
-        final var incremented = locator.increment();
+        final var incremented = locator.next();
 
         assertEquals(-1, locator.version());
         assertEquals(0, incremented.version());
@@ -213,7 +213,7 @@ final class LocatorTest {
         assertEquals(ulid, locator.id());
         assertEquals(1, locator.version());
 
-        final var incremented = locator.increment();
+        final var incremented = locator.next();
         assertEquals(ulid, incremented.id());
         assertEquals(2, incremented.version());
     }
