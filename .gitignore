@@ -4,8 +4,15 @@
 # To reach the creator, visit https://www.linkedin.com/in/saschagoldsmith.
 #
 
+# Ignore local Claude settings
+**/.claude/
+/prompts/current.md
+
 # Ignore build Gradle cache
 **/.gradle/
+
+# Ignore kotlin sessions
+**/.kotlin/
 
 # Ignore build output directories
 **/build/
@@ -109,8 +116,3 @@ http-client.private.env.json
 # Apifox Helper cache
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
-
-# End IntelliJ settings
-
-/claude.
-CLAUDE.md
