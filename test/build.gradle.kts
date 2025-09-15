@@ -13,4 +13,5 @@ plugins {
 dependencies {
 
     implementation(libs.junit)
+    implementation(libs.archunit)
 }
