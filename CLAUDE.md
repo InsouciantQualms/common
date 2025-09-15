@@ -4,19 +4,19 @@ Please include these files only once per session and apply their guidelines to a
 
 ## Internal guidelines applicable to this project
 
-Reference the following guidlines for project definitions [prompts/project.md]
+Reference the following guidlines for project definitions @prompts/project.md
 
 Note, access the above includes relative to this projet root
 
 ## External guidelines common to all projects
 
-For Kotlin files [ai/common/src/main/resources/prompts/kotlin.md]
-For Java files [ai/common/src/main/resources/prompts/java.md]
-For building and devops [ai/common/src/main/resources/prompts/devops.md]
-For documentation [ai/common/src/main/resources/prompts/documentation.md]
-For optimizing your output [ai/common/src/main/resources/prompts/optimization.md]
-For prompting me [ai/common/src/main/resources/prompts/flags.md]
-For proper testing [ai/common/src/main/resources/prompts/testing.md]
+For Kotlin files @ai/common/src/main/resources/prompts/kotlin.md
+For Java files @ai/common/src/main/resources/prompts/java.md
+For building and devops @ai/common/src/main/resources/prompts/devops.md
+For documentation @ai/common/src/main/resources/prompts/documentation.md
+For optimizing your output @ai/common/src/main/resources/prompts/optimization.md
+For prompting me @ai/common/src/main/resources/prompts/flags.md
+For proper testing @ai/common/src/main/resources/prompts/testing.md
 
 Note, to access 'ai' from a relative path, use ../ai
 
@@ -35,7 +35,7 @@ Summarize changes performed at the end
 
 # Current Instructions
 
-Current instructions for your task(s) can be found at [prompts/current.md].  
+Current instructions for your task(s) can be found at @prompts/current.md.  
 Please follow the instructions contained there.
 If the file does not contain any instructions, please stop your work and let me know!
 
