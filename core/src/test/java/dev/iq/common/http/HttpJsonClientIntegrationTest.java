@@ -6,7 +6,6 @@
 
 package dev.iq.common.http;
 
-import dev.iq.test.annotation.IntegrationTest;
 import java.net.URI;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 /** Tests the operation of the HTTP JSON client. */
-@IntegrationTest
 final class HttpJsonClientIntegrationTest {
 
     /** Test site that only returns staus codes. */
