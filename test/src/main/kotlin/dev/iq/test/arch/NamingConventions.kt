@@ -11,8 +11,8 @@ import com.tngtech.archunit.lang.ArchRule
  * Generic naming conventions that are not framework-specific.
  * Spring-related naming conventions have been moved to archunit-rules-spring-boot.
  */
-object NamingConventions : ArchUnitRule {
+object NamingConventions : ArchUnitRuleSet {
 
-    /** @see ArchUnitRule.all */
+    /** @see ArchUnitRuleSet.all */
     override fun all(): List<ArchRule> = emptyList()
 }

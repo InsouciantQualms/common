@@ -11,7 +11,7 @@ import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
 import com.tngtech.archunit.library.dependencies.SlicesRuleDefinition
 
-object DependencyRules : ArchUnitRule {
+object DependencyRules : ArchUnitRuleSet {
 
     fun noClassesShouldDependOnDeprecatedClasses(): ArchRule = noClasses().should()
         .dependOnClassesThat()
@@ -42,7 +42,7 @@ object DependencyRules : ArchUnitRule {
         .haveOnlyPrivateConstructors()
         .because("Utility classes should have private constructors")
 
-    /** @see ArchUnitRule.all */
+    /** @see ArchUnitRuleSet.all */
     override fun all(): List<ArchRule> = listOf(
         noClassesShouldDependOnDeprecatedClasses(),
         noCyclicDependencies(),

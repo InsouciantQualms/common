@@ -8,7 +8,7 @@ package dev.iq.test.arch
 import com.tngtech.archunit.lang.ArchRule
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
 
-object BaseArchitectureRules : ArchUnitRule {
+object BaseArchitectureRules : ArchUnitRuleSet {
 
     fun interfacesShouldNotHaveImplementationSuffix(): ArchRule = noClasses().that()
         .areInterfaces()
@@ -22,7 +22,7 @@ object BaseArchitectureRules : ArchUnitRule {
         .haveSimpleNameStartingWith("I")
         .because("Interfaces should not be prefixed with 'I'")
 
-    /** @see ArchUnitRule.all */
+    /** @see ArchUnitRuleSet.all */
     override fun all(): List<ArchRule> = listOf(
         interfacesShouldNotHaveImplementationSuffix(),
         interfacesShouldNotBePrefixedWithI(),

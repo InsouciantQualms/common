@@ -11,8 +11,8 @@ import com.tngtech.archunit.lang.ArchRule
  * Package structure rules that are not based on package-layer organization.
  * Package-based layer rules have been removed as the project organizes by component/function.
  */
-object PackageStructureRules : ArchUnitRule {
+object PackageStructureRules : ArchUnitRuleSet {
 
-    /** @see ArchUnitRule.all */
+    /** @see ArchUnitRuleSet.all */
     override fun all(): List<ArchRule> = emptyList()
 }
