@@ -138,8 +138,9 @@ public final class HttpJsonClient {
         final var builder = HttpRequest.newBuilder().uri(uri);
         populateHeaders(headers, builder);
         final var request = builder.build();
-        Log.debug(HttpJsonClient.class, () -> "HTTP request sent: %n%s%n"
-                .formatted(HttpPrettyPrinter.toString(request, Optional.empty())));
+        Log.debug(
+                HttpJsonClient.class,
+                () -> "HTTP request sent: %n%s%n".formatted(HttpPrettyPrinter.toString(request, Optional.empty())));
         return request;
     }
 
@@ -185,8 +186,9 @@ public final class HttpJsonClient {
                 .POST(BodyPublishers.ofString(body));
         populateHeaders(headers, builder);
         final var request = builder.build();
-        Log.debug(HttpJsonClient.class, () -> "HTTP request sent: %n%s%n"
-                .formatted(HttpPrettyPrinter.toString(request, Optional.of(body))));
+        Log.debug(
+                HttpJsonClient.class,
+                () -> "HTTP request sent: %n%s%n".formatted(HttpPrettyPrinter.toString(request, Optional.of(body))));
         return request;
     }
 

@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 final class JsonSerdeTest {
 
     /** Test JSON to use. */
-    private static final String TEST_JSON =
-            """
+    private static final String TEST_JSON = """
         {
           "name" : "Sascha",
           "age" : 42

@@ -119,7 +119,7 @@ final class RetryTest {
                 case 3:
                     throw new IllegalStateException("Third failure");
                 default:
-                    // Should not reach here
+                // Should not reach here
             }
         };
 

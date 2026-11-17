@@ -48,8 +48,9 @@ public final class SimpleVersionedFinder<T extends Versioned> implements Version
             return Optional.empty();
         }
 
-        return versions.stream().filter(c -> c.expired().isEmpty()).max(Comparator.comparingInt(c -> c.locator()
-                .version()));
+        return versions.stream()
+                .filter(c -> c.expired().isEmpty())
+                .max(Comparator.comparingInt(c -> c.locator().version()));
     }
 
     /** {@inheritDoc} */
